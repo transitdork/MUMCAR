@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Choosing Your Next Car — EV Comparison</title>
+<style>
+  :root{
+    --paper:#F2F5F3;        /* pale eucalyptus */
+    --card:#FFFFFF;
+    --ink:#182B26;          /* deep green-charcoal */
+    --ink-soft:#4A5F58;
+    --line:#D8E2DD;
+    --green:#0E7B5B;        /* charge green */
+    --green-soft:#E3F1EB;
+    --amber:#B87514;        /* score amber */
+    --amber-soft:#FBF0DC;
+    --red:#B4432E;          /* garage line */
+    --red-soft:#F9E9E5;
+    --blue-soft:#E8EFF6;
+    --blue:#2F5D8A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{font-size:17px}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);color:var(--ink);line-height:1.55;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+
+  /* ---------- header ---------- */
+  header{padding:34px 0 10px}
+  .eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:700}
+  h1{font-size:clamp(1.7rem,4.5vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.12;margin:.35rem 0 .5rem}
+  .sub{color:var(--ink-soft);max-width:60ch;font-size:1.02rem}
+  .garage-note{
+    display:flex;align-items:center;gap:10px;margin:16px 0 6px;
+    background:var(--red-soft);border:1px solid #EBCFC7;border-radius:14px;padding:12px 16px;
+    font-size:.95rem;color:#7A2F1E;font-weight:600;
+  }
+  .garage-note .dash{width:26px;border-top:3px dashed var(--red);flex:none}
+
+  /* ---------- tabs ---------- */
+  nav.tabs{
+    position:sticky;top:0;z-index:50;background:var(--paper);
+    padding:12px 0 10px;margin-top:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .tabrow{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabrow::-webkit-scrollbar{display:none}
+  .tab{
+    flex:none;border:1.5px solid var(--line);background:var(--card);color:var(--ink);
+    border-radius:999px;padding:11px 18px;font-size:.95rem;font-weight:650;cursor:pointer;
+    min-height:44px;white-space:nowrap;
+  }
+  .tab.active{background:var(--ink);border-color:var(--ink);color:#fff}
+  section.panel{display:none;padding-top:22px}
+  section.panel.active{display:block}
+  h2{font-size:1.45rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .lede{color:var(--ink-soft);margin-bottom:18px;max-width:70ch}
+
+  /* ---------- confidence badges ---------- */
+  .conf{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;border-radius:6px;padding:1px 6px;vertical-align:1px;margin-left:6px}
+  .conf.v{background:var(--green-soft);color:var(--green)}       /* verified: brochure */
+  .conf.e{background:var(--amber-soft);color:var(--amber)}       /* estimate: press/web */
+  .conf.c{background:var(--blue-soft);color:var(--blue)}          /* confirm with dealer */
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 20px;font-size:.85rem;color:var(--ink-soft)}
+  .legend span{display:flex;align-items:center;gap:6px}
+
+  /* ---------- ranking cards ---------- */
+  .rank-grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:760px){.rank-grid{grid-template-columns:1fr 1fr}}
+  .rank-card{
+    background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px 20px 16px;
+    position:relative;overflow:hidden;
+  }
+  .rank-card.first{border:2px solid var(--green)}
+  .rank-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .rank-pos{
+    font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .rank-card h3{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin:2px 0 2px}
+  .rank-variant{font-size:.88rem;color:var(--ink-soft);margin-bottom:10px}
+  .score-badge{
+    flex:none;text-align:center;background:var(--amber-soft);border-radius:16px;padding:8px 14px;min-width:78px;
+  }
+  .score-badge .num{font-size:1.5rem;font-weight:800;color:var(--amber);font-variant-numeric:tabular-nums;line-height:1.1}
+  .score-badge .of{font-size:.7rem;font-weight:700;color:var(--amber);letter-spacing:.08em}
+  .score-badge.na{background:var(--blue-soft)}
+  .score-badge.na .num,.score-badge.na .of{color:var(--blue)}
+  .why{font-size:.97rem;margin-bottom:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .chip{font-size:.8rem;font-weight:650;border-radius:999px;padding:4px 11px}
+  .chip.pro{background:var(--green-soft);color:var(--green)}
+  .chip.con{background:var(--red-soft);color:var(--red)}
+  .fitline{margin-top:4px}
+  .fitline .lab{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;display:flex;justify-content:space-between;margin-bottom:4px}
+  .fitbar{position:relative;height:12px;background:#E8EFEA;border-radius:6px}
+  .fitbar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--green);border-radius:6px;opacity:.85}
+  .fitbar .limit{position:absolute;top:-4px;bottom:-4px;border-left:3px dashed var(--red);left:100%}
+  .pricecell{font-weight:750}
+
+  /* ---------- comparison table ---------- */
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+  table{border-collapse:separate;border-spacing:0;width:100%;min-width:1180px;font-size:.9rem}
+  th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+  thead th{
+    position:sticky;top:0;background:var(--ink);color:#fff;font-size:.82rem;letter-spacing:.02em;z-index:3;
+  }
+  thead th small{display:block;font-weight:500;color:#B9CFC7;font-size:.72rem;margin-top:2px}
+  tbody th{
+    position:sticky;left:0;background:var(--card);z-index:2;font-weight:750;font-size:.85rem;min-width:168px;max-width:190px;
+    box-shadow:2px 0 0 var(--line);
+  }
+  thead th:first-child{left:0;z-index:4;background:var(--ink)}
+  td{min-width:150px}
+  td.cx5{background:#F6F8F7;color:var(--ink-soft)}
+  tr:last-child th,tr:last-child td{border-bottom:none}
+  .good{color:var(--green);font-weight:700}
+  .bad{color:var(--red);font-weight:700}
+  .muted{color:var(--ink-soft)}
+  .scorecell{font-size:1.05rem;font-weight:800;color:var(--amber)}
+
+  /* ---------- detail accordions ---------- */
+  details.car{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:12px;overflow:hidden;
+  }
+  details.car>summary{
+    list-style:none;cursor:pointer;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    font-size:1.1rem;font-weight:800;min-height:44px;
+  }
+  details.car>summary::-webkit-details-marker{display:none}
+  details.car>summary .arrow{flex:none;transition:transform .2s;color:var(--ink-soft);font-size:1rem}
+  details.car[open]>summary .arrow{transform:rotate(90deg)}
+  .car-body{padding:0 20px 20px;font-size:.95rem}
+  .variant-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:10px 0 14px}
+  @media(min-width:700px){.variant-grid{grid-template-columns:1fr 1fr}}
+  .variant{
+    border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#FAFCFB;
+  }
+  .variant h4{font-size:.98rem;font-weight:800;margin-bottom:2px}
+  .variant .vprice{font-size:.88rem;font-weight:700;color:var(--green);margin-bottom:8px}
+  .variant ul{padding-left:18px}
+  .variant li{margin-bottom:4px;font-size:.88rem}
+  .kv{margin:8px 0}
+  .kv dt{font-weight:750;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:12px}
+  .kv dd{margin-top:2px}
+  .review-quote{border-left:4px solid var(--green);padding:8px 14px;background:var(--green-soft);border-radius:0 12px 12px 0;margin-top:8px;font-size:.93rem}
+
+  /* ---------- garage fit ---------- */
+  .fit-panel .car-row{margin-bottom:20px}
+  .fit-panel .name{display:flex;justify-content:space-between;font-weight:700;font-size:.95rem;margin-bottom:5px}
+  .fit-panel .name .mm{font-variant-numeric:tabular-nums;color:var(--ink-soft);font-weight:650}
+  .bigbar{position:relative;height:26px;background:#E8EFEA;border-radius:8px}
+  .bigbar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:var(--green)}
+  .bigbar .fill.cxfill{background:var(--ink-soft)}
+  .bigbar .fill.over{background:var(--red)}
+  .chart-frame{position:relative;padding-right:12px;margin-top:8px}
+  .limitline{position:absolute;top:-14px;bottom:-6px;border-left:3px dashed var(--red);z-index:2}
+  .limitlab{position:absolute;top:-38px;transform:translateX(-50%);background:var(--red);color:#fff;font-size:.72rem;font-weight:800;padding:3px 9px;border-radius:8px;white-space:nowrap}
+  .widthnote{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:26px;font-size:.94rem}
+
+  /* ---------- how scored ---------- */
+  .weights{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}
+  @media(min-width:700px){.weights{grid-template-columns:1fr 1fr 1fr}}
+  .wcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .wcard b{display:block;font-size:.95rem}
+  .wcard span{font-size:.85rem;color:var(--ink-soft)}
+  .foot{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-soft)}
+  .foot p{margin-bottom:8px}
+  tr.sec th, tr.sec td{
+    background:var(--green-soft)!important;color:var(--green);font-size:.76rem;font-weight:800;
+    letter-spacing:.12em;text-transform:uppercase;padding:9px 14px;border-bottom:1px solid var(--line);
+  }
+  .linkrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .linkbtn{
+    display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:var(--blue-soft);color:var(--blue);font-weight:700;font-size:.86rem;
+    border-radius:999px;padding:9px 16px;min-height:40px;border:1px solid #CBDCEB;
+  }
+  .linkbtn:active{opacity:.7}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Prepared for Mum &middot; July 2026</div>
+  <h1>Choosing your next car:<br>six electric SUVs vs your CX-5</h1>
+  <p class="sub">Every car here is <strong>shorter than your 2013 Mazda CX-5</strong>, so all of them fit the garage. Tap the buttons below to see the ranking, the full side-by-side comparison, details on each car, and how each one measures up against the CX-5.</p>
+  <div class="garage-note"><span class="dash"></span> Garage limit = your CX-5&rsquo;s length: <strong>&nbsp;4,540&nbsp;mm</strong></div>
+</header>
+
+<nav class="tabs">
+  <div class="tabrow" role="tablist">
+    <button class="tab active" data-panel="p-rank">1&nbsp;&middot;&nbsp;The ranking</button>
+    <button class="tab" data-panel="p-table">2&nbsp;&middot;&nbsp;Side-by-side</button>
+    <button class="tab" data-panel="p-deep">3&nbsp;&middot;&nbsp;Every spec (deep dive)</button>
+    <button class="tab" data-panel="p-detail">4&nbsp;&middot;&nbsp;Each car in detail</button>
+    <button class="tab" data-panel="p-fit">5&nbsp;&middot;&nbsp;Will it fit?</button>
+    <button class="tab" data-panel="p-how">6&nbsp;&middot;&nbsp;How the scores work</button>
+  </div>
+</nav>
+
+<!-- ============ PANEL 1: RANKING ============ -->
+<section class="panel active" id="p-rank">
+  <h2>The short answer</h2>
+  <p class="lede">Scores are out of 10, weighted for what matters most for your driving: easy to live with (including parking in a tight garage and how naggy the warning chimes are), safe, good value, and simple ownership. Tap tab 6 to see exactly how they were calculated.</p>
+
+  <div class="rank-grid">
+
+    <div class="rank-card first">
+      <div class="rank-top">
+        <div>
+          <div class="rank-pos">1st &middot; Best overall</div>
+          <h3>Kia EV3</h3>
+          <div class="rank-variant">Sweet spot: Air Long Range &middot; ~$53&ndash;55k driveaway (est.)</div>
+        </div>
+        <div class="score-badge"><div class="num">8.7</div><div class="of">/ 10</div></div>
+      </div>
+      <p class="why">The most complete package. Longest range by far (up to 604&nbsp;km), the best warranty-and-servicing story (7&nbsp;years, about $261/year to service), 5-star safety, and reviewers&rsquo; consistent pick as the best small electric SUV.</p>
+      <div class="chips">
+        <span class="chip pro">604 km range (LR)</span><span class="chip pro">7-yr warranty</span><span class="chip pro">Cheapest servicing</span><span class="chip pro">5-star ANCAP</span><span class="chip con">Higher trims get pricey</span><span class="chip con">Battery best kept at 80% day-to-day</span>
+      </div>
+      <div class="fitline"><div class="lab"><span>Length 4,310 mm</span><span>230 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:94.9%"></div><div class="limit"></div></div></div>
+    </div>
+
+    <div class="rank-card">
+      <div class="rank-top">
+        <div>
+          <div class="rank-pos">2nd &middot; Best value</div>
+          <h3>MG S5 EV</h3>
+          <div class="rank-variant">Sweet spot: Essence 62 &middot; ~$47&ndash;49k driveaway</div>
+        </div>
+        <div class="score-badge"><div class="num">8.3</div><div class="of">/ 10</div></div>
+      </div>
+      <p class="why">The most equipment for the money: power tailgate with foot-kick, heated seats and steering wheel, panoramic roof and wireless charging all standard on Essence. LFP battery means you can charge to 100% every day. Physical climate buttons make it one of the easiest cabins to use.</p>
+      <div class="chips">
+        <span class="chip pro">Most kit per dollar</span><span class="chip pro">Charge to 100% daily</span><span class="chip pro">Up to 10-yr warranty*</span><span class="chip pro">Real buttons</span><span class="chip con">Slower home AC charging (6.6 kW)</span><span class="chip con">No head-up display</span>
+      </div>
+      <div class="fitline"><div class="lab"><span>Length 4,476 mm</span><span>64 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:98.6%"></div><div class="limit"></div></div></div>
+    </div>
+
+    <div class="rank-card">
+      <div class="rank-top">
+        <div>
+          <div class="rank-pos">3rd &middot; Most polished</div>
+          <h3>Hyundai Kona Electric</h3>
+          <div class="rank-variant">Sweet spot: Extended Range &middot; $50,990 driveaway (current offer)</div>
+        </div>
+        <div class="score-badge"><div class="num">7.8</div><div class="of">/ 10</div></div>
+      </div>
+      <p class="why">The most refined and familiar-feeling car here, with a big dealer network, 505&nbsp;km of range in the Extended Range, and sharp driveaway deals right now. The catch: a 4-star (not 5-star) ANCAP safety rating, and its battery type prefers 80% charging for daily use.</p>
+      <div class="chips">
+        <span class="chip pro">Very comfortable &amp; quiet</span><span class="chip pro">505 km range (ER)</span><span class="chip pro">Sharp deals now</span><span class="chip con">4-star ANCAP</span><span class="chip con">Power tailgate on Premium only</span>
+      </div>
+      <div class="fitline"><div class="lab"><span>Length 4,355 mm</span><span>185 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:95.9%"></div><div class="limit"></div></div></div>
+    </div>
+
+    <div class="rank-card">
+      <div class="rank-top">
+        <div>
+          <div class="rank-pos">4th &middot; Proven &amp; affordable</div>
+          <h3>BYD Atto 3 (current)</h3>
+          <div class="rank-variant">Sweet spot: Premium &middot; ~$48&ndash;49k driveaway (Essential ~$43&ndash;44k)</div>
+        </div>
+        <div class="score-badge"><div class="num">7.5</div><div class="of">/ 10</div></div>
+      </div>
+      <p class="why">Australia&rsquo;s best-selling affordable EV for a reason: safe (5-star), roomy, and its LFP &ldquo;Blade&rdquo; battery is happy charged to 100% every day. On a normal home Type&nbsp;2 wallbox it charges just as fast as anything here. The remaining knocks: the design is four years old, most controls live in the touchscreen, and a much better version is months away. <strong>Without the Evo on the horizon it would score 7.7</strong> &mdash; see tab&nbsp;6.</p>
+      <div class="chips">
+        <span class="chip pro">Charge to 100% daily</span><span class="chip pro">5-star ANCAP</span><span class="chip pro">Cheap to service (~$341/yr)</span><span class="chip con">Slower DC charging (road trips only)</span><span class="chip con">Replaced by the Evo soon</span>
+      </div>
+      <div class="fitline"><div class="lab"><span>Length 4,455 mm</span><span>85 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:98.1%"></div><div class="limit"></div></div></div>
+    </div>
+
+    <div class="rank-card">
+      <div class="rank-top">
+        <div>
+          <div class="rank-pos">Wildcard &middot; Worth waiting for?</div>
+          <h3>BYD Atto 3 Evo</h3>
+          <div class="rank-variant">Arriving second half of 2026 &middot; price not yet announced</div>
+        </div>
+        <div class="score-badge na"><div class="num">TBC</div><div class="of">not yet rated</div></div>
+      </div>
+      <p class="why">Same size outside, hugely upgraded underneath: a bigger 74.8&nbsp;kWh battery, a larger 490&nbsp;L boot <em>plus</em> a 101&nbsp;L front trunk, 15.6&Prime; screen, heated/ventilated seats. If it lands near current Atto 3 pricing, it could jump to the top of this list &mdash; but it isn&rsquo;t in showrooms yet and hasn&rsquo;t been priced or reviewed locally.</p>
+      <div class="chips">
+        <span class="chip pro">Big battery, frunk, more kit</span><span class="chip pro">Same garage-friendly size</span><span class="chip con">Price &amp; date unconfirmed</span><span class="chip con">No local reviews yet</span>
+      </div>
+      <div class="fitline"><div class="lab"><span>Length 4,455 mm</span><span>85 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:98.1%"></div><div class="limit"></div></div></div>
+    </div>
+
+    <div class="rank-card">
+      <div class="rank-top">
+        <div>
+          <div class="rank-pos">5th &middot; Easiest to park</div>
+          <h3>Suzuki e-Vitara</h3>
+          <div class="rank-variant">Sweet spot: Motion &middot; ~$49,990 driveaway (launch deal has ended &mdash; confirm)</div>
+        </div>
+        <div class="score-badge"><div class="num">6.6</div><div class="of">/ 10</div></div>
+      </div>
+      <p class="why">The smallest car here (26&nbsp;cm shorter than the CX-5) from a brand you know, with sliding rear seats and simple controls. But the range is the shortest (344&nbsp;km), there&rsquo;s no power tailgate, the boot is the smallest, and it carries a 4-star ANCAP rating &mdash; a lot of money for what you get.</p>
+      <div class="chips">
+        <span class="chip pro">Smallest &amp; easiest to park</span><span class="chip pro">Suzuki dealer network</span><span class="chip pro">Charge to 100% daily</span><span class="chip con">Shortest range</span><span class="chip con">Small boot, no power tailgate</span><span class="chip con">4-star ANCAP</span>
+      </div>
+      <div class="fitline"><div class="lab"><span>Length 4,275 mm</span><span>265 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:94.2%"></div><div class="limit"></div></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PANEL 2: SIDE-BY-SIDE ============ -->
+<section class="panel" id="p-table">
+  <h2>Everything side-by-side</h2>
+  <p class="lede">Swipe the table left and right with your finger. The first column stays put. Your CX-5 is included as the grey baseline column.</p>
+  <div class="legend">
+    <span><span class="conf v">&#10003;</span> from the official brochure/spec sheet</span>
+    <span><span class="conf e">&asymp;</span> press reports &mdash; close, but verify</span>
+    <span><span class="conf c">?</span> confirm with the dealer</span>
+  </div>
+
+  <div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Criteria</th>
+        <th>Your CX-5<small>2013 Mazda, AWD petrol</small></th>
+        <th>Kia EV3<small>Air SR / Air LR / Earth / GT-Line</small></th>
+        <th>MG S5 EV<small>Essence 49 / Essence 62</small></th>
+        <th>Hyundai Kona Electric<small>Std Range / Extended / Premium</small></th>
+        <th>BYD Atto 3<small>Essential / Premium</small></th>
+        <th>BYD Atto 3 Evo<small>arriving late 2026</small></th>
+        <th>Suzuki e-Vitara<small>Motion / Ultra AWD</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Driveaway cost<br><span class="muted" style="font-weight:500">(postcode 3140 &mdash; estimates, get dealer quotes)</span></th>
+        <td class="cx5">&mdash; (owned)</td>
+        <td class="pricecell">$46,990 d/a Air SR (offer)<span class="conf e">&asymp;</span><br>~$53&ndash;55k Air LR / ~$60k Earth<span class="conf c">?</span><br>$68,490 GT-Line<span class="conf e">&asymp;</span></td>
+        <td class="pricecell">~$44k Essence 49<span class="conf e">&asymp;</span><br>$47&ndash;49k Essence 62<span class="conf e">&asymp;</span></td>
+        <td class="pricecell">$45,990 SR &middot; $50,990 ER &middot; $60,990 Premium (national d/a offers)<span class="conf e">&asymp;</span></td>
+        <td class="pricecell">~$43&ndash;44k Essential<br>~$48&ndash;49k Premium<span class="conf e">&asymp;</span></td>
+        <td class="pricecell">Not announced<span class="conf c">?</span><br><span class="muted">expected above current Atto 3</span></td>
+        <td class="pricecell">Launch: $46,990 Motion / $56,990 Ultra d/a. Rose ~$2&ndash;3k after 1 July 2026<span class="conf c">?</span></td>
+      </tr>
+      <tr>
+        <th>Car length</th>
+        <td class="cx5">4,540 mm</td>
+        <td><span class="good">4,300&ndash;4,310 mm</span><span class="conf v">&#10003;</span></td>
+        <td>4,476 mm<span class="conf v">&#10003;</span></td>
+        <td>4,355 mm (4,385 N Line)<span class="conf v">&#10003;</span></td>
+        <td>4,455 mm<span class="conf v">&#10003;</span></td>
+        <td>4,455 mm<span class="conf e">&asymp;</span></td>
+        <td><span class="good">4,275 mm</span><span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Width (mirrors folded)</th>
+        <td class="cx5">1,840 mm</td>
+        <td>1,850 mm<span class="conf v">&#10003;</span></td>
+        <td>1,849 mm<span class="conf v">&#10003;</span></td>
+        <td>1,825 mm<span class="conf v">&#10003;</span></td>
+        <td>1,875 mm<span class="conf v">&#10003;</span></td>
+        <td>1,875 mm<span class="conf e">&asymp;</span></td>
+        <td><span class="good">1,800 mm</span><span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Vehicle height &amp; seating height</th>
+        <td class="cx5">~1,705 mm. High, easy &ldquo;slide-in&rdquo; seating.</td>
+        <td>1,560&ndash;1,570 mm<span class="conf v">&#10003;</span><br><span class="muted">Lowest here &mdash; slightly lower seat than the CX-5</span></td>
+        <td>1,621 mm<span class="conf v">&#10003;</span><br><span class="muted">Mid-height seating</span></td>
+        <td>1,580 mm<span class="conf v">&#10003;</span><br><span class="muted">A little lower than CX-5</span></td>
+        <td>1,615 mm<span class="conf v">&#10003;</span><br><span class="muted">Sits relatively high for its size</span></td>
+        <td>1,615 mm<span class="conf e">&asymp;</span></td>
+        <td>1,635 mm<span class="conf v">&#10003;</span><br><span class="muted">Tallest of the six &mdash; closest to the CX-5&rsquo;s easy entry</span></td>
+      </tr>
+      <tr>
+        <th>Boot size / front trunk (frunk)</th>
+        <td class="cx5">403 L / no frunk</td>
+        <td><span class="good">460 L + 25 L frunk</span><span class="conf v">&#10003;</span></td>
+        <td>453 L (1,441 L folded) / no frunk<span class="conf v">&#10003;</span></td>
+        <td>407 L (1,241 L folded) + 27 L frunk<span class="conf v">&#10003;</span></td>
+        <td>440 L (1,340 L folded) / no frunk<span class="conf v">&#10003;</span></td>
+        <td><span class="good">490 L + 101 L frunk</span><span class="conf e">&asymp;</span></td>
+        <td><span class="bad">~306 L</span> / no frunk<span class="conf c">?</span></td>
+      </tr>
+      <tr>
+        <th>Auto tailgate / boot</th>
+        <td class="cx5">Manual</td>
+        <td>Power tailgate on Earth &amp; GT-Line (height-adjustable)<span class="conf v">&#10003;</span></td>
+        <td><span class="good">Standard on Essence, with foot-kick opening</span><span class="conf v">&#10003;</span></td>
+        <td>Premium only (hands-free smart tailgate)<span class="conf v">&#10003;</span></td>
+        <td>Electric unlock; one-touch open/close on Premium (no foot-kick)<span class="conf v">&#10003;</span></td>
+        <td>Expected power tailgate<span class="conf c">?</span></td>
+        <td><span class="bad">Manual only</span><span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Battery type &mdash; can you charge to 100% every day?</th>
+        <td class="cx5">Petrol tank &mdash; fill it up!</td>
+        <td>NMC lithium-ion. <span class="bad">Best kept at ~80% daily</span>; 100% for trips<span class="conf v">&#10003;</span></td>
+        <td><span class="good">LFP &mdash; yes, 100% daily is fine</span><span class="conf v">&#10003;</span></td>
+        <td>NMC lithium-ion. <span class="bad">Best kept at ~80% daily</span>; 100% for trips<span class="conf v">&#10003;</span></td>
+        <td><span class="good">LFP &ldquo;Blade&rdquo; &mdash; yes, 100% daily is fine</span><span class="conf v">&#10003;</span></td>
+        <td><span class="good">LFP &ldquo;Blade&rdquo;, 74.8 kWh &mdash; yes</span><span class="conf e">&asymp;</span></td>
+        <td><span class="good">LFP &mdash; yes, 100% daily is fine</span><span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Battery range (WLTP)</th>
+        <td class="cx5">~700 km per petrol tank</td>
+        <td><span class="good">436 / 604 / 563 km</span><span class="conf v">&#10003;</span></td>
+        <td>335 / 450 km<span class="conf v">&#10003;</span> <span class="muted">(some press quotes 425 km for Essence 62)</span></td>
+        <td>370 / 505 / 444 km<span class="conf v">&#10003;</span></td>
+        <td>345 / 420 km<span class="conf v">&#10003;</span></td>
+        <td>Not confirmed &mdash; bigger battery, likely ~500 km<span class="conf c">?</span></td>
+        <td><span class="bad">344 / 395 km</span><span class="conf e">&asymp;</span></td>
+      </tr>
+      <tr>
+        <th>Charging speed (home AC / public DC)</th>
+        <td class="cx5">n/a</td>
+        <td>10.5 kW AC (3-ph) / DC 10&ndash;80% in ~29&ndash;31 min<span class="conf v">&#10003;</span></td>
+        <td>6.6 kW AC / 120&ndash;150 kW DC (30&ndash;80% ~19 min)<span class="conf v">&#10003;</span></td>
+        <td>10.4 kW AC / 100 kW DC (10&ndash;80% ~45 min)<span class="conf v">&#10003;</span></td>
+        <td>7 kW AC / 70&ndash;88 kW DC <span class="muted">(slowest DC here, but identical to the others on a home 7 kW wallbox)</span><span class="conf v">&#10003;</span></td>
+        <td>Faster than current &mdash; details TBC<span class="conf c">?</span></td>
+        <td>11 kW AC / DC 10&ndash;80% ~45 min<span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Wheel size</th>
+        <td class="cx5">17&Prime; or 19&Prime; (by grade)</td>
+        <td>17&Prime; Air / 19&Prime; Earth &amp; GT-Line<span class="conf v">&#10003;</span></td>
+        <td>18&Prime; (both)<span class="conf v">&#10003;</span></td>
+        <td>17&Prime; / 19&Prime; (Premium &amp; N Line)<span class="conf v">&#10003;</span></td>
+        <td>17&Prime; Essential / 18&Prime; Premium<span class="conf v">&#10003;</span></td>
+        <td>TBC<span class="conf c">?</span></td>
+        <td>18&Prime; (both)<span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Wireless phone charging</th>
+        <td class="cx5">No</td>
+        <td><span class="good">Yes &mdash; all grades</span><span class="conf v">&#10003;</span></td>
+        <td><span class="good">Yes (Essence)</span><span class="conf v">&#10003;</span></td>
+        <td><span class="good">Yes &mdash; all grades (15 W)</span><span class="conf v">&#10003;</span></td>
+        <td>Premium only<span class="conf v">&#10003;</span></td>
+        <td>Expected standard<span class="conf c">?</span></td>
+        <td>Ultra only<span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Apple CarPlay</th>
+        <td class="cx5">No</td>
+        <td><span class="good">Wireless &amp; wired</span><span class="conf v">&#10003;</span></td>
+        <td><span class="good">Wireless &amp; wired</span><span class="conf v">&#10003;</span></td>
+        <td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td>
+        <td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td>
+        <td><span class="good">Wireless (smartphone mirroring)</span><span class="conf e">&asymp;</span></td>
+        <td><span class="good">Wireless CarPlay</span> (Android Auto wired)<span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Infotainment screen</th>
+        <td class="cx5">5.8&Prime; (2013-era)</td>
+        <td>12.3&Prime; + 5&Prime; + 12.3&Prime; panoramic display<span class="conf v">&#10003;</span></td>
+        <td>12.8&Prime; + 10.25&Prime; driver display<span class="conf v">&#10003;</span></td>
+        <td>12.3&Prime; + 12.3&Prime; dual displays<span class="conf v">&#10003;</span></td>
+        <td>12.8&Prime; (Essential) / 15.6&Prime; rotating (Premium) + 5&Prime; driver panel<span class="conf v">&#10003;</span></td>
+        <td>15.6&Prime; + larger 8.8&Prime; driver display<span class="conf e">&asymp;</span></td>
+        <td>10.1&Prime; + 10.25&Prime; driver display<span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Head-up display</th>
+        <td class="cx5">No</td>
+        <td><span class="good">Yes &mdash; GT-Line only (12&Prime;)</span><span class="conf v">&#10003;</span></td>
+        <td>No<span class="conf v">&#10003;</span></td>
+        <td><span class="good">Yes &mdash; Premium only (12&Prime;)</span><span class="conf v">&#10003;</span></td>
+        <td>No<span class="conf v">&#10003;</span></td>
+        <td>TBC<span class="conf c">?</span></td>
+        <td>No<span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Smart keys</th>
+        <td class="cx5">Basic remote key</td>
+        <td>2 smart keys with remote start + Kia Connect app control<span class="conf v">&#10003;</span></td>
+        <td>Keyless entry + phone-as-key (Bluetooth) + iSMART app<span class="conf v">&#10003;</span></td>
+        <td>Smart key with remote start &amp; remote windows + Bluelink app<span class="conf v">&#10003;</span></td>
+        <td>Keyless entry + NFC card + BYD phone digital key<span class="conf v">&#10003;</span></td>
+        <td>As current, plus AI assistant<span class="conf e">&asymp;</span></td>
+        <td>Keyless entry &amp; push start<span class="conf v">&#10003;</span></td>
+      </tr>
+      <tr>
+        <th>Included data / subscriptions</th>
+        <td class="cx5">None needed</td>
+        <td>Kia Connect included &mdash; complimentary period applies (commonly 7 yrs)<span class="conf c">?</span></td>
+        <td>iSMART free for 12 months, charges possible after<span class="conf v">&#10003;</span></td>
+        <td>Bluelink included &mdash; complimentary period applies<span class="conf c">?</span></td>
+        <td>2 GB/month data, 2 years free, then subscription<span class="conf v">&#10003;</span></td>
+        <td>TBC<span class="conf c">?</span></td>
+        <td>No connected-services app confirmed for Australia<span class="conf c">?</span></td>
+      </tr>
+      <tr>
+        <th>Warranty / battery warranty</th>
+        <td class="cx5">Long expired</td>
+        <td><span class="good">7 yr unlimited km</span> / battery 7 yr 150,000 km<span class="conf e">&asymp;</span></td>
+        <td><span class="good">7 yr unlimited, extends to 10 yr / 250,000 km if serviced with MG</span> / battery 7 yr<span class="conf v">&#10003;</span></td>
+        <td>5 yr unlimited, extends to 7 yr if serviced with Hyundai / battery 8 yr 160,000 km<span class="conf e">&asymp;</span></td>
+        <td>6 yr / 150,000 km / battery 8 yr 160,000 km <span class="muted">(some components shorter &mdash; read the fine print)</span><span class="conf e">&asymp;</span></td>
+        <td>Expected as current Atto 3<span class="conf c">?</span></td>
+        <td>5 yr unlimited / battery 8 yr 160,000 km<span class="conf e">&asymp;</span></td>
+      </tr>
+      <tr>
+        <th>Servicing &mdash; fixed price &amp; cost</th>
+        <td class="cx5">~$400&ndash;600/yr typical at this age</td>
+        <td><span class="good">Capped price: ~$1,308 over 5 yrs (~$261/yr)</span><span class="conf e">&asymp;</span></td>
+        <td>MG &ldquo;Precise Price&rdquo; capped servicing, every 12 mths/25,000 km &mdash; get the price list from the dealer<span class="conf c">?</span></td>
+        <td>Every 2 yrs/30,000 km: $725 / $747 / $725 (~$366/yr)<span class="conf e">&asymp;</span></td>
+        <td>Capped price, 12 mths/20,000 km, ~$341/yr average<span class="conf e">&asymp;</span></td>
+        <td>TBC<span class="conf c">?</span></td>
+        <td>Suzuki capped-price program &mdash; e-Vitara prices not yet published<span class="conf c">?</span></td>
+      </tr>
+      <tr>
+        <th>Safety (ANCAP)</th>
+        <td class="cx5">5 stars (2012 criteria &mdash; much easier test)</td>
+        <td><span class="good">5 stars (2024)</span><span class="conf e">&asymp;</span></td>
+        <td><span class="good">5 stars (2025)</span><span class="conf e">&asymp;</span></td>
+        <td><span class="bad">4 stars (2023)</span><span class="conf e">&asymp;</span></td>
+        <td><span class="good">5 stars (2022)</span><span class="conf e">&asymp;</span></td>
+        <td>Not yet tested<span class="conf c">?</span></td>
+        <td><span class="bad">4 stars</span><span class="conf e">&asymp;</span></td>
+      </tr>
+      <tr>
+        <th>Ease of driving &amp; using the tech</th>
+        <td class="cx5">Simple, familiar &mdash; the benchmark for &ldquo;easy&rdquo;</td>
+        <td>Excellent local suspension tune; logical menus; clever i-Pedal one-pedal mode. Very easy once set up.</td>
+        <td>Smooth &ldquo;easy&rdquo; suburban drive (reviewers&rsquo; words); <span class="good">physical climate buttons</span> &mdash; least screen-dependent here.</td>
+        <td>Most conventional-feeling: quiet, comfortable, buttons + dials, familiar Hyundai layout.</td>
+        <td>Drives nicely but <span class="bad">most functions live in the big screen</span>, incl. some climate controls &mdash; a learning curve.</td>
+        <td>Adds Google built-in &amp; AI assistant &mdash; unproven locally.</td>
+        <td>Light, small, easy to park; simple cabin with real buttons; modest power is fine around town.</td>
+      </tr>
+      <tr>
+        <th>What reviewers say</th>
+        <td class="cx5">&mdash;</td>
+        <td>Consistent segment winner &mdash; named best electric small SUV of 2026 by Wheels; praised for range, ride and value.</td>
+        <td>&ldquo;Does everything it needs to do well&hellip; there&rsquo;s a lot to be said for just being easy&rdquo; &mdash; CarsGuide. Value is the headline.</td>
+        <td>&ldquo;One of the better all-rounders in the segment&rdquo; &mdash; much improved second generation; 4-star safety is the recurring criticism.</td>
+        <td>&ldquo;Drives better than its looks imply&rdquo; &mdash; still competitive on value but ageing against newer rivals.</td>
+        <td>&ldquo;Never has such a mild facelift hidden such a huge amount of work&hellip; almost an all-new car beneath&rdquo; &mdash; CarExpert (preview).</td>
+        <td>Seen as easy and likeable but expensive for the range and equipment offered; 4-star ANCAP noted.</td>
+      </tr>
+      <tr>
+        <th>Score &amp; rank</th>
+        <td class="cx5">Baseline</td>
+        <td class="scorecell">8.7 &mdash; 1st</td>
+        <td class="scorecell">8.3 &mdash; 2nd</td>
+        <td class="scorecell">7.8 &mdash; 3rd</td>
+        <td class="scorecell">7.5 &mdash; 4th<br><span class="muted" style="font-size:.78rem;font-weight:500">(7.7 if the Evo weren&rsquo;t coming)</span></td>
+        <td class="scorecell">TBC</td>
+        <td class="scorecell">6.6 &mdash; 5th</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ PANEL 3: DEEP SPECS ============ -->
+<section class="panel" id="p-deep">
+  <h2>Every spec from the brochures</h2>
+  <p class="lede">This is the full technical picture, built from each manufacturer's Australian brochure/spec sheet. Where a car offers multiple variants, figures are shown as <em>base&nbsp;/&nbsp;higher grade(s)</em>. A dash (&ndash;) means not fitted; <em>n/s</em> means the brochure doesn't state it. The Atto 3 Evo is excluded here because no Australian brochure exists yet. Swipe sideways; the criteria column stays put.</p>
+  <div class="legend">
+    <span><span class="conf v">&#10003;</span> from the brochure</span>
+    <span><span class="conf e">&asymp;</span> press-sourced (not in brochure)</span>
+  </div>
+
+  <div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>Kia EV3<small>Air SR / Air LR / Earth / GT-Line (MY27)</small></th>
+        <th>MG S5 EV<small>Essence 49 / Essence 62</small></th>
+        <th>Hyundai Kona Electric<small>SR / ER (Kona &middot; Premium)</small></th>
+        <th>BYD Atto 3<small>Essential / Premium</small></th>
+        <th>Suzuki e-Vitara<small>Motion / Ultra</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="sec"><th colspan="6">Powertrain &amp; performance</th></tr>
+      <tr><th>Motor type</th><td>Permanent-magnet synchronous, front</td><td>Permanent-magnet synchronous, rear</td><td>Permanent-magnet synchronous, front</td><td>Permanent-magnet synchronous, front</td><td>AC synchronous (Ultra: dual motor)</td></tr>
+      <tr><th>Driven wheels</th><td>Front-wheel drive</td><td><span class="good">Rear-wheel drive</span></td><td>Front-wheel drive</td><td>Front-wheel drive</td><td>FWD / <span class="good">ALLGRIP-e AWD (Ultra)</span></td></tr>
+      <tr><th>Power / torque</th><td>150 kW / 283 Nm (all)</td><td>125 kW 250 Nm / 150 kW 350 Nm</td><td>99 kW / 150 kW &middot; 255 Nm both</td><td>150 kW / 310 Nm (both)</td><td>106 kW 193 Nm / 135 kW 307 Nm</td></tr>
+      <tr><th>0&ndash;100 km/h</th><td>7.5 / 7.7 / 7.9 s</td><td>8.2 / 7.0 s</td><td>n/s (approx. 8.8 / 7.8 s<span class="conf e">&asymp;</span>)</td><td>7.9 / 7.3 s</td><td>n/s</td></tr>
+      <tr><th>Top speed</th><td>170 km/h</td><td>170 km/h</td><td>n/s</td><td>n/s</td><td>n/s</td></tr>
+      <tr><th>Drive modes</th><td>5 (Sport/Normal/Eco/Snow/My Drive)</td><td>3 (Eco/Normal/Sport)</td><td>4 (Eco/Normal/Sport/Snow)</td><td>n/s in brochure</td><td>n/s</td></tr>
+      <tr><th>One-pedal driving / regen control</th><td>i-Pedal 3.0 + paddles + smart regen</td><td>One Pedal + 3 regen modes</td><td>iPedal + paddles + Smart Regen 2.0 (nav-based)</td><td>Regenerative braking (modes n/s)</td><td>n/s</td></tr>
+
+      <tr class="sec"><th colspan="6">Battery &amp; charging</th></tr>
+      <tr><th>Battery chemistry</th><td>Lithium-ion (NMC)</td><td><span class="good">LFP</span></td><td>Lithium-ion (NMC)</td><td><span class="good">LFP &ldquo;Blade&rdquo;</span></td><td><span class="good">LFP</span></td></tr>
+      <tr><th>Charge to 100% daily?</th><td>Best at ~80% daily</td><td class="good">Yes</td><td>Best at ~80% daily</td><td class="good">Yes</td><td class="good">Yes</td></tr>
+      <tr><th>Battery capacity</th><td>58.3 / 81.4 kWh</td><td>49 / 62 kWh</td><td>48.6 / 64.8 kWh</td><td>49.92 / 60.48 kWh</td><td>49 / 61 kWh</td></tr>
+      <tr><th>On-board AC charger (Type 2)</th><td>6.9 kW 1-phase; 10.5 kW 3-phase</td><td>6.6 kW</td><td>10.4 kW</td><td>7 kW<span class="conf e">&asymp;</span></td><td>11 kW</td></tr>
+      <tr><th>Real speed on a home 7 kW single-phase wallbox</th><td>~6.9 kW</td><td>~6.6 kW</td><td>~7 kW</td><td>~7 kW</td><td>~7 kW</td></tr>
+      <tr><th>AC full-charge time (approx.)</th><td>10&ndash;100%: 5h20 / 7h15 (11 kW 3-ph)</td><td>n/s (~8 / 10 h on 7 kW<span class="conf e">&asymp;</span>)</td><td>10&ndash;100%: 5h15 / 6h35 (10.4 kW)</td><td>n/s (~8 / 9.5 h on 7 kW<span class="conf e">&asymp;</span>)</td><td>10&ndash;100% on 7 kW: 6h30 / 9h00</td></tr>
+      <tr><th>DC fast charging</th><td>10&ndash;80% in 29&ndash;31 min (350 kW charger); 55&ndash;79 min on 50 kW</td><td>120 / 150 kW max; 30&ndash;80% ~19 min</td><td>100 kW max; 10&ndash;80% ~45 min</td><td>70 / 88 kW max</td><td>10&ndash;80% ~45 min (Motion; Ultra time misprinted in brochure &mdash; confirm)</td></tr>
+      <tr><th>Charge port</th><td>CCS Type 2, driver-side front</td><td>CCS Type 2</td><td>CCS Combo 2 (Type 2 AC)</td><td>Type 2 AC + CCS2 DC</td><td>Type 2 (1-phase AC) + CCS2</td></tr>
+      <tr><th>Portable charging cable included</th><td>n/s &mdash; confirm</td><td>AC slow charger included</td><td>ICCB 3-pin portable cable included</td><td>Mode 2 portable cable included</td><td>n/s &mdash; confirm</td></tr>
+      <tr><th>V2L (power appliances from car)</th><td>Yes &mdash; interior AUS socket + exterior adapter</td><td>Yes &mdash; via charge port</td><td>Yes &mdash; interior 3-pin, 3 kW</td><td>Yes + discharge adapter</td><td>&ndash; (not listed)</td></tr>
+      <tr><th>Battery heating / pre-conditioning</th><td>Scheduled charging &amp; charge mgmt</td><td>Charging pre-heating (nav-linked) + thermal mgmt</td><td>Battery heating + conditioning systems</td><td>Battery thermal management + Intelligent HV charging</td><td>n/s</td></tr>
+      <tr><th>Heat pump (efficient cabin heating)</th><td>n/s &mdash; confirm</td><td>n/s &mdash; confirm</td><td><span class="good">Yes, standard</span></td><td>n/s &mdash; confirm</td><td>n/s &mdash; confirm</td></tr>
+
+      <tr class="sec"><th colspan="6">Range &amp; efficiency</th></tr>
+      <tr><th>Range (WLTP)</th><td><span class="good">436 / 604 / 563 km</span></td><td>335 / 450 km (brochure)</td><td>370 / 505 / 444 km</td><td>345 / 420 km</td><td>344 / 395 km<span class="conf e">&asymp;</span></td></tr>
+      <tr><th>Range (NEDC, more optimistic)</th><td>n/s</td><td>410 / 545 km</td><td>n/s</td><td>410 / 480 km</td><td>n/s</td></tr>
+      <tr><th>Efficiency</th><td>149 / 149 / 162 Wh/km</td><td>169 / 168 Wh/km</td><td>148 / 147 / 167 Wh/km</td><td>n/s</td><td>n/s</td></tr>
+
+      <tr class="sec"><th colspan="6">Dimensions &amp; weights</th></tr>
+      <tr><th>Length</th><td>4,300 mm (GT-Line 4,310)</td><td>4,476 mm</td><td>4,355 mm (N Line 4,385)</td><td>4,455 mm</td><td>4,275 mm</td></tr>
+      <tr><th>Width</th><td>1,850 mm</td><td>1,849 mm</td><td>1,825 mm</td><td>1,875 mm</td><td>1,800 mm</td></tr>
+      <tr><th>Height</th><td>1,560&ndash;1,570 mm</td><td>1,621 mm</td><td>1,580 mm</td><td>1,615 mm</td><td>1,635 mm</td></tr>
+      <tr><th>Wheelbase</th><td>2,680 mm</td><td>2,730 mm</td><td>2,660 mm</td><td>2,720 mm</td><td>2,700 mm</td></tr>
+      <tr><th>Ground clearance</th><td>140 mm</td><td>164 mm</td><td>151 mm</td><td>175 mm unladen / 150 laden</td><td>n/s</td></tr>
+      <tr><th>Boot (seats up / folded)</th><td>460 L / n/s</td><td>453 L / 1,441 L</td><td>407 L / 1,241 L</td><td>440 L / 1,340 L</td><td>~306 L<span class="conf e">&asymp;</span> / n/s</td></tr>
+      <tr><th>Front trunk (frunk)</th><td>25 L</td><td>&ndash;</td><td>27 L</td><td>&ndash;</td><td>&ndash;</td></tr>
+      <tr><th>Kerb / tare weight</th><td>1,845 / 1,930 kg</td><td>1,680 / 1,755 kg</td><td>1,615&ndash;1,795 kg</td><td>1,680 / 1,750 kg</td><td>1,700 / 1,860 kg</td></tr>
+      <tr><th>Gross vehicle mass (GVM)</th><td>2,270 / 2,355 kg</td><td>2,125 / 2,200 kg</td><td>2,110 / 2,220 kg</td><td>2,090 / 2,160 kg</td><td>2,180 / 2,360 kg</td></tr>
+      <tr><th>Towing (braked / unbraked)</th><td>SR: 500/500 &middot; LR: <span class="good">1,000</span>/750 kg</td><td>750 / 750 kg</td><td>SR: none &middot; ER: 750 / 300 kg</td><td>750 / 750 kg</td><td>750 kg braked</td></tr>
+      <tr><th>Max towball download</th><td>100 kg</td><td>n/s</td><td>100 kg (ER)</td><td>n/s</td><td>n/s</td></tr>
+      <tr><th>Roof load limit</th><td>n/s</td><td>75 kg</td><td><span class="good">100 kg</span></td><td>50 kg<span class="conf e">&asymp;</span></td><td>n/s</td></tr>
+      <tr><th>Spare wheel</th><td>&ndash; (repair kit)</td><td>&ndash; (repair kit)</td><td><span class="good">Space-saver spare</span></td><td>&ndash; (repair kit)</td><td>&ndash; (repair kit)</td></tr>
+
+      <tr class="sec"><th colspan="6">Chassis, wheels &amp; brakes</th></tr>
+      <tr><th>Suspension (front / rear)</th><td>MacPherson strut / multi-link</td><td>MacPherson / five-link</td><td>MacPherson strut / multi-link</td><td>MacPherson strut / multi-link</td><td>MacPherson strut / multi-link</td></tr>
+      <tr><th>Brakes (front / rear)</th><td>16&Prime; ventilated / 15&ndash;16&Prime; solid disc</td><td>Disc / disc</td><td>305 mm ventilated / 300 mm solid</td><td>Ventilated disc / disc</td><td>Ventilated disc / ventilated disc</td></tr>
+      <tr><th>Turning circle</th><td><span class="good">10.4 m</span></td><td>n/s</td><td>10.6 m</td><td>n/s</td><td>n/s</td></tr>
+      <tr><th>Wheels &amp; tyres</th><td>17&Prime; 215/60 / 19&Prime; 215/50</td><td>18&Prime; 225/55 aero</td><td>17&Prime; 215/60 / 19&Prime; 235/45</td><td>17&Prime; 215/60 / 18&Prime; 235/50</td><td>18&Prime; 225/55 machined alloy</td></tr>
+
+      <tr class="sec"><th colspan="6">Safety &amp; driver assistance</th></tr>
+      <tr><th>ANCAP rating</th><td class="good">5 stars (2024)<span class="conf e">&asymp;</span></td><td class="good">5 stars (2025)<span class="conf e">&asymp;</span></td><td class="bad">4 stars (2023)<span class="conf e">&asymp;</span></td><td class="good">5 stars (2022)<span class="conf e">&asymp;</span></td><td class="bad">4 stars<span class="conf e">&asymp;</span></td></tr>
+      <tr><th>Airbags</th><td>7: driver, passenger, front-centre, 2 front-side, 2 curtain</td><td>7: driver, passenger, 2 side, 2 curtain, far-side</td><td>7 incl. front-centre</td><td>7: front pair, side pair, F+R curtains, driver far-side</td><td>Front, side, curtain + <span class="good">driver knee</span></td></tr>
+      <tr><th>Auto emergency braking (AEB)</th><td>Car/pedestrian/cyclist + junction turning &amp; crossing + evasive steering assist</td><td>AEB + Forward Collision Warning</td><td>FCA 2.0: car/motorcycle/ped/cyclist + junction + oncoming + evasive steering</td><td>AEB + FCW + Rear Collision Warning</td><td>Dual Sensor Brake Support II</td></tr>
+      <tr><th>Adaptive cruise control</th><td>Smart Cruise Control 2 (with stop &amp; go)</td><td>ACC + Intelligent Cruise Assist (steers in lane)</td><td>SCC with stop &amp; go + machine learning</td><td>ACC with stop &amp; go</td><td>Adaptive cruise control</td></tr>
+      <tr><th>Lane systems</th><td>LKA + Lane Following Assist 2</td><td>LKA, LDW, ELKA, Lane Change Assist</td><td>LKA (line/road-edge) + Lane Following Assist</td><td>LDW + LKA</td><td>Lane departure prevention</td></tr>
+      <tr><th>Blind spot / rear cross traffic</th><td>Avoidance-assist (brakes) + RCCA</td><td>BSD + RCTA + <span class="good">RCT Braking</span></td><td>Avoidance-assist (brakes) + RCCA</td><td>BSD + RCTA + <span class="good">RCT Braking</span></td><td>Monitoring + RCTA (alert only)</td></tr>
+      <tr><th>Driver monitoring</th><td>In-cabin camera (attention monitoring)</td><td>Driver Monitor Status</td><td>Attention warning + in-cabin camera</td><td>&ndash; (not listed)</td><td>&ndash; (not listed)</td></tr>
+      <tr><th>Cameras &amp; parking sensors</th><td>Rear camera + front &amp; rear sensors (360&deg; not offered)</td><td><span class="good">360&deg; HD camera</span> + rear sensors</td><td>SR/ER: rear camera + F&amp;R sensors &middot; Premium: 3D 360&deg; + remote park assist</td><td><span class="good">360&deg; monitor</span> + front &amp; rear sensors</td><td><span class="good">360&deg; camera</span> + rear sensors</td></tr>
+      <tr><th>Built-in dash camera</th><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td><span class="good">Yes, standard</span></td><td>&ndash;</td></tr>
+      <tr><th>Safe exit warning (door vs traffic)</th><td>Yes</td><td>Door Open Warning</td><td>Yes</td><td>Door Open Warning</td><td>&ndash;</td></tr>
+      <tr><th>Speed-limit recognition</th><td>ISLA</td><td>Intelligent Speed Limit Assist</td><td>ISLA</td><td>&ndash; (traffic-sign n/s)</td><td>Traffic sign recognition</td></tr>
+      <tr><th>Tyre pressure monitoring</th><td>Yes</td><td>Yes (direct)</td><td>Yes (per-tyre readout)</td><td>Yes</td><td>n/s</td></tr>
+
+      <tr class="sec"><th colspan="6">Exterior &amp; access</th></tr>
+      <tr><th>Power tailgate</th><td>Earth &amp; GT-Line (smart, height-adjustable)</td><td><span class="good">Standard, foot-kick</span></td><td>Premium only (hands-free)</td><td>One-touch open/close on Premium</td><td>&ndash;</td></tr>
+      <tr><th>Sunroof</th><td>GT-Line only (wide)</td><td><span class="good">Panoramic, standard (Essence)</span></td><td>Premium only (full-width glass)</td><td>Panoramic on Premium</td><td>Ultra only (with shade)</td></tr>
+      <tr><th>Roof rails</th><td>Yes (black)</td><td>Yes</td><td>Yes (dark grey)</td><td>Yes</td><td>n/s</td></tr>
+      <tr><th>Mirrors</th><td>Electric, heated, folding, indicators</td><td>Electric, heated, folding, LED indicators</td><td>Electric, heated, folding, welcome unfold</td><td>Heated; retractable on Premium</td><td>Electric folding, heated, LED indicators</td></tr>
+      <tr><th>Privacy glass</th><td>GT-Line (others solar glass)</td><td>Yes</td><td>Premium only</td><td>n/s</td><td>Yes</td></tr>
+      <tr><th>Rain-sensing wipers</th><td>Yes</td><td>Yes</td><td>Yes + auto reverse rear wipe</td><td>n/s</td><td>Yes</td></tr>
+      <tr><th>Headlights</th><td>LED (GT-Line: projection cubes, full-LED tails, welcome sequence)</td><td>LED with manual levelling, follow-me-home, rear fogs</td><td>LED; Premium/N Line: projector + pixel light bar</td><td>LED + Adaptive Front Light + follow-me-home</td><td>LED; Ultra adds LED fogs + adaptive high beam</td></tr>
+
+      <tr class="sec"><th colspan="6">Interior, seats &amp; comfort</th></tr>
+      <tr><th>Upholstery</th><td>Cloth / artificial leather (Earth+)</td><td>PVC with cloth inserts (white or black)</td><td>Cloth / leather-appointed (Premium)</td><td>Synthetic leather</td><td>Fabric / fabric + synthetic leather (Ultra)</td></tr>
+      <tr><th>Driver's seat</th><td>Manual / 10-way power (Earth+), memory (GT-Line)</td><td>6-way electric + lumbar</td><td>Height-adj + power lumbar / 10-way power (Premium)</td><td>6-way power</td><td>Height-adj / power (Ultra) + lumbar (Ultra)</td></tr>
+      <tr><th>Front passenger seat</th><td>Manual / 10-way power (GT-Line)</td><td>4-way manual</td><td>Manual / 8-way power (Premium)</td><td>4-way power</td><td>Manual</td></tr>
+      <tr><th>Heated front seats</th><td>Earth &amp; GT-Line</td><td><span class="good">Standard</span></td><td>Premium only</td><td>Premium only</td><td>Ultra only</td></tr>
+      <tr><th>Ventilated front seats</th><td>Earth &amp; GT-Line</td><td>&ndash;</td><td>Premium only</td><td>&ndash;</td><td>&ndash;</td></tr>
+      <tr><th>Heated steering wheel</th><td>Earth &amp; GT-Line</td><td><span class="good">Standard</span></td><td>Premium only</td><td>&ndash;</td><td>&ndash;</td></tr>
+      <tr><th>Heated rear seats</th><td>&ndash;</td><td>&ndash;</td><td>Premium (outboard)</td><td>&ndash;</td><td>&ndash;</td></tr>
+      <tr><th>Rear seats</th><td>60:40 fold, centre armrest</td><td>40:60 fold, rear centre console</td><td>60:40 fold, recline, armrest</td><td>60:40 fold</td><td><span class="good">40:20:40 fold + sliding &amp; reclining bench</span>, armrest</td></tr>
+      <tr><th>Rear air vents</th><td>Yes</td><td>Yes</td><td>Yes (console + floor ducts)</td><td>n/s</td><td>Yes (rear USB + vents)</td></tr>
+      <tr><th>Climate control</th><td>Dual-zone, auto defog</td><td>Single-zone auto</td><td>Dual-zone with auto defog/dehumidify + driver-only mode</td><td>Single-zone auto + PM2.5 filter</td><td>Single-zone auto + pollen filter</td></tr>
+      <tr><th>Ambient lighting</th><td>GT-Line only</td><td>&ndash;</td><td>Premium (64 colours)</td><td><span class="good">Standard</span> (multi-colour; +music rhythm on Premium)</td><td>&ndash;</td></tr>
+
+      <tr class="sec"><th colspan="6">Infotainment &amp; connectivity</th></tr>
+      <tr><th>Screens</th><td>12.3&Prime; cluster + 5&Prime; climate + 12.3&Prime; touch (panoramic)</td><td>12.8&Prime; touch + 10.25&Prime; cluster</td><td>12.3&Prime; touch + 12.3&Prime; cluster</td><td>12.8&Prime; / 15.6&Prime; rotating touch + 5&Prime; panel</td><td>10.1&Prime; touch + 10.25&Prime; cluster</td></tr>
+      <tr><th>Head-up display</th><td>GT-Line (12&Prime;)</td><td>&ndash;</td><td>Premium (12&Prime;)</td><td>&ndash;</td><td>&ndash;</td></tr>
+      <tr><th>Apple CarPlay / Android Auto</th><td>Wireless &amp; wired, both</td><td>Wireless &amp; wired, both</td><td>Wireless, both</td><td>Wireless, both</td><td>Wireless CarPlay; Android Auto (wired)</td></tr>
+      <tr><th>Satellite navigation / digital radio</th><td>Yes / DAB+</td><td>Yes / DAB+</td><td>Yes (connected routing) / DAB+</td><td>Yes / DAB+</td><td>Yes / DAB</td></tr>
+      <tr><th>Audio</th><td>6-sp / <span class="good">8-sp Harman Kardon (GT-Line)</span></td><td>6 speakers</td><td>6-sp / <span class="good">8-sp Bose (Premium)</span></td><td>8-sp Dirac HD</td><td>4-sp / <span class="good">Infinity by Harman + subwoofer (Ultra)</span></td></tr>
+      <tr><th>Wireless phone charger</th><td>Standard (Qi)</td><td>Standard</td><td>Standard (15 W)</td><td>Premium only</td><td>Ultra only</td></tr>
+      <tr><th>USB ports</th><td>2 front + 2 rear (USB-C) + 12 V</td><td>2 front + 1 rear + 12 V</td><td>2 front + 2 rear (27 W USB-C) + 12 V</td><td>C+A front, C+A rear + 12 V</td><td>Type A + C, front &amp; rear + 12 V</td></tr>
+      <tr><th>Connected app / included data</th><td>Kia Connect telematics (remote control, eCall) &mdash; confirm free period</td><td>iSMART: remote climate, locate, lock &mdash; 12 months free, then may cost</td><td>Bluelink: remote climate/windows, geo-alerts, charging control &mdash; confirm free period</td><td>App + <span class="good">2 GB/month data free for 2 yrs</span>, then subscription</td><td>None listed for Australia</td></tr>
+      <tr><th>Over-the-air updates</th><td>Yes</td><td>n/s</td><td>Yes</td><td>Free map updates 3 yrs</td><td>n/s</td></tr>
+      <tr><th>Keys &amp; digital keys</th><td>2 smart keys + remote start</td><td>Keyless + phone Bluetooth key + pedal start</td><td>Smart key + remote start + remote windows</td><td>Keyless + NFC card + phone digital key</td><td>Keyless entry &amp; push start</td></tr>
+
+      <tr class="sec"><th colspan="6">Colours</th></tr>
+      <tr><th>Exterior colours</th><td>7 (Clear White std; 6 premium incl. Matcha Green)</td><td>7 (Dover White std; 6 metallics incl. Champagne Gold)</td><td>Per Hyundai site (varies by trim)</td><td>4 (Ski White std; Atlantis Grey on Premium only)</td><td>Per Suzuki site (incl. two-tone options)</td></tr>
+      <tr><th>Interior colours</th><td>Grey w/ blue console / GT-Line medium grey</td><td>White or Black</td><td>Trim-dependent (N Line adds red accents)</td><td>Blue &amp; Grey (with Ski White) or Black</td><td>Dual-tone fabric / dark w/ synthetic leather</td></tr>
+
+      <tr class="sec"><th colspan="6">Ownership</th></tr>
+      <tr><th>Warranty</th><td>7 yr unlimited km<span class="conf e">&asymp;</span></td><td>7 yr unlimited &rarr; 10 yr / 250,000 km if serviced with MG</td><td>5 yr unlimited &rarr; 7 yr if serviced with Hyundai<span class="conf e">&asymp;</span></td><td>6 yr / 150,000 km (some components less)<span class="conf e">&asymp;</span></td><td>5 yr unlimited km<span class="conf e">&asymp;</span></td></tr>
+      <tr><th>Battery warranty</th><td>7 yr / 150,000 km<span class="conf e">&asymp;</span></td><td>7 yr<span class="conf c">?</span></td><td>8 yr / 160,000 km</td><td>8 yr / 160,000 km (&ge;70% health)</td><td>8 yr / 160,000 km<span class="conf e">&asymp;</span></td></tr>
+      <tr><th>Service interval</th><td>12 months<span class="conf e">&asymp;</span></td><td>12 months / 25,000 km</td><td><span class="good">24 months / 30,000 km</span></td><td>12 months / 20,000 km</td><td>Confirm with dealer</td></tr>
+      <tr><th>Servicing cost</th><td><span class="good">~$1,308 over 5 yrs (~$261/yr)</span><span class="conf e">&asymp;</span></td><td>MG Precise Price capped &mdash; get the schedule from the dealer</td><td>$725 / $747 / $725 per visit (~$366/yr)<span class="conf e">&asymp;</span></td><td>~$341/yr avg; $189/yr light-use plan<span class="conf e">&asymp;</span></td><td>Capped-price program &mdash; e-Vitara prices TBC</td></tr>
+      <tr><th>Roadside assistance</th><td>Extended with dealer servicing<span class="conf c">?</span></td><td>Up to 10 yrs with MG servicing<span class="conf e">&asymp;</span></td><td>24 months incl. (EV), extended with servicing</td><td>12 months incl., extendable at each service</td><td>Confirm with dealer</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="foot">
+    <p><strong>Notes:</strong> The e-Vitara brochure lists the Ultra's DC 10&ndash;80% time as &ldquo;5:30&rdquo; &mdash; almost certainly a misprint of the AC 3-phase time; Suzuki quotes ~45 min elsewhere. The MG brochure quotes the Essence 62 at 450 km WLTP; some Australian press quotes 425 km &mdash; ask MG which applies to current stock. Kona 0&ndash;100 times aren't in Hyundai's spec sheet, so those are press figures.</p>
+  </div>
+</section>
+
+<!-- ============ PANEL 4: DETAILS ============ -->
+<section class="panel" id="p-detail">
+  <h2>Each car in detail</h2>
+  <p class="lede">Tap a car to expand it. Each shows the model variants so you can see what the extra money buys.</p>
+
+  <details class="car" open>
+    <summary>Kia EV3 <span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <div class="variant-grid">
+        <div class="variant"><h4>Air Standard Range</h4><div class="vprice">$46,990 driveaway (offer)</div>
+          <ul><li>58.3 kWh battery &middot; 436 km</li><li>17&Prime; wheels, cloth seats</li><li>Wireless CarPlay, wireless charging, V2L</li><li>No power tailgate, no heated seats</li></ul></div>
+        <div class="variant"><h4>Air Long Range</h4><div class="vprice">~$53&ndash;55k driveaway (est.)</div>
+          <ul><li>81.4 kWh battery &middot; <b>604 km</b> &mdash; best here</li><li>Same equipment as Air SR</li><li><b>The value sweet spot for range</b></li></ul></div>
+        <div class="variant"><h4>Earth</h4><div class="vprice">~$60k driveaway (confirm)</div>
+          <ul><li>81.4 kWh &middot; 563 km (19&Prime; wheels)</li><li><b>Power tailgate</b>, heated &amp; ventilated seats, power driver seat, artificial leather</li></ul></div>
+        <div class="variant"><h4>GT-Line</h4><div class="vprice">$68,490 driveaway</div>
+          <ul><li>Adds <b>head-up display</b>, sunroof, Harman Kardon audio, premium relaxation seats</li></ul></div>
+      </div>
+      <dl class="kv">
+        <dt>Why it ranks first</dt><dd>Best range, best mainstream warranty (7 yrs, no strings), the cheapest servicing of the group, 5-star safety, and it's 230 mm shorter than the CX-5 with a <em>bigger</em> boot (460 L + 25 L frunk).</dd>
+        <dt>What to weigh up</dt><dd>Its NMC battery is best charged to 80% for daily use (set once in the menu and forget). The grades with the power tailgate and heated seats (Earth, GT-Line) push the price up notably.</dd>
+      </dl>
+      <div class="review-quote">Wheels named the EV3 the best electric option in the small SUV category for 2026, citing 7-year warranty and ~$261/year servicing.</div>
+      <div class="linkrow">
+        <a class="linkbtn" href="https://www.kia.com/au" target="_blank" rel="noopener">kia.com/au &mdash; official site (search &ldquo;EV3&rdquo;) &#8599;</a>
+        <a class="linkbtn" href="https://www.carsales.com.au/research/kia/ev3/" target="_blank" rel="noopener">carsales research page &#8599;</a>
+      </div>
+    </div>
+  </details>
+
+  <details class="car">
+    <summary>MG S5 EV <span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <div class="variant-grid">
+        <div class="variant"><h4>Essence 49</h4><div class="vprice">~$44k driveaway (est.)</div>
+          <ul><li>49 kWh LFP &middot; 335 km &middot; 125 kW</li><li>Full Essence kit: power tailgate w/ foot-kick, pano sunroof, heated seats &amp; wheel, wireless charging, 360&deg; camera</li></ul></div>
+        <div class="variant"><h4>Essence 62</h4><div class="vprice">$47&ndash;49k driveaway</div>
+          <ul><li>62 kWh LFP &middot; 450 km brochure (some press: 425 km) &middot; 150 kW</li><li>Same equipment, just more range &amp; power &mdash; <b>the one to get</b></li></ul></div>
+      </div>
+      <dl class="kv">
+        <dt>Why it ranks second</dt><dd>Nothing else gives this much standard equipment for under $50k. LFP battery = charge to 100% every night without a second thought. Physical climate buttons and a simple layout &mdash; reviewers literally praise it for being &ldquo;easy&rdquo;. Warranty can stretch to 10 years/250,000 km if serviced at MG.</dd>
+        <dt>What to weigh up</dt><dd>Home AC charging is 6.6 kW (fine overnight, just the slowest here). No head-up display, no frunk. iSMART app is free for only 12 months. Cheaper &ldquo;Excite&rdquo; grades exist but drop the tailgate/sunroof kit.</dd>
+      </dl>
+      <div class="review-quote">&ldquo;As a suburban or metropolitan daily driver, there&rsquo;s a lot to be said for just being &lsquo;easy&rsquo;, and the S5 meets the mark.&rdquo; &mdash; CarsGuide, May 2026</div>
+      <div class="linkrow">
+        <a class="linkbtn" href="https://mgmotor.com.au/products/mgs5-ev" target="_blank" rel="noopener">MG official S5 EV page &#8599;</a>
+        <a class="linkbtn" href="https://www.carsales.com.au/research/mg/mgs5-ev/" target="_blank" rel="noopener">carsales research page &#8599;</a>
+      </div>
+    </div>
+  </details>
+
+  <details class="car">
+    <summary>Hyundai Kona Electric <span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <div class="variant-grid">
+        <div class="variant"><h4>Standard Range</h4><div class="vprice">$45,990 driveaway (offer)</div>
+          <ul><li>48.6 kWh &middot; 370 km &middot; 99 kW</li><li>17&Prime; wheels, dual 12.3&Prime; screens, wireless CarPlay &amp; charging, V2L, space-saver spare</li></ul></div>
+        <div class="variant"><h4>Extended Range</h4><div class="vprice">$50,990 driveaway (offer)</div>
+          <ul><li>64.8 kWh &middot; <b>505 km</b> &middot; 150 kW</li><li>Same kit as SR &mdash; <b>the pick of the range</b></li></ul></div>
+        <div class="variant"><h4>Premium (ER)</h4><div class="vprice">$60,990 driveaway (offer)</div>
+          <ul><li>Adds <b>head-up display</b>, power smart tailgate, heated/ventilated leather seats, Bose audio, sunroof, 360&deg; camera</li><li>444 km on 19&Prime; wheels</li></ul></div>
+      </div>
+      <dl class="kv">
+        <dt>Why it ranks third</dt><dd>The most conventional, comfortable and quiet car here, from the biggest dealer network of the group. Current driveaway offers are genuinely sharp (~$13k below the old RRP). It even has a small frunk for the charging cables and a proper spare wheel &mdash; unique in this group.</dd>
+        <dt>What to weigh up</dt><dd><b>4-star ANCAP</b> (marked down on pedestrian protection and assist systems, not occupant safety). NMC battery prefers 80% daily charging. Two-yearly services cost more per visit ($725&ndash;747). The 7-year warranty requires servicing at Hyundai; otherwise it's 5 years.</dd>
+      </dl>
+      <div class="review-quote">&ldquo;A comfortable and relatively spacious small SUV with plenty of tech and good dynamics &mdash; and a recent price reduction makes it much more competitive.&rdquo; &mdash; carsales, Jan 2026</div>
+      <div class="linkrow">
+        <a class="linkbtn" href="https://www.hyundai.com/au/en/cars/eco/kona-electric" target="_blank" rel="noopener">Hyundai official Kona Electric page &#8599;</a>
+        <a class="linkbtn" href="https://www.hyundai.com/au/en/cars/suvs/kona/konahybrid" target="_blank" rel="noopener">Kona range overview &#8599;</a>
+      </div>
+    </div>
+  </details>
+
+  <details class="car">
+    <summary>BYD Atto 3 (current model) <span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <div class="variant-grid">
+        <div class="variant"><h4>Essential</h4><div class="vprice">~$43&ndash;44k driveaway</div>
+          <ul><li>49.9 kWh Blade LFP &middot; 345 km</li><li>12.8&Prime; rotating screen, wireless CarPlay, V2L, 360&deg; camera</li><li>DC charging capped at 70 kW</li></ul></div>
+        <div class="variant"><h4>Premium</h4><div class="vprice">~$48&ndash;49k driveaway</div>
+          <ul><li>60.5 kWh Blade LFP &middot; 420 km</li><li>15.6&Prime; screen, wireless phone charger, pano sunroof, electric tailgate one-touch open/close</li><li>DC charging 88 kW</li></ul></div>
+      </div>
+      <dl class="kv">
+        <dt>Why it ranks fourth</dt><dd>Proven (nearly 22,000 Australian sales), 5-star safe, cheap to run, and the Blade LFP battery is the gold standard for charge-to-100% convenience. Servicing averages ~$341/yr with a $189 light-use option.</dd>
+        <dt>What to weigh up</dt><dd>It's the oldest design here. Public fast-charging (70&ndash;88 kW) is the slowest of the group &mdash; fine for local driving, slower on road trips. Most controls live in the touchscreen. The warranty is 6 yrs/150,000 km with shorter periods on some components. And the heavily upgraded Evo replaces it within months &mdash; which also means runout deals on this model may appear.</dd>
+      </dl>
+      <div class="review-quote">&ldquo;Remains an interesting car that drives better than its looks imply.&rdquo; &mdash; Chasing Cars, 2026</div>
+      <div class="linkrow">
+        <a class="linkbtn" href="https://www.byd.com/au" target="_blank" rel="noopener">BYD Australia official site &#8599;</a>
+        <a class="linkbtn" href="https://www.carexpert.com.au/byd/atto-3" target="_blank" rel="noopener">CarExpert Atto 3 hub &#8599;</a>
+        <a class="linkbtn" href="https://www.carsales.com.au/research/byd/atto-3/" target="_blank" rel="noopener">carsales research page &#8599;</a>
+      </div>
+    </div>
+  </details>
+
+  <details class="car">
+    <summary>BYD Atto 3 Evo (arriving late 2026) <span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <dl class="kv">
+        <dt>What's confirmed so far (press reports &mdash; not yet in Australian showrooms)</dt>
+        <dd>Same footprint (4,455 mm long) but nearly all-new underneath: <b>74.8 kWh</b> Blade LFP battery (up from 49.9/60.5), switch to rear-wheel drive with <b>230 kW</b> (or 330 kW dual-motor AWD), boot grows to <b>490 L</b> plus a <b>101 L frunk</b>, 15.6&Prime; screen with Google built-in and AI assistant, larger 8.8&Prime; driver display, heated &amp; ventilated front seats, heated rear seats, pano sunroof. Charging port moves to the rear quarter.</dd>
+        <dt>What's not known</dt>
+        <dd>Price (expected to rise from today's $39,990/$44,990 list), exact arrival date (second half of 2026), range figure, ANCAP result, and equipment by grade. BYD confirmed it for Australia in May 2026.</dd>
+        <dt>Should you wait?</dt>
+        <dd>If there's no urgency, it's worth waiting for pricing before signing anything &mdash; either the Evo becomes the best car on this list, or the current Atto 3 gets discounted in runout. Either way you win by waiting a few months. If you need the car sooner, the EV3 and S5 don't require any waiting.</dd>
+      </dl>
+      <div class="review-quote">&ldquo;Never has such a mild facelift hidden such a huge amount of work. The Atto 3 Evo is almost an all-new car beneath.&rdquo; &mdash; CarExpert</div>
+      <div class="linkrow">
+        <a class="linkbtn" href="https://www.carsales.com.au/editorial/details/byd-atto-3-transformed-by-huge-evo-update-151412/" target="_blank" rel="noopener">carsales: full Evo details &#8599;</a>
+        <a class="linkbtn" href="https://www.byd.com/au" target="_blank" rel="noopener">BYD Australia (watch for launch) &#8599;</a>
+      </div>
+    </div>
+  </details>
+
+  <details class="car">
+    <summary>Suzuki e-Vitara <span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <div class="variant-grid">
+        <div class="variant"><h4>Motion (FWD)</h4><div class="vprice">$46,990 d/a launch price &mdash; likely ~$49,990 now (confirm)</div>
+          <ul><li>49 kWh LFP &middot; 344 km &middot; 106 kW</li><li>Wireless CarPlay, 360&deg; camera, sliding/reclining rear seats</li><li>No wireless charging, no sunroof, no power tailgate</li></ul></div>
+        <div class="variant"><h4>Ultra (AWD)</h4><div class="vprice">$56,990 d/a launch price &mdash; likely ~$58,990 now (confirm)</div>
+          <ul><li>61 kWh LFP &middot; 395 km &middot; 135 kW dual-motor AWD</li><li>Adds wireless charging, heated seats, sunroof, Infinity audio, adaptive high beam</li></ul></div>
+      </div>
+      <dl class="kv">
+        <dt>Why it ranks fifth</dt><dd>It's the friendliest package for parking and city driving &mdash; 265 mm shorter and 40 mm narrower than your CX-5 &mdash; from a brand with a trusted dealer network, and its LFP battery charges to 100% happily. The sliding rear bench is a clever touch.</dd>
+        <dt>What to weigh up</dt><dd>The shortest range here (344 km on the Motion), the smallest boot (~306 L &mdash; smaller than the CX-5), no power tailgate at any grade, a 4-star ANCAP rating, and pricing that overlaps with better-equipped rivals. The 11 kW AC charging is a nice spec but needs three-phase power to use.</dd>
+      </dl>
+      <div class="review-quote">Positioned against the Kia EV3, BYD Atto 2 and MG S5 &mdash; but at $46,990+ driveaway it costs more than several of them while offering less range and equipment.</div>
+      <div class="linkrow">
+        <a class="linkbtn" href="https://www.suzuki.com.au" target="_blank" rel="noopener">suzuki.com.au &mdash; official site (see &ldquo;e VITARA&rdquo;) &#8599;</a>
+        <a class="linkbtn" href="https://www.carsguide.com.au/car-news/2026-suzuki-e-vitara-compact-electric-suv-price-announced-for-australia-as-it-prepares-to" target="_blank" rel="noopener">CarsGuide: e-Vitara pricing news &#8599;</a>
+      </div>
+    </div>
+  </details>
+
+  <details class="car">
+    <summary>Your 2013 Mazda CX-5 (the baseline) <span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <dl class="kv">
+        <dt>Key figures</dt>
+        <dd>4,540 mm long &middot; 1,840 mm wide &middot; ~1,705 mm tall &middot; 403 L boot &middot; petrol AWD &middot; 5.8&Prime; screen, no CarPlay, no smart features.</dd>
+        <dt>What every car on this list improves on</dt>
+        <dd>Fuel cost (roughly $4&ndash;6 of electricity replaces ~$25 of petrol per 100 km at home-charging rates), servicing simplicity, safety technology (AEB, blind-spot, lane keeping &mdash; none of which the 2013 CX-5 has), a modern screen with CarPlay, and quietness.</dd>
+        <dt>What the CX-5 still does well</dt>
+        <dd>Slightly bigger boot than the S5/Kona/Atto 3? No &mdash; actually only the e-Vitara has a smaller boot. The CX-5's genuine advantages are: refuel anywhere in 5 minutes, higher seating position than most here (only the e-Vitara comes close), and zero learning curve.</dd>
+      </dl>
+    </div>
+  </details>
+</section>
+
+<!-- ============ PANEL 4: GARAGE FIT ============ -->
+<section class="panel" id="p-fit">
+  <h2>Will it fit the garage?</h2>
+  <p class="lede">Every bar shows the car's length. The red dashed line is your CX-5 &mdash; the longest thing that fits. <strong>All six candidates clear it.</strong> Bars are to scale (starting from 4,000&nbsp;mm so differences are easier to see).</p>
+
+  <div class="fit-panel chart-frame" id="fitchart">
+    <div class="limitline" style="left:90%"><span class="limitlab">CX-5 &middot; 4,540 mm</span></div>
+
+    <div class="car-row"><div class="name"><span>Your CX-5 (2013)</span><span class="mm">4,540 mm</span></div>
+      <div class="bigbar"><div class="fill cxfill" style="width:90%"></div></div></div>
+
+    <div class="car-row"><div class="name"><span>MG S5 EV</span><span class="mm">4,476 mm &middot; 64 mm to spare</span></div>
+      <div class="bigbar"><div class="fill" style="width:79.3%"></div></div></div>
+
+    <div class="car-row"><div class="name"><span>BYD Atto 3 / Atto 3 Evo</span><span class="mm">4,455 mm &middot; 85 mm to spare</span></div>
+      <div class="bigbar"><div class="fill" style="width:75.8%"></div></div></div>
+
+    <div class="car-row"><div class="name"><span>Hyundai Kona Electric</span><span class="mm">4,355 mm &middot; 185 mm to spare</span></div>
+      <div class="bigbar"><div class="fill" style="width:59.2%"></div></div></div>
+
+    <div class="car-row"><div class="name"><span>Kia EV3</span><span class="mm">4,310 mm &middot; 230 mm to spare</span></div>
+      <div class="bigbar"><div class="fill" style="width:51.7%"></div></div></div>
+
+    <div class="car-row"><div class="name"><span>Suzuki e-Vitara</span><span class="mm">4,275 mm &middot; 265 mm to spare</span></div>
+      <div class="bigbar"><div class="fill" style="width:45.8%"></div></div></div>
+  </div>
+
+  <div class="widthnote">
+    <strong>Width matters too.</strong> Your CX-5 is 1,840&nbsp;mm wide. The Kona (1,825&nbsp;mm) and e-Vitara (1,800&nbsp;mm) are narrower; the S5 (1,849&nbsp;mm) and EV3 (1,850&nbsp;mm) are within 1&nbsp;cm; the Atto 3 (1,875&nbsp;mm) is 35&nbsp;mm wider &mdash; worth checking if the garage is tight side-to-side or you open doors against a wall.
+    <br><br>
+    <strong>One practical tip before deciding:</strong> measure the garage's actual usable depth with the door closed, rather than relying on the CX-5 as the yardstick. Rear overhangs and tailgate shapes differ between cars, and you'll want room to walk past the boot. If the CX-5 currently fits with centimetres to spare, everything here fits with more.
+  </div>
+</section>
+
+<!-- ============ PANEL 5: HOW SCORED ============ -->
+<section class="panel" id="p-how">
+  <h2>How the scores were calculated</h2>
+  <p class="lede">Each car was marked out of 10 in six categories, weighted for a driver who mostly does local trips, values ease and safety, and will charge at home. The Atto 3 Evo isn't scored because its price, range and safety rating aren't confirmed.</p>
+
+  <div class="weights">
+    <div class="wcard"><b>Everyday ease &mdash; 25%</b><span>How easy to drive, park, get in and out of, and operate without wrestling menus.</span></div>
+    <div class="wcard"><b>Value for money &mdash; 20%</b><span>Equipment and quality per driveaway dollar.</span></div>
+    <div class="wcard"><b>Safety &mdash; 20%</b><span>ANCAP rating and standard safety technology.</span></div>
+    <div class="wcard"><b>Range &amp; charging &mdash; 15%</b><span>WLTP range, charging speed, and whether daily 100% charging is fine (LFP).</span></div>
+    <div class="wcard"><b>Ownership &mdash; 12%</b><span>Warranty length and clarity, servicing cost, dealer network.</span></div>
+    <div class="wcard"><b>Practicality &mdash; 8%</b><span>Boot, frunk, tailgate, cabin storage, rear-seat flexibility.</span></div>
+  </div>
+
+  <div class="table-scroll">
+  <table style="min-width:820px">
+    <thead>
+      <tr><th>Category</th><th>Kia EV3</th><th>MG S5</th><th>Kona Electric</th><th>Atto 3</th><th>e-Vitara</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>Everyday ease (25%)</th><td>8.5</td><td>8.5</td><td>9.0</td><td>6.5</td><td>8.5</td></tr>
+      <tr><th>Value (20%)</th><td>8.0</td><td>9.5</td><td>7.5</td><td>8.5</td><td>5.5</td></tr>
+      <tr><th>Safety (20%)</th><td>9.0</td><td>8.0</td><td>6.5</td><td>8.5</td><td>6.0</td></tr>
+      <tr><th>Range &amp; charging (15%)</th><td>9.5</td><td>7.5</td><td>8.0</td><td>7.5</td><td>6.0</td></tr>
+      <tr><th>Ownership (12%)</th><td>9.0</td><td>8.0</td><td>8.0</td><td>6.5</td><td>7.0</td></tr>
+      <tr><th>Practicality (8%)</th><td>8.5</td><td>8.0</td><td>7.5</td><td>7.5</td><td>5.5</td></tr>
+      <tr><th>Weighted total</th><td class="scorecell">8.7</td><td class="scorecell">8.3</td><td class="scorecell">7.8</td><td class="scorecell">7.5</td><td class="scorecell">6.6</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="widthnote" style="margin-top:22px">
+    <strong>A note on charging speed in these scores.</strong> Because charging will happen at home on a single-phase Type&nbsp;2 wallbox, DC fast-charging speed was given very little weight. On a typical 7&nbsp;kW home charger, <em>all six cars charge at effectively the same speed</em> (~6.6&ndash;7&nbsp;kW &mdash; the car's on-board charger or the wallbox is the limit, whichever is lower). The Atto&nbsp;3's slower DC charging therefore only matters on long road trips, and its Range &amp; Charging score reflects that (7.5, not the 6.5 a road-tripper would give it).
+    <br><br>
+    <strong>&ldquo;What if the Atto 3 Evo weren't coming?&rdquo;</strong> The Evo costs the current Atto&nbsp;3 points in two places: <em>Value</em> (buying a model months before replacement typically means a resale-value hit and paying full price for outgoing tech) and <em>Ownership</em> (the outgoing model's long-term software/parts priority is less certain). Remove the Evo from the picture and those recover to Value&nbsp;9.0 and Ownership&nbsp;7.0, giving a weighted total of <strong>7.7</strong> &mdash; essentially level with the Kona Electric, but still behind the EV3 and S5. That's because the Atto&nbsp;3's biggest remaining deduction is unrelated to the Evo: its Everyday Ease score (6.5) reflects a screen-heavy control layout, plus the fine-print component warranties. In short: yes, the Evo drags the score down by about 0.2, but it isn't why the Atto&nbsp;3 sits fourth.
+  </div>
+
+  <div class="foot">
+    <p><strong>Data confidence &amp; sources.</strong> Dimensions, screens, tailgates, batteries, charging speeds and equipment lists marked <span class="conf v">&#10003;</span> come directly from each manufacturer's Australian brochure or spec sheet (July 2026 versions). Prices, warranties, ANCAP ratings and servicing costs marked <span class="conf e">&asymp;</span> come from Australian motoring press (carsales, CarExpert, CarsGuide, Wheels, Chasing Cars, RACV) and are current as of early July 2026. Anything marked <span class="conf c">?</span> should be confirmed with the dealer before purchase.</p>
+    <p><strong>Driveaway prices for postcode 3140 (Lilydale VIC):</strong> the figures shown are national or indicative driveaway prices. Victorian registration, stamp duty and CTP differ slightly from other states, and dealers discount &mdash; treat every price here as &ldquo;within about $1,000&rdquo; and get written quotes for the final two or three cars.</p>
+    <p><strong>Battery note in plain English:</strong> LFP batteries (MG, BYD, Suzuki) are happiest charged to 100% regularly &mdash; plug in, forget. NMC batteries (Kia, Hyundai) last longest if the daily charge limit is set to ~80%, charging to 100% only before longer trips. Both are set once in the car's menu.</p>
+    <p><strong>Scores are one informed opinion,</strong> weighted for local family driving with home charging. Different priorities (e.g. lowest price above all: MG S5; brand familiarity: Suzuki or Hyundai) would reorder the list &mdash; the side-by-side table is there so you can judge on the criteria that matter most to you.</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('section.panel');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.panel).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }));
+</script>
+</body>
+</html>
