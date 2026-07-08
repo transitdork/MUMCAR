@@ -1,0 +1,12 @@
+{
+  "name": "Mum's EV Comparison",
+  "short_name": "EV Compare",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F2F5F3",
+  "theme_color": "#0E7B5B",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

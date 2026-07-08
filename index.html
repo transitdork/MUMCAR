@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Choosing Your Next Car — EV Comparison</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E7B5B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EV Comparison">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="favicon-32.png">
 <style>
   :root{
     --paper:#F2F5F3;--card:#FFFFFF;--ink:#182B26;--ink-soft:#4A5F58;--line:#D8E2DD;
@@ -120,6 +130,86 @@
   .linkbtn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;background:var(--blue-soft);color:var(--blue);
     font-weight:700;font-size:.85rem;border-radius:999px;padding:9px 16px;min-height:40px;border:1px solid #CBDCEB}
   .linkbtn:active{opacity:.7}
+  /* ---------- shortlist / filter bar ---------- */
+  .shortlist-wrap{margin-top:16px}
+  .shortlist-toggle-btn{
+    display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--line);
+    border-radius:14px;padding:12px 16px;font-weight:700;font-size:.92rem;cursor:pointer;min-height:44px;width:100%;
+  }
+  .shortlist-toggle-btn .chev{transition:transform .2s;color:var(--ink-soft)}
+  .shortlist-toggle-btn.open .chev{transform:rotate(180deg)}
+  .shortlist-panel{display:none;background:var(--card);border:1.5px solid var(--line);border-top:none;
+    border-radius:0 0 14px 14px;padding:14px 16px 16px;margin-top:-2px}
+  .shortlist-panel.open{display:block}
+  .shortlist-hide-row{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line);font-size:.9rem;font-weight:650}
+  .switch{position:relative;display:inline-block;width:46px;height:26px;flex:none}
+  .switch input{opacity:0;width:0;height:0}
+  .slider{position:absolute;cursor:pointer;inset:0;background:#CFD9D4;border-radius:999px;transition:.2s}
+  .slider:before{position:absolute;content:"";height:20px;width:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+  input:checked + .slider{background:var(--green)}
+  input:checked + .slider:before{transform:translateX(20px)}
+  .shortlist-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media(min-width:600px){.shortlist-grid{grid-template-columns:1fr 1fr 1fr}}
+  .vchip{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid var(--line);border-radius:12px;font-size:.85rem;font-weight:650;min-height:40px}
+  .vchip input{width:18px;height:18px;flex:none;accent-color:var(--green)}
+  .vchip.is-withdrawn{opacity:.5}
+  .shortlist-actions{display:flex;gap:8px;margin-top:12px}
+  .mini-btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 14px;font-size:.8rem;font-weight:700;cursor:pointer}
+
+  /* hide/grey states applied to any data-vid element */
+  body.hide-mode [data-vid].is-unselected{display:none!important}
+  [data-vid].is-unselected{opacity:.32;filter:grayscale(65%);pointer-events:none}
+  [data-vid].is-unselected .linkrow, [data-vid].is-unselected summary{pointer-events:auto}
+
+  /* ---------- company & warranty cards ---------- */
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:14px}
+  .info-card h3{font-size:1.1rem;font-weight:800;margin-bottom:2px}
+  .info-card .sub2{font-size:.85rem;color:var(--ink-soft);font-weight:650;margin-bottom:10px}
+  .badge-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .badge{font-size:.76rem;font-weight:800;border-radius:999px;padding:3px 10px;letter-spacing:.02em}
+  .badge.est{background:var(--green-soft);color:var(--green)}
+  .badge.grow{background:var(--blue-soft);color:var(--blue)}
+  .badge.new{background:var(--amber-soft);color:var(--amber)}
+  .badge.caution{background:var(--red-soft);color:var(--red)}
+  .info-card p{font-size:.94rem;margin-bottom:8px}
+  .info-card .flag{background:var(--red-soft);border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:8px 12px;font-size:.9rem;margin-top:8px}
+  .info-card .good-flag{background:var(--green-soft);border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:8px 12px;font-size:.9rem;margin-top:8px}
+
+  /* ---------- warranty mini table ---------- */
+  .wtable{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
+  .wtable th,.wtable td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+  .wtable th{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+
+  /* ---------- gallery ---------- */
+  .gallery-group{margin-bottom:28px}
+  .gallery-group h3{font-size:1.1rem;font-weight:800;margin-bottom:10px}
+  .gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(min-width:640px){.gallery-grid{grid-template-columns:1fr 1fr 1fr}}
+  .gcard{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .gcard .imgbox{aspect-ratio:4/3;background:#EEF2F0;overflow:hidden}
+  .gcard .imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+  .gcard .cap{padding:8px 10px;font-size:.82rem;font-weight:700}
+  .gcard .cap small{display:block;font-weight:500;color:var(--ink-soft);font-size:.72rem;margin-top:1px}
+  .gcard.missing .imgbox{display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:.78rem;text-align:center;padding:10px}
+
+  /* ---------- checklist ---------- */
+  .checklist-section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:16px}
+  .checklist-section h3{font-size:1.02rem;font-weight:800;margin-bottom:10px}
+  .cl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #EEF2F0}
+  .cl-item:last-child{border-bottom:none}
+  .cl-item input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--green)}
+  .cl-item label{font-size:.92rem}
+  .cl-item label b{display:block;font-size:.92rem}
+  .cl-item label span{color:var(--ink-soft);font-size:.85rem}
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px}
+  .notes-card h4{font-size:.98rem;font-weight:800;margin-bottom:8px}
+  .notes-card textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+    font-family:inherit;font-size:.92rem;resize:vertical;background:#FAFCFB}
+  .notes-card textarea:focus{outline:2px solid var(--green);outline-offset:1px}
+  .save-indicator{font-size:.76rem;color:var(--green);font-weight:700;opacity:0;transition:opacity .3s;margin-top:4px}
+  .save-indicator.show{opacity:1}
+
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -132,6 +222,24 @@
   <p class="sub">Every car here is <strong>shorter than your 2013 Mazda CX-5</strong>, so all of them fit the garage. Tap the buttons to see the ranking, the full side-by-side, and how each measures up against the CX-5 for length and width.</p>
   <div class="garage-note"><span class="dash"></span> Garage limit = your CX-5&rsquo;s length: <strong>&nbsp;4,540&nbsp;mm</strong></div>
   <div class="draft">Full version &middot; ranking, side-by-side, every spec, garage fit &amp; scoring for all 11 cars</div>
+
+  <div class="shortlist-wrap">
+    <button class="shortlist-toggle-btn" id="shortlistBtn" type="button">
+      <span>⭐ Which cars are you still considering?</span>
+      <span class="chev">▾</span>
+    </button>
+    <div class="shortlist-panel" id="shortlistPanel">
+      <div class="shortlist-hide-row">
+        <span>Hide the ones I'm not considering (instead of just greying them out)</span>
+        <label class="switch"><input type="checkbox" id="hideModeToggle"><span class="slider"></span></label>
+      </div>
+      <div class="shortlist-grid" id="shortlistGrid"><!-- filled by JS --></div>
+      <div class="shortlist-actions">
+        <button class="mini-btn" id="selectAllBtn" type="button">Select all</button>
+        <button class="mini-btn" id="selectNoneBtn" type="button">Clear all</button>
+      </div>
+    </div>
+  </div>
 </header>
 
 <nav class="tabs">
@@ -141,6 +249,10 @@
     <button class="tab" data-panel="p-deep">3&nbsp;&middot;&nbsp;Every spec &amp; each car</button>
     <button class="tab" data-panel="p-fit">4&nbsp;&middot;&nbsp;Will it fit?</button>
     <button class="tab" data-panel="p-how">5&nbsp;&middot;&nbsp;How the scores work</button>
+    <button class="tab" data-panel="p-company">6&nbsp;&middot;&nbsp;Company &amp; support</button>
+    <button class="tab" data-panel="p-warranty">7&nbsp;&middot;&nbsp;Warranty details</button>
+    <button class="tab" data-panel="p-gallery">8&nbsp;&middot;&nbsp;Photo gallery</button>
+    <button class="tab" data-panel="p-checklist">9&nbsp;&middot;&nbsp;Test drive checklist</button>
   </div>
 </nav>
 
@@ -151,7 +263,7 @@
 
   <div class="rank-grid">
 
-    <div class="rank-card first">
+    <div class="rank-card first" data-vid="ev3">
       <div class="rank-top"><div>
         <div class="rank-pos">1st &middot; Best overall</div>
         <h3>Kia EV3</h3>
@@ -163,7 +275,7 @@
       <div class="fitbar"><div class="fill" style="width:94.9%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="b10">
       <div class="rank-top"><div>
         <div class="rank-pos">2nd &middot; Best value</div>
         <h3>Leapmotor B10</h3>
@@ -175,7 +287,7 @@
       <div class="fitbar"><div class="fill tight" style="width:99.4%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="mg">
       <div class="rank-top"><div>
         <div class="rank-pos">3rd &middot; Most kit per dollar</div>
         <h3>MG S5 EV</h3>
@@ -187,7 +299,7 @@
       <div class="fitbar"><div class="fill" style="width:98.6%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="kona">
       <div class="rank-top"><div>
         <div class="rank-pos">4th &middot; Most familiar-feeling</div>
         <h3>Hyundai Kona Electric</h3>
@@ -199,9 +311,21 @@
       <div class="fitbar"><div class="fill" style="width:95.9%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="ex40">
       <div class="rank-top"><div>
-        <div class="rank-pos">5th &middot; Most premium</div>
+        <div class="rank-pos">5th &middot; Biggest step up in size</div>
+        <h3>Volvo EX40</h3>
+        <div class="rank-variant">Pick: Single Motor Extended Range &middot; from ~$70k before on-roads</div>
+      </div><div class="score-badge"><div class="num">7.7</div><div class="of">/ 10</div></div></div>
+      <p class="why">EX30's bigger sibling (the renamed XC40 Recharge): a genuinely roomier cabin, the longest range of any Volvo here (520&nbsp;km), a proper 410&nbsp;L boot, and &mdash; uniquely in this whole comparison &mdash; <strong>5 years of servicing included free</strong>, not just capped. The catch is price: at roughly $10&ndash;20k more than everything else here, it's really competing with the Tesla Model Y and BMW iX1, not the rest of this list.</p>
+      <div class="chips"><span class="chip pro">520 km range</span><span class="chip pro">Free 5-yr servicing</span><span class="chip pro">5-star &middot; roomy</span><span class="chip con">Priciest by a wide margin</span><span class="chip con">Older platform &amp; smaller screen than EX30</span></div>
+      <div class="fitline"><div class="lab"><span>4,440 mm long</span><span>100 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:97.8%"></div><div class="limit"></div></div></div>
+    </div>
+
+    <div class="rank-card" data-vid="ex30">
+      <div class="rank-top"><div>
+        <div class="rank-pos">6th &middot; Most premium for the size</div>
         <h3>Volvo EX30</h3>
         <div class="rank-variant">Pick: Single Motor Extended Range Plus &middot; from ~$50k</div>
       </div><div class="score-badge"><div class="num">7.6</div><div class="of">/ 10</div></div></div>
@@ -211,9 +335,9 @@
       <div class="fitbar"><div class="fill" style="width:93.2%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="atto3">
       <div class="rank-top"><div>
-        <div class="rank-pos">6th &middot; Proven &amp; roomy</div>
+        <div class="rank-pos">7th &middot; Proven &amp; roomy</div>
         <h3>BYD Atto 3</h3>
         <div class="rank-variant">Pick: Premium &middot; ~$48&ndash;49k driveaway</div>
       </div><div class="score-badge"><div class="num">7.5</div><div class="of">/ 10</div></div></div>
@@ -223,9 +347,9 @@
       <div class="fitbar"><div class="fill" style="width:98.1%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="zeekr">
       <div class="rank-top"><div>
-        <div class="rank-pos">7th &middot; Most tech for money</div>
+        <div class="rank-pos">8th &middot; Most tech for money</div>
         <h3>Zeekr X</h3>
         <div class="rank-variant">Pick: RWD &middot; $48,900 driveaway (MY26)</div>
       </div><div class="score-badge"><div class="num">7.4</div><div class="of">/ 10</div></div></div>
@@ -235,9 +359,9 @@
       <div class="fitbar"><div class="fill" style="width:97.6%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="megane">
       <div class="rank-top"><div>
-        <div class="rank-pos">8th &middot; The odd one out</div>
+        <div class="rank-pos">9th &middot; The odd one out</div>
         <h3>Renault Megane E-Tech</h3>
         <div class="rank-variant">Single Techno &middot; ~$49,990&ndash;54,990 driveaway</div>
       </div><div class="score-badge"><div class="num">7.0</div><div class="of">/ 10</div></div></div>
@@ -247,9 +371,9 @@
       <div class="fitbar"><div class="fill" style="width:92.5%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="evitara">
       <div class="rank-top"><div>
-        <div class="rank-pos">9th &middot; Easiest to park</div>
+        <div class="rank-pos">10th &middot; Easiest to park</div>
         <h3>Suzuki e-Vitara</h3>
         <div class="rank-variant">Pick: Motion &middot; ~$49,990 driveaway (confirm)</div>
       </div><div class="score-badge"><div class="num">6.6</div><div class="of">/ 10</div></div></div>
@@ -259,19 +383,17 @@
       <div class="fitbar"><div class="fill" style="width:94.2%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" style="background:#F6F8F7;border-style:dashed" data-vid="e2008">
       <div class="rank-top"><div>
-        <div class="rank-pos">10th &middot; Dated</div>
-        <h3>Peugeot e-2008</h3>
-        <div class="rank-variant">GT &middot; pricing to confirm (likely runout)</div>
-      </div><div class="score-badge"><div class="num">6.4</div><div class="of">/ 10</div></div></div>
-      <p class="why">Stylish and pleasant, with a decent 434&nbsp;L boot and 11&nbsp;kW home charging. But the numbers date it: the <em>shortest range of all eleven</em> (328&nbsp;km), only a 180&deg; reversing camera (no 360&deg; &mdash; a real miss for a tight garage), and the divisive small-wheel &ldquo;i-Cockpit&rdquo;. The 2024-dated brochure suggests it&rsquo;s near end-of-life.</p>
-      <div class="chips"><span class="chip pro">Good boot &middot; 11 kW charging</span><span class="chip pro">Peugeot dealer network</span><span class="chip con">Shortest range (328 km)</span><span class="chip con">No 360&deg; camera</span><span class="chip con">Dated</span></div>
-      <div class="fitline"><div class="lab"><span>4,300 mm long</span><span>240 mm shorter than CX-5</span></div>
-      <div class="fitbar"><div class="fill" style="width:94.7%"></div><div class="limit"></div></div></div>
+        <div class="rank-pos" style="color:var(--red)">No longer available</div>
+        <h3 style="color:var(--ink-soft)">Peugeot e-2008</h3>
+        <div class="rank-variant">Withdrawn from sale in Australia</div>
+      </div><div class="score-badge" style="background:#E8EFEA"><div class="num" style="color:var(--ink-soft)">&mdash;</div><div class="of" style="color:var(--ink-soft)">withdrawn</div></div></div>
+      <p class="why">Peugeot Australia has <strong>dropped its electric passenger cars</strong> &mdash; the e-2008 has been removed from its website, the original stock was cleared with heavy discounts, and the promised longer-range version was cancelled. Peugeot&rsquo;s only EVs here now are two vans. It&rsquo;s kept in the comparison tabs for reference, but it isn&rsquo;t a car you can buy new today, so it&rsquo;s no longer ranked.</p>
+      <div class="chips"><span class="chip con">Removed from Peugeot AU website</span><span class="chip con">No electric SUV in the range</span></div>
     </div>
 
-    <div class="rank-card">
+    <div class="rank-card" data-vid="attoevo">
       <div class="rank-top"><div>
         <div class="rank-pos">Wildcard &middot; Worth waiting for?</div>
         <h3>BYD Atto 3 Evo</h3>
@@ -306,361 +428,63 @@
         <th>Leapmotor B10<small>Style / Design LR</small></th>
         <th>MG S5 EV<small>Essence 49 / 62</small></th>
         <th>Kona Electric<small>SR / ER / Premium</small></th>
+        <th>Volvo EX40<small>Single Motor / Twin</small></th>
         <th>Volvo EX30<small>Single Motor / Twin</small></th>
         <th>BYD Atto 3<small>Essential / Premium</small></th>
         <th>Zeekr X<small>RWD / AWD (MY26)</small></th>
         <th>Renault Megane<small>Techno</small></th>
         <th>Suzuki e-Vitara<small>Motion / Ultra</small></th>
-        <th>Peugeot e-2008<small>GT</small></th>
+        <th style="color:#B9CFC7">Peugeot e-2008<small>GT &middot; no longer sold</small></th>
         <th>Atto 3 Evo<small>late 2026</small></th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <th>Score &amp; rank</th>
-        <td class="cx5">baseline</td>
-        <td class="scorecell">8.7 &middot; 1st</td>
-        <td class="scorecell">8.4 &middot; 2nd</td>
-        <td class="scorecell">8.3 &middot; 3rd</td>
-        <td class="scorecell">7.8 &middot; 4th</td>
-        <td class="scorecell">7.6 &middot; 5th</td>
-        <td class="scorecell">7.5 &middot; 6th</td>
-        <td class="scorecell">7.4 &middot; 7th</td>
-        <td class="scorecell">7.0 &middot; 8th</td>
-        <td class="scorecell">6.6 &middot; 9th</td>
-        <td class="scorecell">6.4 &middot; 10th</td>
-        <td class="scorecell">TBC</td>
-      </tr>
+        <th>Score &amp; rank</th><td class="cx5">baseline</td><td class="scorecell">8.7 &middot; 1st</td><td class="scorecell">8.4 &middot; 2nd</td><td class="scorecell">8.3 &middot; 3rd</td><td class="scorecell">7.8 &middot; 4th</td><td class="scorecell">7.7 &middot; 5th</td><td class="scorecell">7.6 &middot; 5th</td><td class="scorecell">7.5 &middot; 6th</td><td class="scorecell">7.4 &middot; 7th</td><td class="scorecell">7.0 &middot; 8th</td><td class="scorecell">6.6 &middot; 9th</td><td class="scorecell" style="color:var(--red);font-size:.85rem">Withdrawn</td><td class="scorecell">TBC</td></tr>
       <tr>
-        <th>Driveaway cost<br><span class="muted" style="font-weight:500">(3140, estimates &mdash; get quotes)</span></th>
-        <td class="cx5">&mdash; (owned)</td>
-        <td>$46,990 SR offer &middot; ~$53&ndash;55k LR &middot; $68,490 GT-Line<span class="conf e">&asymp;</span></td>
-        <td>~$38,990 Style &middot; ~$41,990 Design LR<span class="conf e">&asymp;</span></td>
-        <td>~$44k / $47&ndash;49k<span class="conf e">&asymp;</span></td>
-        <td>$45,990 / $50,990 / $60,990<span class="conf e">&asymp;</span></td>
-        <td>from ~$50k (RWD) to $62,990 (Cross Country)<span class="conf e">&asymp;</span></td>
-        <td>~$43&ndash;44k / ~$48&ndash;49k<span class="conf e">&asymp;</span></td>
-        <td>$48,900 / $57,900 driveaway<span class="conf e">&asymp;</span></td>
-        <td>$49,990 offer (was $54,990)<span class="conf e">&asymp;</span></td>
-        <td>~$49,990 / ~$58,990<span class="conf c">?</span></td>
-        <td>~$55&ndash;60k GT &mdash; check runout deals<span class="conf c">?</span></td>
-        <td>Not announced<span class="conf c">?</span></td>
-      </tr>
+        <th>Driveaway cost<br><span class="muted" style="font-weight:500">(estimates &mdash; get local quotes)</span></th><td class="cx5">&mdash; (owned)</td><td>$46,990 SR offer &middot; ~$53&ndash;55k LR &middot; $68,490 GT-Line<span class="conf e">&asymp;</span></td><td>~$38,990 Style &middot; ~$41,990 Design LR<span class="conf e">&asymp;</span></td><td>~$44k / $47&ndash;49k<span class="conf e">&asymp;</span></td><td>$45,990 / $50,990 / $60,990<span class="conf e">&asymp;</span></td><td>~$74&ndash;77k (Single Motor) / ~$79&ndash;82k (Twin Motor) est.<span class="conf e">&asymp;</span></td><td>from ~$50k (RWD) to $62,990 (Cross Country)<span class="conf e">&asymp;</span></td><td>~$43&ndash;44k / ~$48&ndash;49k<span class="conf e">&asymp;</span></td><td>$48,900 / $57,900 driveaway<span class="conf e">&asymp;</span></td><td>$49,990 offer (was $54,990)<span class="conf e">&asymp;</span></td><td>~$49,990 / ~$58,990<span class="conf c">?</span></td><td class="bad">No longer sold in Australia<span class="conf v">&#10003;</span></td><td>Not announced<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Car length</th>
-        <td class="cx5">4,540 mm</td>
-        <td><span class="good">4,310 mm</span><span class="conf v">&#10003;</span></td>
-        <td class="bad">4,515 mm<span class="conf v">&#10003;</span></td>
-        <td>4,476 mm<span class="conf v">&#10003;</span></td>
-        <td>4,355 mm<span class="conf v">&#10003;</span></td>
-        <td><span class="good">4,233 mm</span><span class="conf e">&asymp;</span></td>
-        <td>4,455 mm<span class="conf v">&#10003;</span></td>
-        <td>4,432 mm<span class="conf e">&asymp;</span></td>
-        <td><span class="good">4,200 mm</span><span class="conf e">&asymp;</span></td>
-        <td>4,275 mm<span class="conf v">&#10003;</span></td>
-        <td>4,300 mm<span class="conf v">&#10003;</span></td>
-        <td>4,455 mm<span class="conf e">&asymp;</span></td>
-      </tr>
+        <th>Car length</th><td class="cx5">4,540 mm</td><td><span class="good">4,310 mm</span><span class="conf v">&#10003;</span></td><td class="bad">4,515 mm<span class="conf v">&#10003;</span></td><td>4,476 mm<span class="conf v">&#10003;</span></td><td>4,355 mm<span class="conf v">&#10003;</span></td><td>4,440 mm<span class="conf v">&#10003;</span></td><td><span class="good">4,233 mm</span><span class="conf e">&asymp;</span></td><td>4,455 mm<span class="conf v">&#10003;</span></td><td>4,432 mm<span class="conf e">&asymp;</span></td><td><span class="good">4,200 mm</span><span class="conf e">&asymp;</span></td><td>4,275 mm<span class="conf v">&#10003;</span></td><td>4,300 mm<span class="conf v">&#10003;</span></td><td>4,455 mm<span class="conf e">&asymp;</span></td></tr>
       <tr>
-        <th>Width (excl. mirrors)</th>
-        <td class="cx5">1,840 mm</td>
-        <td>1,850 mm<span class="conf v">&#10003;</span></td>
-        <td class="bad">1,885 mm (widest)<span class="conf v">&#10003;</span></td>
-        <td>1,849 mm<span class="conf v">&#10003;</span></td>
-        <td>1,825 mm<span class="conf v">&#10003;</span></td>
-        <td>1,837 mm<span class="conf e">&asymp;</span></td>
-        <td>1,875 mm<span class="conf v">&#10003;</span></td>
-        <td>1,836 mm<span class="conf e">&asymp;</span></td>
-        <td>1,860 mm<span class="conf e">&asymp;</span></td>
-        <td><span class="good">1,800 mm</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">1,815 mm</span><span class="conf v">&#10003;</span></td>
-        <td>1,875 mm<span class="conf e">&asymp;</span></td>
-      </tr>
+        <th>Width (excl. mirrors)</th><td class="cx5">1,840 mm</td><td>1,850 mm<span class="conf v">&#10003;</span></td><td class="bad">1,885 mm (widest)<span class="conf v">&#10003;</span></td><td>1,849 mm<span class="conf v">&#10003;</span></td><td>1,825 mm<span class="conf v">&#10003;</span></td><td>1,873 mm<span class="conf v">&#10003;</span></td><td>1,837 mm<span class="conf e">&asymp;</span></td><td>1,875 mm<span class="conf v">&#10003;</span></td><td>1,836 mm<span class="conf e">&asymp;</span></td><td>1,860 mm<span class="conf e">&asymp;</span></td><td><span class="good">1,800 mm</span><span class="conf v">&#10003;</span></td><td><span class="good">1,815 mm</span><span class="conf v">&#10003;</span></td><td>1,875 mm<span class="conf e">&asymp;</span></td></tr>
       <tr>
-        <th>Height / step-in feel</th>
-        <td class="cx5">~1,705 mm &middot; high, easy</td>
-        <td>1,560&ndash;1,570 mm &middot; low<span class="conf v">&#10003;</span></td>
-        <td><span class="good">1,665 mm &middot; tall</span><span class="conf v">&#10003;</span></td>
-        <td>1,621 mm &middot; mid<span class="conf v">&#10003;</span></td>
-        <td>1,580 mm &middot; low-ish<span class="conf v">&#10003;</span></td>
-        <td>1,549 mm &middot; low<span class="conf e">&asymp;</span></td>
-        <td>1,615 mm &middot; mid<span class="conf v">&#10003;</span></td>
-        <td>1,566 mm &middot; low-ish<span class="conf e">&asymp;</span></td>
-        <td><span class="bad">1,505 mm &middot; lowest (hatch)</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">1,635 mm &middot; tallest</span><span class="conf v">&#10003;</span></td>
-        <td>1,550 mm &middot; low<span class="conf v">&#10003;</span></td>
-        <td>1,615 mm<span class="conf e">&asymp;</span></td>
-      </tr>
+        <th>Height / step-in feel</th><td class="cx5">~1,705 mm &middot; high, easy</td><td>1,560&ndash;1,570 mm &middot; low<span class="conf v">&#10003;</span></td><td><span class="good">1,665 mm &middot; tall</span><span class="conf v">&#10003;</span></td><td>1,621 mm &middot; mid<span class="conf v">&#10003;</span></td><td>1,580 mm &middot; low-ish<span class="conf v">&#10003;</span></td><td>1,647 mm &middot; tallish, easy<span class="conf v">&#10003;</span></td><td>1,549 mm &middot; low<span class="conf e">&asymp;</span></td><td>1,615 mm &middot; mid<span class="conf v">&#10003;</span></td><td>1,566 mm &middot; low-ish<span class="conf e">&asymp;</span></td><td><span class="bad">1,505 mm &middot; lowest (hatch)</span><span class="conf e">&asymp;</span></td><td><span class="good">1,635 mm &middot; tallest</span><span class="conf v">&#10003;</span></td><td>1,550 mm &middot; low<span class="conf v">&#10003;</span></td><td>1,615 mm<span class="conf e">&asymp;</span></td></tr>
       <tr>
-        <th>Boot / front trunk</th>
-        <td class="cx5">403 L / none</td>
-        <td>460 L / 25 L frunk<span class="conf v">&#10003;</span></td>
-        <td><span class="good">490 L</span> / none<span class="conf v">&#10003;</span></td>
-        <td>453 L / none<span class="conf v">&#10003;</span></td>
-        <td>407 L / 27 L frunk<span class="conf v">&#10003;</span></td>
-        <td><span class="bad">318 L</span> / 7 L frunk<span class="conf e">&asymp;</span></td>
-        <td>440 L / none<span class="conf v">&#10003;</span></td>
-        <td>404 L / none<span class="conf e">&asymp;</span></td>
-        <td>440 L / none<span class="conf v">&#10003;</span></td>
-        <td><span class="bad">~306 L</span> / none<span class="conf e">&asymp;</span></td>
-        <td>434 L / none<span class="conf v">&#10003;</span></td>
-        <td><span class="good">490 L + 101 L frunk</span><span class="conf e">&asymp;</span></td>
-      </tr>
+        <th>Boot / front trunk</th><td class="cx5">403 L / none</td><td>460 L / 25 L frunk<span class="conf v">&#10003;</span></td><td><span class="good">490 L</span> / none<span class="conf v">&#10003;</span></td><td>453 L / none<span class="conf v">&#10003;</span></td><td>407 L / 27 L frunk<span class="conf v">&#10003;</span></td><td>410 L (1,400 L folded) / 31 L frunk<span class="conf v">&#10003;</span></td><td><span class="bad">318 L</span> / 7 L frunk<span class="conf e">&asymp;</span></td><td>440 L / none<span class="conf v">&#10003;</span></td><td>404 L / none<span class="conf e">&asymp;</span></td><td>440 L / none<span class="conf v">&#10003;</span></td><td><span class="bad">~306 L</span> / none<span class="conf e">&asymp;</span></td><td>434 L / none<span class="conf v">&#10003;</span></td><td><span class="good">490 L + 101 L frunk</span><span class="conf e">&asymp;</span></td></tr>
       <tr>
-        <th>Auto (power) tailgate</th>
-        <td class="cx5">Manual</td>
-        <td>Earth &amp; GT-Line<span class="conf v">&#10003;</span></td>
-        <td>Design LR<span class="conf v">&#10003;</span></td>
-        <td><span class="good">Std, foot-kick</span><span class="conf v">&#10003;</span></td>
-        <td>Premium only<span class="conf v">&#10003;</span></td>
-        <td><span class="good">Standard</span><span class="conf e">&asymp;</span></td>
-        <td>Premium (one-touch)<span class="conf v">&#10003;</span></td>
-        <td><span class="good">Standard</span><span class="conf e">&asymp;</span></td>
-        <td>Confirm<span class="conf c">?</span></td>
-        <td><span class="bad">No</span><span class="conf v">&#10003;</span></td>
-        <td><span class="bad">No</span><span class="conf v">&#10003;</span></td>
-        <td>Expected<span class="conf c">?</span></td>
-      </tr>
+        <th>Auto (power) tailgate</th><td class="cx5">Manual</td><td>Earth &amp; GT-Line<span class="conf v">&#10003;</span></td><td>Design LR<span class="conf v">&#10003;</span></td><td><span class="good">Std, foot-kick</span><span class="conf v">&#10003;</span></td><td>Premium only<span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf e">&asymp;</span></td><td>Premium (one-touch)<span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf e">&asymp;</span></td><td>Confirm<span class="conf c">?</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td>Expected<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Parking tech &amp; 360&deg; camera<br><span class="muted" style="font-weight:500">key for a tight garage</span></th>
-        <td class="cx5">Rear sensors only</td>
-        <td><span class="bad">No 360&deg;</span> (sensors + rear cam)<span class="conf v">&#10003;</span></td>
-        <td><span class="good">360&deg; + dashcam std</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td>
-        <td>360&deg; + self-park on Premium; rear cam below<span class="conf v">&#10003;</span></td>
-        <td><span class="good">360&deg; + semi-auto park</span> (Plus has park cam)<span class="conf e">&asymp;</span></td>
-        <td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">360&deg; + remote self-park</span><span class="conf e">&asymp;</span></td>
-        <td>360&deg; likely (Techno) &mdash; confirm<span class="conf c">?</span></td>
-        <td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td>
-        <td><span class="bad">180&deg; rear cam only</span><span class="conf v">&#10003;</span></td>
-        <td>360&deg; expected<span class="conf c">?</span></td>
-      </tr>
+        <th>Parking tech &amp; 360&deg; camera<br><span class="muted" style="font-weight:500">key for a tight garage</span></th><td class="cx5">Rear sensors only</td><td><span class="bad">No 360&deg;</span> (sensors + rear cam)<span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + dashcam std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td>360&deg; + self-park on Premium; rear cam below<span class="conf v">&#10003;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + semi-auto park</span> (Plus has park cam)<span class="conf e">&asymp;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + remote self-park</span><span class="conf e">&asymp;</span></td><td>360&deg; likely (Techno) &mdash; confirm<span class="conf c">?</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="bad">180&deg; rear cam only</span><span class="conf v">&#10003;</span></td><td>360&deg; expected<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Warning &ldquo;bing-bongs&rdquo; &amp; how easy to quieten</th>
-        <td class="cx5">None (no modern alerts)</td>
-        <td><span class="good">Easiest</span> &mdash; hold mute button, or haptic-only<span class="conf e">&asymp;</span></td>
-        <td>Some aids &ldquo;pushy&rdquo;; resets each drive &mdash; test it<span class="conf e">&asymp;</span></td>
-        <td><span class="bad">Naggiest</span> &mdash; 2-tap menu every drive, doesn&rsquo;t always hold<span class="conf e">&asymp;</span></td>
-        <td><span class="good">Easy</span> &mdash; same mute-button fix as Kia<span class="conf e">&asymp;</span></td>
-        <td>Moderate &mdash; Volvo alerts; confirm on test drive<span class="conf c">?</span></td>
-        <td>Milder than MG but buried &amp; resets<span class="conf e">&asymp;</span></td>
-        <td><span class="good">Mostly calm</span> &mdash; just one keen over-speed chime<span class="conf e">&asymp;</span></td>
-        <td>Physical buttons help; resets per EU rules<span class="conf c">?</span></td>
-        <td>Present &mdash; test it<span class="conf c">?</span></td>
-        <td>Present (i-Cockpit) &mdash; test it<span class="conf c">?</span></td>
-        <td>Adds Google + AI &mdash; unknown<span class="conf c">?</span></td>
-      </tr>
+        <th>Warning &ldquo;bing-bongs&rdquo; &amp; how easy to quieten</th><td class="cx5">None (no modern alerts)</td><td><span class="good">Easiest</span> &mdash; hold mute button, or haptic-only<span class="conf e">&asymp;</span></td><td>Some aids &ldquo;pushy&rdquo;; resets each drive &mdash; test it<span class="conf e">&asymp;</span></td><td><span class="bad">Naggiest</span> &mdash; 2-tap menu every drive, doesn&rsquo;t always hold<span class="conf e">&asymp;</span></td><td><span class="good">Easy</span> &mdash; same mute-button fix as Kia<span class="conf e">&asymp;</span></td><td>Present &mdash; test it<span class="conf c">?</span></td><td>Moderate &mdash; Volvo alerts; confirm on test drive<span class="conf c">?</span></td><td>Milder than MG but buried &amp; resets<span class="conf e">&asymp;</span></td><td><span class="good">Mostly calm</span> &mdash; just one keen over-speed chime<span class="conf e">&asymp;</span></td><td>Physical buttons help; resets per EU rules<span class="conf c">?</span></td><td>Present &mdash; test it<span class="conf c">?</span></td><td>Present (i-Cockpit) &mdash; test it<span class="conf c">?</span></td><td>Adds Google + AI &mdash; unknown<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Battery type &mdash; charge to 100% daily?</th>
-        <td class="cx5">Petrol &mdash; just fill up</td>
-        <td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">LFP &middot; yes</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">LFP &middot; yes</span><span class="conf v">&#10003;</span></td>
-        <td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td>
-        <td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">LFP Blade &middot; yes</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">RWD LFP &middot; yes</span> / AWD NMC<span class="conf e">&asymp;</span></td>
-        <td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">LFP &middot; yes</span><span class="conf e">&asymp;</span></td>
-        <td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">LFP &middot; yes</span><span class="conf e">&asymp;</span></td>
-      </tr>
+        <th>Battery type &mdash; charge to 100% daily?</th><td class="cx5">Petrol &mdash; just fill up</td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td><td><span class="good">LFP &middot; yes</span><span class="conf v">&#10003;</span></td><td><span class="good">LFP &middot; yes</span><span class="conf v">&#10003;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf e">&asymp;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf e">&asymp;</span></td><td><span class="good">LFP Blade &middot; yes</span><span class="conf v">&#10003;</span></td><td><span class="good">RWD LFP &middot; yes</span> / AWD NMC<span class="conf e">&asymp;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf e">&asymp;</span></td><td><span class="good">LFP &middot; yes</span><span class="conf e">&asymp;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td><td><span class="good">LFP &middot; yes</span><span class="conf e">&asymp;</span></td></tr>
       <tr>
-        <th>Battery range (WLTP)</th>
-        <td class="cx5">~700 km / tank</td>
-        <td><span class="good">436 / 604 / 563 km</span><span class="conf v">&#10003;</span></td>
-        <td>361 / 434 km<span class="conf v">&#10003;</span></td>
-        <td>335 / 450 km<span class="conf v">&#10003;</span></td>
-        <td>370 / 505 / 444 km<span class="conf v">&#10003;</span></td>
-        <td><span class="good">462 km</span> (single) / 417<span class="conf e">&asymp;</span></td>
-        <td>345 / 420 km<span class="conf v">&#10003;</span></td>
-        <td>405 / 415 km<span class="conf e">&asymp;</span></td>
-        <td>454 km<span class="conf e">&asymp;</span></td>
-        <td><span class="bad">344 / 395 km</span><span class="conf e">&asymp;</span></td>
-        <td><span class="bad">328 km (shortest)</span><span class="conf v">&#10003;</span></td>
-        <td>~500 km (est.)<span class="conf c">?</span></td>
-      </tr>
+        <th>Battery range (WLTP)</th><td class="cx5">~700 km / tank</td><td><span class="good">436 / 604 / 563 km</span><span class="conf v">&#10003;</span></td><td>361 / 434 km<span class="conf v">&#10003;</span></td><td>335 / 450 km<span class="conf v">&#10003;</span></td><td>370 / 505 / 444 km<span class="conf v">&#10003;</span></td><td><span class="good">520 km (RWD) / 485 km (AWD)</span><span class="conf v">&#10003;</span></td><td><span class="good">462 km</span> (single) / 417<span class="conf e">&asymp;</span></td><td>345 / 420 km<span class="conf v">&#10003;</span></td><td>405 / 415 km<span class="conf e">&asymp;</span></td><td>454 km<span class="conf e">&asymp;</span></td><td><span class="bad">344 / 395 km</span><span class="conf e">&asymp;</span></td><td><span class="bad">328 km (shortest)</span><span class="conf v">&#10003;</span></td><td>~500 km (est.)<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Home charging (AC, Type 2)<br><span class="muted" style="font-weight:500">the speed that matters here</span></th>
-        <td class="cx5">n/a</td>
-        <td>11 kW (3-ph) / 7 kW (1-ph)<span class="conf v">&#10003;</span></td>
-        <td><span class="good">11 kW</span><span class="conf v">&#10003;</span></td>
-        <td><span class="bad">6.6 kW</span><span class="conf v">&#10003;</span></td>
-        <td>10.4 kW<span class="conf v">&#10003;</span></td>
-        <td><span class="good">11 kW</span><span class="conf e">&asymp;</span></td>
-        <td>7 kW<span class="conf v">&#10003;</span></td>
-        <td><span class="good">11 kW</span> / 22 kW (AWD)<span class="conf e">&asymp;</span></td>
-        <td>7.4 kW<span class="conf e">&asymp;</span></td>
-        <td><span class="good">11 kW</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">11 kW</span><span class="conf v">&#10003;</span></td>
-        <td>Faster &mdash; TBC<span class="conf c">?</span></td>
-      </tr>
+        <th>Home charging (AC, Type 2)<br><span class="muted" style="font-weight:500">the speed that matters here</span></th><td class="cx5">n/a</td><td>11 kW (3-ph) / 7 kW (1-ph)<span class="conf v">&#10003;</span></td><td><span class="good">11 kW</span><span class="conf v">&#10003;</span></td><td><span class="bad">6.6 kW</span><span class="conf v">&#10003;</span></td><td>10.4 kW<span class="conf v">&#10003;</span></td><td><span class="good">11 kW (3-ph)</span><span class="conf v">&#10003;</span></td><td><span class="good">11 kW</span><span class="conf e">&asymp;</span></td><td>7 kW<span class="conf v">&#10003;</span></td><td><span class="good">11 kW</span> / 22 kW (AWD)<span class="conf e">&asymp;</span></td><td>7.4 kW<span class="conf e">&asymp;</span></td><td><span class="good">11 kW</span><span class="conf v">&#10003;</span></td><td><span class="good">11 kW</span><span class="conf v">&#10003;</span></td><td>Faster &mdash; TBC<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Wheel size</th>
-        <td class="cx5">17&Prime; or 19&Prime;</td>
-        <td>17&Prime; / 19&Prime;<span class="conf v">&#10003;</span></td>
-        <td>18&Prime;<span class="conf v">&#10003;</span></td>
-        <td>18&Prime;<span class="conf v">&#10003;</span></td>
-        <td>17&Prime; / 19&Prime;<span class="conf v">&#10003;</span></td>
-        <td>19&Prime;<span class="conf e">&asymp;</span></td>
-        <td>17&Prime; / 18&Prime;<span class="conf v">&#10003;</span></td>
-        <td>19&Prime; / 20&Prime;<span class="conf e">&asymp;</span></td>
-        <td><span class="bad">20&Prime; (firm ride)</span><span class="conf v">&#10003;</span></td>
-        <td>18&Prime;<span class="conf v">&#10003;</span></td>
-        <td>18&Prime;<span class="conf v">&#10003;</span></td>
-        <td>TBC<span class="conf c">?</span></td>
-      </tr>
+        <th>Wheel size</th><td class="cx5">17&Prime; or 19&Prime;</td><td>17&Prime; / 19&Prime;<span class="conf v">&#10003;</span></td><td>18&Prime;<span class="conf v">&#10003;</span></td><td>18&Prime;<span class="conf v">&#10003;</span></td><td>17&Prime; / 19&Prime;<span class="conf v">&#10003;</span></td><td>19&Prime; / 20&Prime;<span class="conf e">&asymp;</span></td><td>19&Prime;<span class="conf e">&asymp;</span></td><td>17&Prime; / 18&Prime;<span class="conf v">&#10003;</span></td><td>19&Prime; / 20&Prime;<span class="conf e">&asymp;</span></td><td><span class="bad">20&Prime; (firm ride)</span><span class="conf v">&#10003;</span></td><td>18&Prime;<span class="conf v">&#10003;</span></td><td>18&Prime;<span class="conf v">&#10003;</span></td><td>TBC<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Wireless phone charging</th>
-        <td class="cx5">No</td>
-        <td><span class="good">Std</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Std</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Std</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Std</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Std</span><span class="conf e">&asymp;</span></td>
-        <td>Premium only<span class="conf v">&#10003;</span></td>
-        <td><span class="good">Std</span><span class="conf e">&asymp;</span></td>
-        <td>Likely &mdash; confirm<span class="conf c">?</span></td>
-        <td>Ultra only<span class="conf v">&#10003;</span></td>
-        <td><span class="bad">No</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Std expected</span><span class="conf c">?</span></td>
-      </tr>
+        <th>Wireless phone charging</th><td class="cx5">No</td><td><span class="good">Std</span><span class="conf v">&#10003;</span></td><td><span class="good">Std</span><span class="conf v">&#10003;</span></td><td><span class="good">Std</span><span class="conf v">&#10003;</span></td><td><span class="good">Std</span><span class="conf v">&#10003;</span></td><td><span class="good">Std</span><span class="conf e">&asymp;</span></td><td><span class="good">Std</span><span class="conf e">&asymp;</span></td><td>Premium only<span class="conf v">&#10003;</span></td><td><span class="good">Std</span><span class="conf e">&asymp;</span></td><td>Likely &mdash; confirm<span class="conf c">?</span></td><td>Ultra only<span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td><span class="good">Std expected</span><span class="conf c">?</span></td></tr>
       <tr>
-        <th>Apple CarPlay</th>
-        <td class="cx5">No</td>
-        <td><span class="good">Wireless &amp; wired</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Wireless &amp; wired</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Wireless</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Wireless</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td>
-        <td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td>
-        <td>Wired (via cable)<span class="conf v">&#10003;</span></td>
-        <td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td>
-      </tr>
+        <th>Apple CarPlay</th><td class="cx5">No</td><td><span class="good">Wireless &amp; wired</span><span class="conf v">&#10003;</span></td><td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td><td><span class="good">Wireless &amp; wired</span><span class="conf v">&#10003;</span></td><td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td><td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td><td><span class="good">Wireless</span><span class="conf e">&asymp;</span></td><td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td><td><span class="good">Wireless</span><span class="conf e">&asymp;</span></td><td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td><td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td><td>Wired (via cable)<span class="conf v">&#10003;</span></td><td><span class="good">Wireless</span><span class="conf v">&#10003;</span></td></tr>
       <tr>
-        <th>Head-up display</th>
-        <td class="cx5">No</td>
-        <td>GT-Line only<span class="conf v">&#10003;</span></td>
-        <td><span class="bad">No</span><span class="conf v">&#10003;</span></td>
-        <td><span class="bad">No</span><span class="conf v">&#10003;</span></td>
-        <td>Premium only<span class="conf v">&#10003;</span></td>
-        <td><span class="bad">No</span><span class="conf e">&asymp;</span></td>
-        <td><span class="bad">No</span><span class="conf v">&#10003;</span></td>
-        <td>AWD only (large AR)<span class="conf e">&asymp;</span></td>
-        <td><span class="bad">No</span><span class="conf v">&#10003;</span></td>
-        <td><span class="bad">No</span><span class="conf v">&#10003;</span></td>
-        <td><span class="bad">No</span> (high i-Cockpit)<span class="conf v">&#10003;</span></td>
-        <td>TBC<span class="conf c">?</span></td>
-      </tr>
+        <th>Head-up display</th><td class="cx5">No</td><td>GT-Line only<span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td>Premium only<span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf e">&asymp;</span></td><td><span class="bad">No</span><span class="conf e">&asymp;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td>AWD only (large AR)<span class="conf e">&asymp;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td><span class="bad">No</span> (high i-Cockpit)<span class="conf v">&#10003;</span></td><td>TBC<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Infotainment screen</th>
-        <td class="cx5">5.8&Prime;</td>
-        <td>12.3&Prime; + 12.3&Prime; driver<span class="conf v">&#10003;</span></td>
-        <td>14.6&Prime; + 8.8&Prime; driver<span class="conf v">&#10003;</span></td>
-        <td>12.8&Prime; + 10.25&Prime; driver<span class="conf v">&#10003;</span></td>
-        <td>12.3&Prime; + 12.3&Prime; driver<span class="conf v">&#10003;</span></td>
-        <td><span class="bad">12.3&Prime; central only (no driver display)</span><span class="conf e">&asymp;</span></td>
-        <td>12.8&Prime;/15.6&Prime; + 5&Prime; driver<span class="conf v">&#10003;</span></td>
-        <td>14.6&Prime; + 8.8&Prime; driver<span class="conf e">&asymp;</span></td>
-        <td>12&Prime; + 12.3&Prime; driver<span class="conf e">&asymp;</span></td>
-        <td>10.1&Prime; + 10.25&Prime; driver<span class="conf v">&#10003;</span></td>
-        <td>10&Prime; + 3D i-Cockpit driver<span class="conf v">&#10003;</span></td>
-        <td>15.6&Prime; + driver display<span class="conf e">&asymp;</span></td>
-      </tr>
+        <th>Infotainment screen</th><td class="cx5">5.8&Prime;</td><td>12.3&Prime; + 12.3&Prime; driver<span class="conf v">&#10003;</span></td><td>14.6&Prime; + 8.8&Prime; driver<span class="conf v">&#10003;</span></td><td>12.8&Prime; + 10.25&Prime; driver<span class="conf v">&#10003;</span></td><td>12.3&Prime; + 12.3&Prime; driver<span class="conf v">&#10003;</span></td><td><span class="bad">9&Prime; portrait (smaller, older)</span><span class="conf v">&#10003;</span></td><td><span class="bad">12.3&Prime; central only (no driver display)</span><span class="conf e">&asymp;</span></td><td>12.8&Prime;/15.6&Prime; + 5&Prime; driver<span class="conf v">&#10003;</span></td><td>14.6&Prime; + 8.8&Prime; driver<span class="conf e">&asymp;</span></td><td>12&Prime; + 12.3&Prime; driver<span class="conf e">&asymp;</span></td><td>10.1&Prime; + 10.25&Prime; driver<span class="conf v">&#10003;</span></td><td>10&Prime; + 3D i-Cockpit driver<span class="conf v">&#10003;</span></td><td>15.6&Prime; + driver display<span class="conf e">&asymp;</span></td></tr>
       <tr>
-        <th>Smart keys</th>
-        <td class="cx5">Basic remote</td>
-        <td>2 smart keys + remote start + app<span class="conf v">&#10003;</span></td>
-        <td>NFC card + phone key + app<span class="conf v">&#10003;</span></td>
-        <td>Keyless + phone key + app<span class="conf v">&#10003;</span></td>
-        <td>Smart key + remote start + app<span class="conf v">&#10003;</span></td>
-        <td>2 NFC cards + digital key + app<span class="conf e">&asymp;</span></td>
-        <td>Keyless + NFC card + phone key<span class="conf v">&#10003;</span></td>
-        <td>NFC card + phone key + app<span class="conf e">&asymp;</span></td>
-        <td>Hands-free card + app<span class="conf v">&#10003;</span></td>
-        <td>Keyless + push start<span class="conf v">&#10003;</span></td>
-        <td>Proximity + keyless + app<span class="conf v">&#10003;</span></td>
-        <td>As current + AI<span class="conf e">&asymp;</span></td>
-      </tr>
+        <th>Smart keys</th><td class="cx5">Basic remote</td><td>2 smart keys + remote start + app<span class="conf v">&#10003;</span></td><td>NFC card + phone key + app<span class="conf v">&#10003;</span></td><td>Keyless + phone key + app<span class="conf v">&#10003;</span></td><td>Smart key + remote start + app<span class="conf v">&#10003;</span></td><td>Keyless + NFC card + Volvo app<span class="conf e">&asymp;</span></td><td>2 NFC cards + digital key + app<span class="conf e">&asymp;</span></td><td>Keyless + NFC card + phone key<span class="conf v">&#10003;</span></td><td>NFC card + phone key + app<span class="conf e">&asymp;</span></td><td>Hands-free card + app<span class="conf v">&#10003;</span></td><td>Keyless + push start<span class="conf v">&#10003;</span></td><td>Proximity + keyless + app<span class="conf v">&#10003;</span></td><td>As current + AI<span class="conf e">&asymp;</span></td></tr>
       <tr>
-        <th>Included data / subscriptions</th>
-        <td class="cx5">None needed</td>
-        <td>Kia Connect &mdash; free period, confirm<span class="conf c">?</span></td>
-        <td>Connected services; streaming free 3 yrs<span class="conf v">&#10003;</span></td>
-        <td>iSMART free 12 mths, then may cost<span class="conf v">&#10003;</span></td>
-        <td>Bluelink &mdash; free period, confirm<span class="conf c">?</span></td>
-        <td><span class="good">Google built-in, 4 yrs free</span>, then sub<span class="conf e">&asymp;</span></td>
-        <td>2 GB/mth, 2 yrs free, then sub<span class="conf v">&#10003;</span></td>
-        <td>5G + app; free period confirm<span class="conf c">?</span></td>
-        <td><span class="good">Google built-in, 5 yrs free</span><span class="conf e">&asymp;</span></td>
-        <td>None listed for Australia<span class="conf c">?</span></td>
-        <td>myPeugeot app; no connected nav<span class="conf v">&#10003;</span></td>
-        <td>TBC<span class="conf c">?</span></td>
-      </tr>
+        <th>Included data / subscriptions</th><td class="cx5">None needed</td><td>Kia Connect &mdash; free period, confirm<span class="conf c">?</span></td><td>Connected services; streaming free 3 yrs<span class="conf v">&#10003;</span></td><td>iSMART free 12 mths, then may cost<span class="conf v">&#10003;</span></td><td>Bluelink &mdash; free period, confirm<span class="conf c">?</span></td><td>Google built-in &mdash; confirm free period<span class="conf c">?</span></td><td><span class="good">Google built-in, 4 yrs free</span>, then sub<span class="conf e">&asymp;</span></td><td>2 GB/mth, 2 yrs free, then sub<span class="conf v">&#10003;</span></td><td>5G + app; free period confirm<span class="conf c">?</span></td><td><span class="good">Google built-in, 5 yrs free</span><span class="conf e">&asymp;</span></td><td>None listed for Australia<span class="conf c">?</span></td><td>myPeugeot app; no connected nav<span class="conf v">&#10003;</span></td><td>TBC<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Warranty / battery</th>
-        <td class="cx5">Expired</td>
-        <td><span class="good">7 yr</span> / batt 7 yr<span class="conf e">&asymp;</span></td>
-        <td>6 yr/150k / batt 8 yr/160k<span class="conf v">&#10003;</span></td>
-        <td><span class="good">7&rarr;10 yr</span> w/ MG service / batt 7 yr<span class="conf v">&#10003;</span></td>
-        <td>5&rarr;7 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td>
-        <td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td>
-        <td>6 yr/150k / batt 8 yr/160k<span class="conf e">&asymp;</span></td>
-        <td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td>
-        <td><span class="bad">5 yr/100k</span> / batt 8 yr/160k<span class="conf e">&asymp;</span></td>
-        <td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td>
-        <td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td>
-        <td>~as current Atto 3<span class="conf c">?</span></td>
-      </tr>
+        <th>Warranty / battery</th><td class="cx5">Expired</td><td><span class="good">7 yr</span> / batt 7 yr<span class="conf e">&asymp;</span></td><td>6 yr/150k / batt 8 yr/160k<span class="conf v">&#10003;</span></td><td><span class="good">7&rarr;10 yr</span> w/ MG service / batt 7 yr<span class="conf v">&#10003;</span></td><td>5&rarr;7 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td><td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td><td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td><td>6 yr/150k / batt 8 yr/160k<span class="conf e">&asymp;</span></td><td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td><td><span class="bad">5 yr/100k</span> / batt 8 yr/160k<span class="conf e">&asymp;</span></td><td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td><td>5 yr / batt 8 yr/160k<span class="conf e">&asymp;</span></td><td>~as current Atto 3<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Servicing (fixed price)</th>
-        <td class="cx5">~$400&ndash;600/yr</td>
-        <td><span class="good">~$261/yr</span> (12 mths)<span class="conf e">&asymp;</span></td>
-        <td>Capped 8 yrs (12 mths/20k)<span class="conf v">&#10003;</span></td>
-        <td>Capped (12 mths/25k) &mdash; get list<span class="conf c">?</span></td>
-        <td>~$366/yr (24 mths/30k)<span class="conf e">&asymp;</span></td>
-        <td>24 mths/30k &mdash; get list<span class="conf c">?</span></td>
-        <td>~$341/yr (12 mths/20k)<span class="conf e">&asymp;</span></td>
-        <td><span class="good">~$532/yr</span> capped 8 yrs (12 mths/20k)<span class="conf e">&asymp;</span></td>
-        <td>12 mths/30k &mdash; get list<span class="conf c">?</span></td>
-        <td>Suzuki capped &mdash; EV prices TBC<span class="conf c">?</span></td>
-        <td>Peugeot capped &mdash; get list<span class="conf c">?</span></td>
-        <td>TBC<span class="conf c">?</span></td>
-      </tr>
+        <th>Servicing (fixed price)</th><td class="cx5">~$400&ndash;600/yr</td><td><span class="good">~$261/yr</span> (12 mths)<span class="conf e">&asymp;</span></td><td>Capped 8 yrs (12 mths/20k)<span class="conf v">&#10003;</span></td><td>Capped (12 mths/25k) &mdash; get list<span class="conf c">?</span></td><td>~$366/yr (24 mths/30k)<span class="conf e">&asymp;</span></td><td><span class="good">FREE for 5 yrs/150,000 km &mdash; included in price, not just capped</span><span class="conf v">&#10003;</span></td><td>24 mths/30k &mdash; get list<span class="conf c">?</span></td><td>~$341/yr (12 mths/20k)<span class="conf e">&asymp;</span></td><td><span class="good">~$532/yr</span> capped 8 yrs (12 mths/20k)<span class="conf e">&asymp;</span></td><td>12 mths/30k &mdash; get list<span class="conf c">?</span></td><td>Suzuki capped &mdash; EV prices TBC<span class="conf c">?</span></td><td>Peugeot capped &mdash; get list<span class="conf c">?</span></td><td>TBC<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Safety (ANCAP)</th>
-        <td class="cx5">5 (2012 &mdash; easier test)</td>
-        <td><span class="good">5 (2024)</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">5 (2025)</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">5 (2025)</span><span class="conf e">&asymp;</span></td>
-        <td><span class="bad">4 (2023)</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">5 (2024)</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">5 (2022)</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">5 (2024)</span><span class="conf e">&asymp;</span></td>
-        <td><span class="good">5 (2022)</span><span class="conf c">?</span></td>
-        <td><span class="bad">4</span><span class="conf e">&asymp;</span></td>
-        <td>5 (2019 &mdash; older test)<span class="conf c">?</span></td>
-        <td>Not yet tested<span class="conf c">?</span></td>
-      </tr>
+        <th>Safety (ANCAP)</th><td class="cx5">5 (2012 &mdash; easier test)</td><td><span class="good">5 (2024)</span><span class="conf e">&asymp;</span></td><td><span class="good">5 (2025)</span><span class="conf e">&asymp;</span></td><td><span class="good">5 (2025)</span><span class="conf e">&asymp;</span></td><td><span class="bad">4 (2023)</span><span class="conf e">&asymp;</span></td><td><span class="good">5 (2018-based test)</span><span class="conf e">&asymp;</span></td><td><span class="good">5 (2024)</span><span class="conf e">&asymp;</span></td><td><span class="good">5 (2022)</span><span class="conf e">&asymp;</span></td><td><span class="good">5 (2024)</span><span class="conf e">&asymp;</span></td><td><span class="good">5 (2022)</span><span class="conf c">?</span></td><td><span class="bad">4</span><span class="conf e">&asymp;</span></td><td>5 (2019 &mdash; older test)<span class="conf c">?</span></td><td>Not yet tested<span class="conf c">?</span></td></tr>
       <tr>
-        <th>What reviewers say</th>
-        <td class="cx5">&mdash;</td>
-        <td>Consistent segment winner; best small electric SUV of 2026.<span class="conf e">&asymp;</span></td>
-        <td>&ldquo;One of the best value and most engaging&rdquo; small EVs; Maserati-tuned.<span class="conf e">&asymp;</span></td>
-        <td>&ldquo;A lot to be said for just being easy&rdquo;; value is the headline.<span class="conf e">&asymp;</span></td>
-        <td>Comfortable all-rounder; 4-star safety the recurring gripe.<span class="conf e">&asymp;</span></td>
-        <td>Premium and desirable, but interface and space divide reviewers.<span class="conf e">&asymp;</span></td>
-        <td>&ldquo;Drives better than its looks imply&rdquo;; ageing but capable.<span class="conf e">&asymp;</span></td>
-        <td>&ldquo;A small SUV with a LOT of stuff&rdquo;; great value reset.<span class="conf e">&asymp;</span></td>
-        <td>Well-built and slick, but pricey and low for an SUV.<span class="conf e">&asymp;</span></td>
-        <td>Easy and likeable, but dear for the range and equipment.<span class="conf e">&asymp;</span></td>
-        <td>Stylish, decent to drive, but short range dates it.<span class="conf e">&asymp;</span></td>
-        <td>&ldquo;Almost an all-new car beneath&rdquo; (preview).<span class="conf e">&asymp;</span></td>
-      </tr>
+        <th>What reviewers say</th><td class="cx5">&mdash;</td><td>Consistent segment winner; best small electric SUV of 2026.<span class="conf e">&asymp;</span></td><td>&ldquo;One of the best value and most engaging&rdquo; small EVs; Maserati-tuned.<span class="conf e">&asymp;</span></td><td>&ldquo;A lot to be said for just being easy&rdquo;; value is the headline.<span class="conf e">&asymp;</span></td><td>Comfortable all-rounder; 4-star safety the recurring gripe.<span class="conf e">&asymp;</span></td><td>The bigger, comfier Volvo EV &mdash; but pricier than everything else here.<span class="conf e">&asymp;</span></td><td>Premium and desirable, but interface and space divide reviewers.<span class="conf e">&asymp;</span></td><td>&ldquo;Drives better than its looks imply&rdquo;; ageing but capable.<span class="conf e">&asymp;</span></td><td>&ldquo;A small SUV with a LOT of stuff&rdquo;; great value reset.<span class="conf e">&asymp;</span></td><td>Well-built and slick, but pricey and low for an SUV.<span class="conf e">&asymp;</span></td><td>Easy and likeable, but dear for the range and equipment.<span class="conf e">&asymp;</span></td><td>Stylish, decent to drive, but short range dates it.<span class="conf e">&asymp;</span></td><td>&ldquo;Almost an all-new car beneath&rdquo; (preview).<span class="conf e">&asymp;</span></td></tr>
     </tbody>
   </table>
   </div>
@@ -680,12 +504,13 @@
       <tr><th>Leapmotor B10</th><td>Late 2025 (on sale early 2026) <span class="tag new">brand new</span></td><td>Just launched; no update due. A range-extender hybrid B10 was added mid-2026 for buyers who want a petrol back-up.</td></tr>
       <tr><th>MG S5 EV</th><td>30 April 2025 <span class="tag new">current</span></td><td>MG&rsquo;s first purpose-built electric SUV; brand new, no update due.</td></tr>
       <tr><th>Hyundai Kona Electric</th><td>2023 (2nd generation) <span class="tag soon">mid-life</span></td><td>Hyundai is <strong>skipping the usual facelift</strong>; an all-new next-generation Kona is reported for ~2028. An N&nbsp;Line trim was added in 2025.</td></tr>
+      <tr><th>Volvo EX40</th><td>1 Jun 2025 (renamed from XC40 Recharge) <span class="tag new">current</span></td><td>Volvo is repositioning the 30/40 range with price cuts ahead of the <strong>EX60</strong> (a new mid-size electric SUV), due late 2026 or 2027. EX40 sales fell ~40% in 2025 as buyers wait for what's next.</td></tr>
       <tr><th>Volvo EX30</th><td>Early 2024 <span class="tag new">current</span></td><td>Recently broadened, not replaced: a cheaper single-motor RWD grade and a rugged Cross Country were added in 2025&ndash;26. No major update imminent.</td></tr>
       <tr><th>BYD Atto 3</th><td>2022 <span class="tag old">ageing</span></td><td>A heavily upgraded <strong>Atto 3 Evo</strong> (74.8&nbsp;kWh, front trunk, rear-wheel drive) arrives late 2026 &mdash; so expect runout deals on the current car, or wait for the Evo.</td></tr>
       <tr><th>Zeekr X</th><td>1 April 2025; major MY26 update from May 2026 <span class="tag new">just updated</span></td><td>The car on sale now <em>is</em> the update &mdash; cheaper, a new LFP battery on the RWD, and more power. Nothing further imminent.</td></tr>
       <tr><th>Renault Megane E-Tech</th><td>Early 2024 <span class="tag soon">update overseas</span></td><td>A comprehensively updated Europe version (67&nbsp;kWh LFP, +46&nbsp;km range, heat pump, faster charging, new software) is <strong>expected in Australia around 2027</strong> &mdash; not yet confirmed. Worth knowing before buying the current car.</td></tr>
       <tr><th>Suzuki e-Vitara</th><td>June 2026 <span class="tag new">brand new</span></td><td>Suzuki&rsquo;s first EV, only just launched; no update due.</td></tr>
-      <tr><th>Peugeot e-2008</th><td>~2021 (this 50 kWh / 328 km version) <span class="tag old">dated</span></td><td>Australia still gets the <strong>older short-range car</strong>. A longer-range (~406&nbsp;km) updated e-2008 sells overseas but isn&rsquo;t confirmed here &mdash; ask Peugeot whether it&rsquo;s coming, or expect runout pricing.</td></tr>
+      <tr><th>Peugeot e-2008</th><td>Launched Sept 2023, <strong>withdrawn 2024&ndash;25</strong> <span class="tag old">no longer sold</span></td><td>Peugeot Australia has <strong>dropped electric passenger cars</strong>: the e-2008 was removed from its website, original stock was cleared with discounts of up to ~$25,000, and the promised longer-range (~406&nbsp;km) update was cancelled. Peugeot&rsquo;s only local EVs now are the E-Partner and E-Expert vans.</td></tr>
     </tbody>
   </table>
   </div>
@@ -702,57 +527,58 @@
         <th>Leapmotor B10<small>Style / Design LR</small></th>
         <th>MG S5 EV<small>Excite / Essence</small></th>
         <th>Kona Electric<small>SR / ER / Premium</small></th>
+        <th>Volvo EX40<small>Single / Twin</small></th>
         <th>Volvo EX30<small>Single / Twin</small></th>
         <th>BYD Atto 3<small>Essential / Premium</small></th>
         <th>Zeekr X<small>RWD / AWD</small></th>
         <th>Renault Megane<small>Techno</small></th>
         <th>Suzuki e-Vitara<small>Motion / Ultra</small></th>
-        <th>Peugeot e-2008<small>GT</small></th>
+        <th style="color:#B9CFC7">Peugeot e-2008<small>GT &middot; no longer sold</small></th>
       </tr>
     </thead>
     <tbody>
-      <tr class="sec"><th colspan="11">Powertrain &amp; performance</th></tr>
-      <tr><th>Drive</th><td>Front-wheel drive</td><td><span class="good">Rear-wheel drive</span></td><td><span class="good">Rear-wheel drive</span></td><td>Front-wheel drive</td><td>RWD / AWD</td><td>Front-wheel drive</td><td>RWD / AWD</td><td>Front-wheel drive</td><td>FWD / AWD (Ultra)</td><td>Front-wheel drive</td></tr>
-      <tr><th>Power / torque</th><td>150 kW / 283 Nm</td><td>160 kW / 240 Nm</td><td>125 / 150 kW &middot; 250&ndash;350 Nm</td><td>99 / 150 kW &middot; 255 Nm</td><td>200 kW (twin 315 kW) / 343 Nm</td><td>150 kW / 310 Nm</td><td>250 kW / 365 kW (AWD)</td><td>160 kW / 300 Nm</td><td>106&ndash;128 kW / 176 kW AWD</td><td>100 kW / 260 Nm</td></tr>
-      <tr><th>0&ndash;100 km/h</th><td>7.5&ndash;7.9 s</td><td>8.0 s</td><td>8.2 / 7.0 s</td><td>~8.8 / 7.8 s<span class="conf e">&asymp;</span></td><td><span class="good">5.3 s</span> / 3.7 s</td><td>7.9 / 7.3 s</td><td>5.6 / 3.7 s</td><td>7.4 s</td><td>~9 s<span class="conf e">&asymp;</span></td><td>9.0 s</td></tr>
-      <tr><th>Drive / one-pedal modes</th><td>5 modes, i-Pedal 3.0</td><td>3 modes, 3 regen</td><td>3 modes, one-pedal</td><td>4 modes, i-Pedal</td><td>One-pedal, creep options</td><td>Regen modes</td><td>3 modes, one-pedal</td><td>Multi-Sense, one-pedal, paddles</td><td>Drive modes</td><td>Eco/Normal/Sport</td></tr>
-      <tr class="sec"><th colspan="11">Battery &amp; charging</th></tr>
-      <tr><th>Battery chemistry</th><td>NMC lithium-ion</td><td><span class="good">LFP</span></td><td><span class="good">LFP</span></td><td>NMC lithium-ion</td><td>NMC lithium-ion</td><td><span class="good">LFP Blade</span></td><td><span class="good">RWD LFP</span> / AWD NMC</td><td>NMC lithium-ion</td><td><span class="good">LFP</span></td><td>NMC lithium-ion</td></tr>
-      <tr><th>Charge to 100% daily?</th><td>Best at ~80%</td><td class="good">Yes</td><td class="good">Yes</td><td>Best at ~80%</td><td>Best at ~80%</td><td class="good">Yes</td><td class="good">Yes (RWD)</td><td>Best at ~80%</td><td class="good">Yes</td><td>Best at ~80%</td></tr>
-      <tr><th>Battery capacity</th><td>58.3 / 81.4 kWh</td><td>56.2 / 67.1 kWh</td><td>49 / 62 kWh</td><td>48.6 / 64.8 kWh</td><td>69 kWh</td><td>49.9 / 60.5 kWh</td><td>61 kWh / ~66 kWh</td><td>60 kWh</td><td>49 / 61 kWh</td><td>50 kWh</td></tr>
-      <tr><th>Home AC (Type 2) &mdash; the speed that matters</th><td>11 kW (3-ph)</td><td><span class="good">11 kW</span></td><td><span class="bad">6.6 kW</span></td><td>10.4 kW</td><td><span class="good">11 kW</span></td><td>7 kW</td><td><span class="good">11 / 22 kW</span></td><td>7.4 kW</td><td><span class="good">11 kW</span></td><td><span class="good">11 kW (3-ph)</span></td></tr>
-      <tr><th>DC fast (road-trip only)</th><td>128&ndash;190 kW (10&ndash;80% ~29 min)</td><td>140 / 168 kW (~18 min)</td><td>120 / 150 kW (~19 min)</td><td>100 kW (~45 min)</td><td>153 kW (~27 min)</td><td><span class="bad">70 / 88 kW</span></td><td>230 kW (~18 min) / 150 kW</td><td>130 kW (~35 min)</td><td><span class="bad">70 kW (~45 min)</span></td><td>100 kW (~30 min)</td></tr>
-      <tr><th>V2L (power appliances)</th><td>Yes</td><td>Yes, 3.3 kW</td><td>Yes</td><td>Yes, 3 kW</td><td><span class="bad">&ndash;</span></td><td>Yes</td><td>Yes, 3.3 kW</td><td>Yes, 3.7 kW</td><td><span class="bad">&ndash;</span></td><td><span class="bad">&ndash;</span></td></tr>
-      <tr><th>Heat pump (winter efficiency)</th><td>Confirm<span class="conf c">?</span></td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td><td>Confirm<span class="conf c">?</span></td><td>Likely<span class="conf c">?</span></td><td><span class="good">Std</span></td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td></tr>
-      <tr class="sec"><th colspan="11">Range</th></tr>
-      <tr><th>WLTP range</th><td><span class="good">436 / 604 / 563 km</span></td><td>361 / 434 km</td><td>335 / 450 km</td><td>370 / 505 / 444 km</td><td><span class="good">462 / 417 km</span></td><td>345 / 420 km</td><td>405 / 415 km</td><td>454 km</td><td>344 / 395 km</td><td><span class="bad">328 km (shortest)</span></td></tr>
-      <tr class="sec"><th colspan="11">Dimensions &amp; weights</th></tr>
-      <tr><th>Length</th><td>4,310 mm</td><td class="bad">4,515 mm</td><td>4,476 mm</td><td>4,355 mm</td><td>4,233 mm</td><td>4,455 mm</td><td>4,432 mm</td><td>4,200 mm</td><td>4,275 mm</td><td>4,300 mm</td></tr>
-      <tr><th>Width (excl. mirrors)</th><td>1,850 mm</td><td class="bad">1,885 mm</td><td>1,849 mm</td><td>1,825 mm</td><td>1,837 mm</td><td>1,875 mm</td><td>1,836 mm</td><td>1,860 mm</td><td>1,800 mm</td><td>1,815 mm</td></tr>
-      <tr><th>Height</th><td>1,560&ndash;1,570 mm</td><td>1,665 mm</td><td>1,621 mm</td><td>1,580 mm</td><td>1,549 mm</td><td>1,615 mm</td><td>1,566 mm</td><td><span class="bad">1,505 mm</span></td><td><span class="good">1,635 mm</span></td><td>1,550 mm</td></tr>
-      <tr><th>Wheelbase</th><td>2,680 mm</td><td>2,735 mm</td><td>2,730 mm</td><td>2,660 mm</td><td>2,650 mm</td><td>2,720 mm</td><td>2,750 mm</td><td>2,700 mm</td><td>2,700 mm</td><td>2,605 mm</td></tr>
-      <tr><th>Boot / frunk</th><td>460 / 25 L</td><td><span class="good">490</span> / &ndash;</td><td>453 / &ndash;</td><td>407 / 27 L</td><td><span class="bad">318</span> / 7 L</td><td>440 / &ndash;</td><td>404 / &ndash;</td><td>440 / &ndash;</td><td><span class="bad">~306</span> / &ndash;</td><td>434 / &ndash;</td></tr>
-      <tr><th>Kerb weight</th><td>1,845&ndash;1,930 kg</td><td>1,780 / 1,845 kg</td><td>1,680 / 1,755 kg</td><td>1,615&ndash;1,795 kg</td><td>~1,785 kg</td><td>1,680&ndash;1,750 kg</td><td>up to 1,960 kg</td><td>1,636&ndash;1,711 kg</td><td>1,700&ndash;1,900 kg</td><td>1,548 kg</td></tr>
-      <tr><th>Braked towing</th><td><span class="good">1,000 kg (LR)</span></td><td>n/s</td><td>750 kg</td><td>750 kg (ER)</td><td><span class="good">1,600 kg</span></td><td>750 kg</td><td>n/s</td><td>900 kg</td><td>750 kg</td><td><span class="bad">Not rated</span></td></tr>
-      <tr><th>Spare wheel</th><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td><td><span class="good">Space-saver</span></td><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td></tr>
-      <tr class="sec"><th colspan="11">Safety</th></tr>
-      <tr><th>ANCAP</th><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2025)</span></td><td><span class="good">5 (2025)</span></td><td><span class="bad">4 (2023)</span></td><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2022)</span></td><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2022)</span><span class="conf c">?</span></td><td><span class="bad">4</span></td><td>5 (2019, old test)<span class="conf c">?</span></td></tr>
-      <tr><th>Airbags</th><td>7 (incl. centre)</td><td>7 (incl. centre)</td><td>7 (incl. far-side)</td><td>7 (incl. centre)</td><td>7 (incl. centre)</td><td>7</td><td>7 (incl. centre)</td><td>7</td><td>7 (incl. knee)</td><td>6</td></tr>
-      <tr><th>360&deg; camera / parking</th><td><span class="bad">No 360&deg;</span></td><td><span class="good">360&deg; + dashcam</span></td><td><span class="good">360&deg;</span></td><td>360&deg; (Premium)</td><td><span class="good">360&deg; + self-park</span></td><td><span class="good">360&deg;</span></td><td><span class="good">360&deg; + remote park</span></td><td>360&deg; likely<span class="conf c">?</span></td><td><span class="good">360&deg;</span></td><td><span class="bad">180&deg; only</span></td></tr>
-      <tr class="sec"><th colspan="11">Cabin &amp; features</th></tr>
-      <tr><th>Screens</th><td>12.3&Prime; + 5&Prime; + 12.3&Prime;</td><td>14.6&Prime; + 8.8&Prime;</td><td>12.8&Prime; + 10.25&Prime;</td><td>12.3&Prime; + 12.3&Prime;</td><td><span class="bad">12.3&Prime; central only</span></td><td>12.8&Prime;/15.6&Prime; + 5&Prime;</td><td>14.6&Prime; + 8.8&Prime;</td><td>12&Prime; + 12.3&Prime;</td><td>10.1&Prime; + 10.25&Prime;</td><td>10&Prime; + i-Cockpit</td></tr>
-      <tr><th>Head-up display</th><td>GT-Line</td><td>&ndash;</td><td>&ndash;</td><td>Premium</td><td>&ndash;</td><td>&ndash;</td><td>AWD (AR)</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
-      <tr><th>Apple CarPlay</th><td>Wireless &amp; wired</td><td>Wireless</td><td>Wireless &amp; wired</td><td>Wireless</td><td>Wireless</td><td>Wireless</td><td>Wireless</td><td>Wireless</td><td>Wireless</td><td>Wired</td></tr>
-      <tr><th>Wireless phone charging</th><td>Std</td><td>Std</td><td>Std (Essence)</td><td>Std</td><td>Std</td><td>Premium</td><td>Std</td><td>Confirm<span class="conf c">?</span></td><td>Ultra</td><td><span class="bad">No</span></td></tr>
-      <tr><th>Power tailgate</th><td>Earth / GT-Line</td><td>Design LR</td><td><span class="good">Std</span></td><td>Premium</td><td><span class="good">Std</span></td><td>Premium</td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td><td><span class="bad">&ndash;</span></td><td><span class="bad">&ndash;</span></td></tr>
-      <tr><th>Heated / ventilated seats</th><td>Earth / GT-Line (both)</td><td>Design LR (both)</td><td>Heated std</td><td>Premium (both)</td><td>Heated (Climate pack)</td><td>Premium (heated)</td><td>Heated F+R std</td><td>Heated<span class="conf c">?</span></td><td>Ultra (heated)</td><td>GT (heated)</td></tr>
-      <tr><th>Sunroof</th><td>GT-Line</td><td><span class="good">Pano std</span></td><td><span class="good">Pano std (Essence)</span></td><td>Premium</td><td>Pano (Plus/Ultra)</td><td>Pano (Premium)</td><td><span class="good">Pano std</span></td><td>Confirm<span class="conf c">?</span></td><td>Ultra</td><td>Pano (GT)</td></tr>
-      <tr class="sec"><th colspan="11">Ownership</th></tr>
-      <tr><th>Warranty</th><td><span class="good">7 yr</span></td><td>6 yr / 150k</td><td><span class="good">7&rarr;10 yr</span> w/ MG service</td><td>5&rarr;7 yr w/ Hyundai service</td><td>5 yr</td><td>6 yr / 150k</td><td>5 yr</td><td><span class="bad">5 yr / 100k</span></td><td>5 yr</td><td>5 yr</td></tr>
-      <tr><th>Battery warranty</th><td>7 yr / 150k</td><td>8 yr / 160k</td><td>7 yr</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td></tr>
-      <tr><th>Service interval</th><td>12 mths</td><td>12 mths / 20k</td><td>12 mths / 25k</td><td><span class="good">24 mths / 30k</span></td><td>24 mths / 30k</td><td>12 mths / 20k</td><td>12 mths / 20k</td><td>12 mths / 30k</td><td>Confirm<span class="conf c">?</span></td><td>12 mths</td></tr>
-      <tr><th>Service cost</th><td><span class="good">~$261/yr</span></td><td>Capped 8 yrs</td><td>Capped &mdash; get list<span class="conf c">?</span></td><td>~$680/2 yrs</td><td>Get list<span class="conf c">?</span></td><td>~$327&ndash;341/yr</td><td>~$532/yr</td><td>Get list<span class="conf c">?</span></td><td>TBC<span class="conf c">?</span></td><td>Capped<span class="conf c">?</span></td></tr>
-      <tr><th>Included data</th><td>Kia Connect<span class="conf c">?</span></td><td>Streaming 3 yrs</td><td>iSMART 12 mths</td><td>Bluelink<span class="conf c">?</span></td><td><span class="good">Google 4 yrs</span></td><td>2 GB/mth, 2 yrs</td><td>5G + app<span class="conf c">?</span></td><td><span class="good">Google 5 yrs</span></td><td>None listed<span class="conf c">?</span></td><td>myPeugeot app</td></tr>
+      <tr class="sec"><th colspan="12">Powertrain &amp; performance</th></tr>
+      <tr><th>Drive</th><td>Front-wheel drive</td><td><span class="good">Rear-wheel drive</span></td><td><span class="good">Rear-wheel drive</span></td><td>Front-wheel drive</td><td>RWD / AWD</td><td>RWD / AWD</td><td>Front-wheel drive</td><td>RWD / AWD</td><td>Front-wheel drive</td><td>FWD / AWD (Ultra)</td><td>Front-wheel drive</td></tr>
+      <tr><th>Power / torque</th><td>150 kW / 283 Nm</td><td>160 kW / 240 Nm</td><td>125 / 150 kW &middot; 250&ndash;350 Nm</td><td>99 / 150 kW &middot; 255 Nm</td><td>200 kW (twin 315 kW) / 343 Nm</td><td>185 kW/420 Nm (RWD) &middot; 300 kW/670 Nm (AWD)</td><td>150 kW / 310 Nm</td><td>250 kW / 365 kW (AWD)</td><td>160 kW / 300 Nm</td><td>106&ndash;128 kW / 176 kW AWD</td><td>100 kW / 260 Nm</td></tr>
+      <tr><th>0&ndash;100 km/h</th><td>7.5&ndash;7.9 s</td><td>8.0 s</td><td>8.2 / 7.0 s</td><td>~8.8 / 7.8 s<span class="conf e">&asymp;</span></td><td><span class="good">5.3 s</span> / 3.7 s</td><td>7.3 / 4.8 s</td><td>7.9 / 7.3 s</td><td>5.6 / 3.7 s</td><td>7.4 s</td><td>~9 s<span class="conf e">&asymp;</span></td><td>9.0 s</td></tr>
+      <tr><th>Drive / one-pedal modes</th><td>5 modes, i-Pedal 3.0</td><td>3 modes, 3 regen</td><td>3 modes, one-pedal</td><td>4 modes, i-Pedal</td><td>One-pedal, creep options</td><td>RWD / AWD</td><td>Regen modes</td><td>3 modes, one-pedal</td><td>Multi-Sense, one-pedal, paddles</td><td>Drive modes</td><td>Eco/Normal/Sport</td></tr>
+      <tr class="sec"><th colspan="12">Battery &amp; charging</th></tr>
+      <tr><th>Battery chemistry</th><td>NMC lithium-ion</td><td><span class="good">LFP</span></td><td><span class="good">LFP</span></td><td>NMC lithium-ion</td><td>NMC lithium-ion</td><td>NMC lithium-ion</td><td><span class="good">LFP Blade</span></td><td><span class="good">RWD LFP</span> / AWD NMC</td><td>NMC lithium-ion</td><td><span class="good">LFP</span></td><td>NMC lithium-ion</td></tr>
+      <tr><th>Charge to 100% daily?</th><td>Best at ~80%</td><td class="good">Yes</td><td class="good">Yes</td><td>Best at ~80%</td><td>Best at ~80%</td><td>Best at ~80%</td><td class="good">Yes</td><td class="good">Yes (RWD)</td><td>Best at ~80%</td><td class="good">Yes</td><td>Best at ~80%</td></tr>
+      <tr><th>Battery capacity</th><td>58.3 / 81.4 kWh</td><td>56.2 / 67.1 kWh</td><td>49 / 62 kWh</td><td>48.6 / 64.8 kWh</td><td>69 kWh</td><td>82 kWh</td><td>49.9 / 60.5 kWh</td><td>61 kWh / ~66 kWh</td><td>60 kWh</td><td>49 / 61 kWh</td><td>50 kWh</td></tr>
+      <tr><th>Home AC (Type 2) &mdash; the speed that matters</th><td>11 kW (3-ph)</td><td><span class="good">11 kW</span></td><td><span class="bad">6.6 kW</span></td><td>10.4 kW</td><td><span class="good">11 kW</span></td><td><span class="good">11 kW (3-phase)</span></td><td>7 kW</td><td><span class="good">11 / 22 kW</span></td><td>7.4 kW</td><td><span class="good">11 kW</span></td><td><span class="good">11 kW (3-ph)</span></td></tr>
+      <tr><th>DC fast (road-trip only)</th><td>128&ndash;190 kW (10&ndash;80% ~29 min)</td><td>140 / 168 kW (~18 min)</td><td>120 / 150 kW (~19 min)</td><td>100 kW (~45 min)</td><td>153 kW (~27 min)</td><td>200 kW (10&ndash;80% ~28 min)</td><td><span class="bad">70 / 88 kW</span></td><td>230 kW (~18 min) / 150 kW</td><td>130 kW (~35 min)</td><td><span class="bad">70 kW (~45 min)</span></td><td>100 kW (~30 min)</td></tr>
+      <tr><th>V2L (power appliances)</th><td>Yes</td><td>Yes, 3.3 kW</td><td>Yes</td><td>Yes, 3 kW</td><td><span class="bad">&ndash;</span></td><td><span class="bad">&ndash;</span></td><td>Yes</td><td>Yes, 3.3 kW</td><td>Yes, 3.7 kW</td><td><span class="bad">&ndash;</span></td><td><span class="bad">&ndash;</span></td></tr>
+      <tr><th>Heat pump (winter efficiency)</th><td>Confirm<span class="conf c">?</span></td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td><td>Likely<span class="conf c">?</span></td><td><span class="good">Std</span></td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td></tr>
+      <tr class="sec"><th colspan="12">Range</th></tr>
+      <tr><th>WLTP range</th><td><span class="good">436 / 604 / 563 km</span></td><td>361 / 434 km</td><td>335 / 450 km</td><td>370 / 505 / 444 km</td><td><span class="good">462 / 417 km</span></td><td><span class="good">520 / 485 km</span></td><td>345 / 420 km</td><td>405 / 415 km</td><td>454 km</td><td>344 / 395 km</td><td><span class="bad">328 km (shortest)</span></td></tr>
+      <tr class="sec"><th colspan="12">Dimensions &amp; weights</th></tr>
+      <tr><th>Length</th><td>4,310 mm</td><td class="bad">4,515 mm</td><td>4,476 mm</td><td>4,355 mm</td><td>4,233 mm</td><td>4,440 mm</td><td>4,455 mm</td><td>4,432 mm</td><td>4,200 mm</td><td>4,275 mm</td><td>4,300 mm</td></tr>
+      <tr><th>Width (excl. mirrors)</th><td>1,850 mm</td><td class="bad">1,885 mm</td><td>1,849 mm</td><td>1,825 mm</td><td>1,837 mm</td><td>1,873 mm</td><td>1,875 mm</td><td>1,836 mm</td><td>1,860 mm</td><td>1,800 mm</td><td>1,815 mm</td></tr>
+      <tr><th>Height</th><td>1,560&ndash;1,570 mm</td><td>1,665 mm</td><td>1,621 mm</td><td>1,580 mm</td><td>1,549 mm</td><td>1,647 mm</td><td>1,615 mm</td><td>1,566 mm</td><td><span class="bad">1,505 mm</span></td><td><span class="good">1,635 mm</span></td><td>1,550 mm</td></tr>
+      <tr><th>Wheelbase</th><td>2,680 mm</td><td>2,735 mm</td><td>2,730 mm</td><td>2,660 mm</td><td>2,650 mm</td><td>2,702 mm</td><td>2,720 mm</td><td>2,750 mm</td><td>2,700 mm</td><td>2,700 mm</td><td>2,605 mm</td></tr>
+      <tr><th>Boot / frunk</th><td>460 / 25 L</td><td><span class="good">490</span> / &ndash;</td><td>453 / &ndash;</td><td>407 / 27 L</td><td><span class="bad">318</span> / 7 L</td><td>410 / 31 L</td><td>440 / &ndash;</td><td>404 / &ndash;</td><td>440 / &ndash;</td><td><span class="bad">~306</span> / &ndash;</td><td>434 / &ndash;</td></tr>
+      <tr><th>Kerb weight</th><td>1,845&ndash;1,930 kg</td><td>1,780 / 1,845 kg</td><td>1,680 / 1,755 kg</td><td>1,615&ndash;1,795 kg</td><td>~1,785 kg</td><td>2,075&ndash;2,170 kg</td><td>1,680&ndash;1,750 kg</td><td>up to 1,960 kg</td><td>1,636&ndash;1,711 kg</td><td>1,700&ndash;1,900 kg</td><td>1,548 kg</td></tr>
+      <tr><th>Braked towing</th><td><span class="good">1,000 kg (LR)</span></td><td>n/s</td><td>750 kg</td><td>750 kg (ER)</td><td><span class="good">1,600 kg</span></td><td>1,500 kg (RWD) / <span class="good">1,800 kg (AWD)</span></td><td>750 kg</td><td>n/s</td><td>900 kg</td><td>750 kg</td><td><span class="bad">Not rated</span></td></tr>
+      <tr><th>Spare wheel</th><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td><td><span class="good">Space-saver</span></td><td>Repair kit</td><td>Repair kit<span class="conf c">?</span></td><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td><td>Repair kit</td></tr>
+      <tr class="sec"><th colspan="12">Safety</th></tr>
+      <tr><th>ANCAP</th><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2025)</span></td><td><span class="good">5 (2025)</span></td><td><span class="bad">4 (2023)</span></td><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2018-based test)</span></td><td><span class="good">5 (2022)</span></td><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2022)</span><span class="conf c">?</span></td><td><span class="bad">4</span></td><td>5 (2019, old test)<span class="conf c">?</span></td></tr>
+      <tr><th>Airbags</th><td>7 (incl. centre)</td><td>7 (incl. centre)</td><td>7 (incl. far-side)</td><td>7 (incl. centre)</td><td>7 (incl. centre)</td><td>7 (incl. knee)</td><td>7</td><td>7 (incl. centre)</td><td>7</td><td>7 (incl. knee)</td><td>6</td></tr>
+      <tr><th>360&deg; camera / parking</th><td><span class="bad">No 360&deg;</span></td><td><span class="good">360&deg; + dashcam</span></td><td><span class="good">360&deg;</span></td><td>360&deg; (Premium)</td><td><span class="good">360&deg; + self-park</span></td><td><span class="good">360&deg; std</span></td><td><span class="good">360&deg;</span></td><td><span class="good">360&deg; + remote park</span></td><td>360&deg; likely<span class="conf c">?</span></td><td><span class="good">360&deg;</span></td><td><span class="bad">180&deg; only</span></td></tr>
+      <tr class="sec"><th colspan="12">Cabin &amp; features</th></tr>
+      <tr><th>Screens</th><td>12.3&Prime; + 5&Prime; + 12.3&Prime;</td><td>14.6&Prime; + 8.8&Prime;</td><td>12.8&Prime; + 10.25&Prime;</td><td>12.3&Prime; + 12.3&Prime;</td><td><span class="bad">12.3&Prime; central only</span></td><td><span class="bad">9&Prime; portrait</span> + 12.3&Prime; driver</td><td>12.8&Prime;/15.6&Prime; + 5&Prime;</td><td>14.6&Prime; + 8.8&Prime;</td><td>12&Prime; + 12.3&Prime;</td><td>10.1&Prime; + 10.25&Prime;</td><td>10&Prime; + i-Cockpit</td></tr>
+      <tr><th>Head-up display</th><td>GT-Line</td><td>&ndash;</td><td>&ndash;</td><td>Premium</td><td>&ndash;</td><td><span class="bad">&ndash;</span></td><td>&ndash;</td><td>AWD (AR)</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+      <tr><th>Apple CarPlay</th><td>Wireless &amp; wired</td><td>Wireless</td><td>Wireless &amp; wired</td><td>Wireless</td><td>Wireless</td><td><span class="good">Wireless</span></td><td>Wireless</td><td>Wireless</td><td>Wireless</td><td>Wireless</td><td>Wired</td></tr>
+      <tr><th>Wireless phone charging</th><td>Std</td><td>Std</td><td>Std (Essence)</td><td>Std</td><td>Std</td><td><span class="good">Std</span><span class="conf e">&asymp;</span></td><td>Premium</td><td>Std</td><td>Confirm<span class="conf c">?</span></td><td>Ultra</td><td><span class="bad">No</span></td></tr>
+      <tr><th>Power tailgate</th><td>Earth / GT-Line</td><td>Design LR</td><td><span class="good">Std</span></td><td>Premium</td><td><span class="good">Std</span></td><td><span class="good">Std</span></td><td>Premium</td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td><td><span class="bad">&ndash;</span></td><td><span class="bad">&ndash;</span></td></tr>
+      <tr><th>Heated / ventilated seats</th><td>Earth / GT-Line (both)</td><td>Design LR (both)</td><td>Heated std</td><td>Premium (both)</td><td>Heated (Climate pack)</td><td>Heated std; ventilated confirm<span class="conf c">?</span></td><td>Premium (heated)</td><td>Heated F+R std</td><td>Heated<span class="conf c">?</span></td><td>Ultra (heated)</td><td>GT (heated)</td></tr>
+      <tr><th>Sunroof</th><td>GT-Line</td><td><span class="good">Pano std</span></td><td><span class="good">Pano std (Essence)</span></td><td>Premium</td><td>Pano (Plus/Ultra)</td><td>Confirm<span class="conf c">?</span></td><td>Pano (Premium)</td><td><span class="good">Pano std</span></td><td>Confirm<span class="conf c">?</span></td><td>Ultra</td><td>Pano (GT)</td></tr>
+      <tr class="sec"><th colspan="12">Ownership</th></tr>
+      <tr><th>Warranty</th><td><span class="good">7 yr</span></td><td>6 yr / 150k</td><td><span class="good">7&rarr;10 yr</span> w/ MG service</td><td>5&rarr;7 yr w/ Hyundai service</td><td>5 yr</td><td>5 yr</td><td>6 yr / 150k</td><td>5 yr</td><td><span class="bad">5 yr / 100k</span></td><td>5 yr</td><td>5 yr</td></tr>
+      <tr><th>Battery warranty</th><td>7 yr / 150k</td><td>8 yr / 160k</td><td>7 yr</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td><td>8 yr / 160k</td></tr>
+      <tr><th>Service interval</th><td>12 mths</td><td>12 mths / 20k</td><td>12 mths / 25k</td><td><span class="good">24 mths / 30k</span></td><td>24 mths / 30k</td><td>24 mths / 30k</td><td>12 mths / 20k</td><td>12 mths / 20k</td><td>12 mths / 30k</td><td>Confirm<span class="conf c">?</span></td><td>12 mths</td></tr>
+      <tr><th>Service cost</th><td><span class="good">~$261/yr</span></td><td>Capped 8 yrs</td><td>Capped &mdash; get list<span class="conf c">?</span></td><td>~$680/2 yrs</td><td>Get list<span class="conf c">?</span></td><td><span class="good">FREE, 5 yrs/150k included</span></td><td>~$327&ndash;341/yr</td><td>~$532/yr</td><td>Get list<span class="conf c">?</span></td><td>TBC<span class="conf c">?</span></td><td>Capped<span class="conf c">?</span></td></tr>
+      <tr><th>Included data</th><td>Kia Connect<span class="conf c">?</span></td><td>Streaming 3 yrs</td><td>iSMART 12 mths</td><td>Bluelink<span class="conf c">?</span></td><td><span class="good">Google 4 yrs</span></td><td>Google built-in<span class="conf c">?</span></td><td>2 GB/mth, 2 yrs</td><td>5G + app<span class="conf c">?</span></td><td><span class="good">Google 5 yrs</span></td><td>None listed<span class="conf c">?</span></td><td>myPeugeot app</td></tr>
     </tbody>
   </table>
   </div>
@@ -760,7 +586,7 @@
   <h3 style="font-size:1.15rem;font-weight:800;margin:24px 0 6px">Each car in detail</h3>
   <p class="lede">Tap a car to open it: release date and what&rsquo;s next, why it scored as it did, and links. The <strong>Brochure PDF</strong> buttons are placeholders &mdash; if you pop the brochures in a shared folder and send the links, I&rsquo;ll wire them up; otherwise the official-site button has a &ldquo;Download brochure&rdquo; link.</p>
 
-  <details class="car" open><summary><div>Kia EV3 &mdash; 8.7 &middot; 1st<div class="meta">Released 20 Mar 2025 &middot; EV3 GT due late 2026</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="ev3" open><summary><div>Kia EV3 &mdash; 8.7 &middot; 1st<div class="meta">Released 20 Mar 2025 &middot; EV3 GT due late 2026</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Air SR ($46,990 d/a offer) &middot; Air LR (~$53&ndash;55k, 604&nbsp;km &mdash; the pick) &middot; Earth (~$60k, power tailgate + heated seats) &middot; GT-Line ($68,490, HUD + sunroof + Harman Kardon).</dd>
@@ -771,7 +597,7 @@
     </div>
   </details>
 
-  <details class="car"><summary><div>Leapmotor B10 &mdash; 8.4 &middot; 2nd<div class="meta">Released late 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="b10"><summary><div>Leapmotor B10 &mdash; 8.4 &middot; 2nd<div class="meta">Released late 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Style ($38,990 d/a, 361&nbsp;km) &middot; Design LR ($41,990 d/a, 434&nbsp;km &mdash; adds power tailgate, heated &amp; ventilated seats, 12-speaker audio). Both get 360&deg; camera + dashcam, wireless charging, panoramic roof, 11&nbsp;kW charging.</dd>
@@ -783,7 +609,7 @@
     </div>
   </details>
 
-  <details class="car"><summary><div>MG S5 EV &mdash; 8.3 &middot; 3rd<div class="meta">Released 30 Apr 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="mg"><summary><div>MG S5 EV &mdash; 8.3 &middot; 3rd<div class="meta">Released 30 Apr 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Excite 49 ($40,490 d/a) &middot; Essence 49 ($42,990) &middot; Excite 62 ($44,990) &middot; Essence 62 ($47,990, 450&nbsp;km &mdash; the pick, with power tailgate, heated seats/wheel, pano roof, 360&deg; camera).</dd>
@@ -794,7 +620,7 @@
     </div>
   </details>
 
-  <details class="car"><summary><div>Hyundai Kona Electric &mdash; 7.8 &middot; 4th<div class="meta">Released 2023 &middot; facelift skipped, next-gen ~2028</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="kona"><summary><div>Hyundai Kona Electric &mdash; 7.8 &middot; 4th<div class="meta">Released 2023 &middot; facelift skipped, next-gen ~2028</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Standard Range ($45,990 d/a) &middot; Extended Range ($50,990, 505&nbsp;km &mdash; the pick) &middot; Premium ($60,990, adds HUD, power tailgate, heated/ventilated leather, Bose, sunroof, 360&deg;).</dd>
@@ -805,18 +631,30 @@
     </div>
   </details>
 
-  <details class="car"><summary><div>Volvo EX30 &mdash; 7.6 &middot; 5th<div class="meta">Released early 2024 &middot; current, no major update imminent</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="ex40"><summary><div>Volvo EX40 &mdash; 7.7 &middot; 5th<div class="meta">Released 1 Jun 2025 (as EX40) &middot; EX60 due late 2026/2027</div></div><span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <dl class="kv">
+        <dt>Grades &amp; pricing</dt><dd>Single Motor Extended Range (from ~$69,990 before on-roads, 520&nbsp;km) &middot; Twin Motor AWD (~$75&ndash;77k est., 300&nbsp;kW, 485&nbsp;km). One Ultra-only specification level; prices cut $7,000 across the range from 1 April 2026. Your project brochure is a European/global spec sheet &mdash; Australian pricing and WLTP figures used here.</dd>
+        <dt>Why 7.7 &mdash; 5th</dt><dd>The EX30's bigger sibling and effectively the renamed XC40 Recharge. <b>Range &amp; charging 9.0</b> (520&nbsp;km, fast 28-min DC) and <b>Ownership 9.0</b> (5-yr unlimited warranty <em>plus 5 years/150,000km of servicing included free</em> &mdash; not just capped, actually free) are the standouts. <b>Value 4.5 (lowest here)</b> is what holds it back: at $70k+ before on-roads it's $10&ndash;20k above everything else in this comparison, really competing with the Tesla Model Y and BMW iX1 rather than the rest of this list. The 9&Prime; portrait screen is also noticeably smaller and lower-res than the EV3/B10/MG's newer displays.</dd>
+        <dt>Worth knowing</dt><dd>EX40 sales fell around 40% in 2025 as Volvo repositions the range ahead of the incoming EX60 (its mid-size electric SUV replacement, due late 2026 or 2027). Still a fully supported, current model &mdash; just one nearing the end of its run.</dd>
+      </dl>
+      <div class="review-quote">&ldquo;One of the safest small electric SUVs on the market&hellip; a very robust crash structure proven across multiple test programs&rdquo; &mdash; summarising ANCAP/Euro NCAP consensus.</div>
+      <div class="linkrow"><a class="linkbtn" href="https://www.volvocars.com/au/cars/ex40-electric/" target="_blank" rel="noopener">Volvo EX40 (Australia) &#8599;</a><a class="linkbtn" href="https://www.carsales.com.au/research/volvo/ex40/" target="_blank" rel="noopener">carsales research &#8599;</a><a class="linkbtn" data-brochure="ex40" href="#">Brochure PDF &mdash; add AU version &#8599;</a></div>
+    </div>
+  </details>
+
+  <details class="car" data-vid="ex30"><summary><div>Volvo EX30 &mdash; 7.6 &middot; 6th<div class="meta">Released early 2024 &middot; current, no major update imminent</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Single Motor Extended Range Plus (from ~$50k, 462&nbsp;km) &middot; Ultra (adds 360&deg; + Pilot Assist) &middot; Cross Country AWD (top, ~$62,990). US brochure you shared shows only the Twin Motor; Australian range and figures used here.</dd>
-        <dt>Why 7.6 &mdash; 5th</dt><dd><b>Safety 9.0</b> and a premium cabin, 462&nbsp;km range, power tailgate and 360&deg; standard. The score is capped by <b>Everyday ease 7.0</b>: there&rsquo;s <em>no driver display</em> &mdash; speed shows only on the central screen &mdash; and the rear seat and boot (318&nbsp;L) are tight. NMC battery (80% daily).</dd>
+        <dt>Why 7.6 &mdash; 6th</dt><dd><b>Safety 9.0</b> and a premium cabin, 462&nbsp;km range, power tailgate and 360&deg; standard. The score is capped by <b>Everyday ease 7.0</b>: there&rsquo;s <em>no driver display</em> &mdash; speed shows only on the central screen &mdash; and the rear seat and boot (318&nbsp;L) are tight. NMC battery (80% daily).</dd>
       </dl>
       <div class="review-quote">Premium and desirable, but the all-screen interface and tight space divide reviewers.</div>
       <div class="linkrow"><a class="linkbtn" href="https://www.volvocars.com/au/cars/ex30-electric/" target="_blank" rel="noopener">Volvo EX30 (Australia) &#8599;</a><a class="linkbtn" href="https://www.carsales.com.au/research/volvo/ex30/" target="_blank" rel="noopener">carsales research &#8599;</a><a class="linkbtn" data-brochure="ex30" href="#">Brochure PDF &mdash; add AU version &#8599;</a></div>
     </div>
   </details>
 
-  <details class="car"><summary><div>BYD Atto 3 &mdash; 7.5 &middot; 6th<div class="meta">Released 2022 &middot; Atto 3 Evo arrives late 2026</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="atto3"><summary><div>BYD Atto 3 &mdash; 7.5 &middot; 7th<div class="meta">Released 2022 &middot; Atto 3 Evo arrives late 2026</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Essential (~$43&ndash;44k, 345&nbsp;km) &middot; Premium (~$48&ndash;49k, 420&nbsp;km &mdash; adds 15.6&Prime; screen, wireless charging, pano roof, power tailgate).</dd>
@@ -827,7 +665,7 @@
     </div>
   </details>
 
-  <details class="car"><summary><div>Zeekr X &mdash; 7.4 &middot; 7th<div class="meta">Released Apr 2025 &middot; just updated (MY26, May 2026)</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="zeekr"><summary><div>Zeekr X &mdash; 7.4 &middot; 8th<div class="meta">Released Apr 2025 &middot; just updated (MY26, May 2026)</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing (MY26)</dt><dd>RWD ($48,900 d/a, new LFP battery, 405&nbsp;km, 250&nbsp;kW &mdash; the pick) &middot; AWD ($57,900, 365&nbsp;kW, massage seats + fridge). Your Singapore brochure is the older MY24 car; these are the current Australian figures.</dd>
@@ -838,7 +676,7 @@
     </div>
   </details>
 
-  <details class="car"><summary><div>Renault Megane E-Tech &mdash; 7.0 &middot; 8th<div class="meta">Released early 2024 &middot; updated Euro version expected ~2027</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="megane"><summary><div>Renault Megane E-Tech &mdash; 7.0 &middot; 9th<div class="meta">Released early 2024 &middot; updated Euro version expected ~2027</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grade &amp; pricing</dt><dd>Single Techno trim, 60&nbsp;kWh, 454&nbsp;km, ~$49,990&ndash;54,990 d/a. Your brochure is the UK edition; the Australian car matches on the key figures.</dd>
@@ -849,7 +687,7 @@
     </div>
   </details>
 
-  <details class="car"><summary><div>Suzuki e-Vitara &mdash; 6.6 &middot; 9th<div class="meta">Released June 2026 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="evitara"><summary><div>Suzuki e-Vitara &mdash; 6.6 &middot; 10th<div class="meta">Released June 2026 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Motion FWD (~$49,990 d/a, 344&nbsp;km) &middot; Ultra AWD (~$58,990, 395&nbsp;km, adds wireless charging, heated seats, sunroof). Confirm current pricing &mdash; the launch offer has ended.</dd>
@@ -860,18 +698,17 @@
     </div>
   </details>
 
-  <details class="car"><summary><div>Peugeot e-2008 &mdash; 6.4 &middot; 10th<div class="meta">Released ~2021 (this version) &middot; longer-range update not confirmed for AU</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="e2008"><summary><div>Peugeot e-2008 &mdash; withdrawn<div class="meta">No longer sold in Australia &middot; kept for reference</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
-        <dt>Grade &amp; pricing</dt><dd>GT, 50&nbsp;kWh, 328&nbsp;km, ~$55&ndash;60k historically &mdash; check for runout deals. Your brochure is the 2024 MY23 edition; Australia still sells this short-range version.</dd>
-        <dt>Why 6.4 &mdash; 10th</dt><dd>Stylish, with a good 434&nbsp;L boot and 11&nbsp;kW home charging. But the numbers date it: the <em>shortest range of all eleven</em> (328&nbsp;km), only a 180&deg; reversing camera (no 360&deg; &mdash; a real miss for a tight garage), the divisive small-wheel i-Cockpit, and NMC battery (80% daily). A longer-range (~406&nbsp;km) version sells overseas but isn&rsquo;t confirmed here.</dd>
+        <dt>No longer available</dt><dd>Peugeot Australia has dropped its electric passenger cars. The e-2008 launched here in September 2023 (50&nbsp;kWh, 328&nbsp;km, GT only), but was removed from Peugeot&rsquo;s website, its stock was cleared with discounts of up to ~$25,000, and the promised longer-range (~406&nbsp;km) facelift was cancelled. Peugeot&rsquo;s only local EVs now are the E-Partner and E-Expert vans &mdash; there is no electric SUV in the range.</dd>
+        <dt>Had it stayed, it would have scored ~6.4</dt><dd>Stylish, with a good 434&nbsp;L boot and 11&nbsp;kW home charging, but the numbers dated it even when new: the shortest range of the group (328&nbsp;km), only a 180&deg; reversing camera (no 360&deg;), the divisive small-wheel i-Cockpit, and an NMC battery (80% daily). Left here only so you can see how it compared.</dd>
       </dl>
-      <div class="review-quote">Stylish and pleasant to drive, but short range and age count against it.</div>
-      <div class="linkrow"><a class="linkbtn" href="https://www.peugeot.com.au/models/electric.html" target="_blank" rel="noopener">Peugeot electric (Australia) &#8599;</a><a class="linkbtn" href="https://www.carsguide.com.au/peugeot/2008" target="_blank" rel="noopener">CarsGuide research &#8599;</a><a class="linkbtn" data-brochure="e2008" href="#">Brochure PDF &mdash; add link &#8599;</a></div>
+      <div class="linkrow"><a class="linkbtn" href="https://www.peugeot.com.au/models/electric.html" target="_blank" rel="noopener">Peugeot electric range (Australia) &#8599;</a></div>
     </div>
   </details>
 
-  <details class="car"><summary><div>BYD Atto 3 Evo &mdash; TBC &middot; wildcard<div class="meta">Arriving late 2026 &middot; not yet priced or reviewed</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="attoevo"><summary><div>BYD Atto 3 Evo &mdash; TBC &middot; wildcard<div class="meta">Arriving late 2026 &middot; not yet priced or reviewed</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>What&rsquo;s confirmed (press)</dt><dd>Same 4,455&nbsp;mm footprint, but nearly all-new underneath: 74.8&nbsp;kWh LFP battery, rear-wheel drive (230&nbsp;kW), boot grows to 490&nbsp;L <em>plus</em> a 101&nbsp;L front trunk, 15.6&Prime; screen with Google &amp; AI, heated &amp; ventilated seats.</dd>
@@ -895,25 +732,27 @@
 
     <div class="car-row"><div class="name"><span>Your CX-5 (2013)</span><span class="mm">4,540 mm</span></div>
       <div class="bigbar"><div class="fill cxfill" style="width:90%"></div></div></div>
-    <div class="car-row"><div class="name"><span>Leapmotor B10</span><span class="mm">4,515 mm &middot; 25 mm spare</span></div>
+    <div class="car-row" data-vid="b10"><div class="name"><span>Leapmotor B10</span><span class="mm">4,515 mm &middot; 25 mm spare</span></div>
       <div class="bigbar"><div class="fill tight" style="width:85.4%"></div></div></div>
-    <div class="car-row"><div class="name"><span>MG S5 EV</span><span class="mm">4,476 mm &middot; 64 mm spare</span></div>
+    <div class="car-row" data-vid="mg"><div class="name"><span>MG S5 EV</span><span class="mm">4,476 mm &middot; 64 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:79.3%"></div></div></div>
-    <div class="car-row"><div class="name"><span>BYD Atto 3 / Evo</span><span class="mm">4,455 mm &middot; 85 mm spare</span></div>
+    <div class="car-row" data-vid="atto3"><div class="name"><span>BYD Atto 3 / Evo</span><span class="mm">4,455 mm &middot; 85 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:75.8%"></div></div></div>
-    <div class="car-row"><div class="name"><span>Zeekr X</span><span class="mm">4,432 mm &middot; 108 mm spare</span></div>
+    <div class="car-row" data-vid="ex40"><div class="name"><span>Volvo EX40</span><span class="mm">4,440 mm &middot; 100 mm spare</span></div>
+      <div class="bigbar"><div class="fill" style="width:73.3%"></div></div></div>
+    <div class="car-row" data-vid="zeekr"><div class="name"><span>Zeekr X</span><span class="mm">4,432 mm &middot; 108 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:72.2%"></div></div></div>
-    <div class="car-row"><div class="name"><span>Kia EV3</span><span class="mm">4,310 mm &middot; 230 mm spare</span></div>
+    <div class="car-row" data-vid="ev3"><div class="name"><span>Kia EV3</span><span class="mm">4,310 mm &middot; 230 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:51.7%"></div></div></div>
-    <div class="car-row"><div class="name"><span>Peugeot e-2008</span><span class="mm">4,300 mm &middot; 240 mm spare</span></div>
+    <div class="car-row" data-vid="e2008"><div class="name"><span>Peugeot e-2008 <span class="muted">(no longer sold)</span></span><span class="mm">4,300 mm &middot; 240 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:50.0%"></div></div></div>
-    <div class="car-row"><div class="name"><span>Hyundai Kona Electric</span><span class="mm">4,355 mm &middot; 185 mm spare</span></div>
+    <div class="car-row" data-vid="kona"><div class="name"><span>Hyundai Kona Electric</span><span class="mm">4,355 mm &middot; 185 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:59.2%"></div></div></div>
-    <div class="car-row"><div class="name"><span>Suzuki e-Vitara</span><span class="mm">4,275 mm &middot; 265 mm spare</span></div>
+    <div class="car-row" data-vid="evitara"><div class="name"><span>Suzuki e-Vitara</span><span class="mm">4,275 mm &middot; 265 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:45.8%"></div></div></div>
-    <div class="car-row"><div class="name"><span>Volvo EX30</span><span class="mm">4,233 mm &middot; 307 mm spare</span></div>
+    <div class="car-row" data-vid="ex30"><div class="name"><span>Volvo EX30</span><span class="mm">4,233 mm &middot; 307 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:38.8%"></div></div></div>
-    <div class="car-row"><div class="name"><span>Renault Megane E-Tech</span><span class="mm">4,200 mm &middot; 340 mm spare</span></div>
+    <div class="car-row" data-vid="megane"><div class="name"><span>Renault Megane E-Tech</span><span class="mm">4,200 mm &middot; 340 mm spare</span></div>
       <div class="bigbar"><div class="fill" style="width:33.3%"></div></div></div>
   </div>
 
@@ -943,16 +782,16 @@
   <div class="table-scroll">
   <table style="min-width:1180px">
     <thead>
-      <tr><th>Category</th><th>Kia EV3</th><th>Leapmotor B10</th><th>MG S5</th><th>Kona</th><th>Volvo EX30</th><th>BYD Atto 3</th><th>Zeekr X</th><th>Renault Megane</th><th>Suzuki e-Vitara</th><th>Peugeot e-2008</th></tr>
+      <tr><th>Category</th><th>Kia EV3</th><th>Leapmotor B10</th><th>MG S5</th><th>Kona</th><th>Volvo EX40</th><th>Volvo EX30</th><th>BYD Atto 3</th><th>Zeekr X</th><th>Renault Megane</th><th>Suzuki e-Vitara</th><th style="color:#B9CFC7">e-2008 (withdrawn)</th></tr>
     </thead>
     <tbody>
-      <tr><th>Everyday ease (25%)</th><td>8.5</td><td>8.0</td><td>8.5</td><td>9.0</td><td>7.0</td><td>6.5</td><td>6.5</td><td>6.5</td><td>8.5</td><td>6.5</td></tr>
-      <tr><th>Value (20%)</th><td>8.0</td><td>9.5</td><td>9.5</td><td>7.5</td><td>7.0</td><td>8.5</td><td>8.0</td><td>7.0</td><td>5.5</td><td>5.5</td></tr>
-      <tr><th>Safety (20%)</th><td>9.0</td><td>8.5</td><td>8.0</td><td>6.5</td><td>9.0</td><td>8.5</td><td>8.5</td><td>7.5</td><td>6.0</td><td>7.0</td></tr>
-      <tr><th>Range &amp; home charging (15%)</th><td>9.5</td><td>8.0</td><td>7.5</td><td>8.0</td><td>8.5</td><td>7.5</td><td>7.5</td><td>7.5</td><td>6.0</td><td>5.5</td></tr>
-      <tr><th>Ownership (12%)</th><td>9.0</td><td>8.0</td><td>8.0</td><td>8.0</td><td>7.5</td><td>6.5</td><td>7.0</td><td>6.5</td><td>7.0</td><td>7.0</td></tr>
-      <tr><th>Practicality (8%)</th><td>8.5</td><td>8.5</td><td>8.0</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>5.5</td><td>7.5</td></tr>
-      <tr><th>Weighted total</th><td class="scorecell">8.7</td><td class="scorecell">8.4</td><td class="scorecell">8.3</td><td class="scorecell">7.8</td><td class="scorecell">7.6</td><td class="scorecell">7.5</td><td class="scorecell">7.4</td><td class="scorecell">7.0</td><td class="scorecell">6.6</td><td class="scorecell">6.4</td></tr>
+      <tr><th>Everyday ease (25%)</th><td>8.5</td><td>8.0</td><td>8.5</td><td>9.0</td><td>8.0</td><td>7.0</td><td>6.5</td><td>6.5</td><td>6.5</td><td>8.5</td><td>6.5</td></tr>
+      <tr><th>Value (20%)</th><td>8.0</td><td>9.5</td><td>9.5</td><td>7.5</td><td>4.5</td><td>7.0</td><td>8.5</td><td>8.0</td><td>7.0</td><td>5.5</td><td>5.5</td></tr>
+      <tr><th>Safety (20%)</th><td>9.0</td><td>8.5</td><td>8.0</td><td>6.5</td><td>8.5</td><td>9.0</td><td>8.5</td><td>8.5</td><td>7.5</td><td>6.0</td><td>7.0</td></tr>
+      <tr><th>Range &amp; home charging (15%)</th><td>9.5</td><td>8.0</td><td>7.5</td><td>8.0</td><td>9.0</td><td>8.5</td><td>7.5</td><td>7.5</td><td>7.5</td><td>6.0</td><td>5.5</td></tr>
+      <tr><th>Ownership (12%)</th><td>9.0</td><td>8.0</td><td>8.0</td><td>8.0</td><td>9.0</td><td>7.5</td><td>6.5</td><td>7.0</td><td>6.5</td><td>7.0</td><td>7.0</td></tr>
+      <tr><th>Practicality (8%)</th><td>8.5</td><td>8.5</td><td>8.0</td><td>7.5</td><td>8.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>5.5</td><td>7.5</td></tr>
+      <tr><th>Weighted total</th><td class="scorecell">8.7</td><td class="scorecell">8.4</td><td class="scorecell">8.3</td><td class="scorecell">7.8</td><td class="scorecell">7.7</td><td class="scorecell">7.6</td><td class="scorecell">7.5</td><td class="scorecell">7.4</td><td class="scorecell">7.0</td><td class="scorecell">6.6</td><td class="scorecell">6.4</td></tr>
     </tbody>
   </table>
   </div>
@@ -965,9 +804,339 @@
   </div>
 </section>
 
+<!-- ============ PANEL 6: COMPANY & SUPPORT ============ -->
+<section class="panel" id="p-company">
+  <h2>Who's actually behind each car</h2>
+  <p class="lede">The badge on the bonnet isn't always who builds, imports, or backs the car in Australia. This matters for parts supply, warranty honouring, and whether there'll be a dealer nearby in five years. Peugeot's recent withdrawal (tab 1) is the cautionary example of what can go wrong.</p>
+  <p class="lede" style="font-size:.85rem"><em>Dealer locations noted below were last verified alongside this update. Dealer networks do change &mdash; new outlets open, others close or relocate &mdash; so this gets rechecked every time the app is refreshed rather than assumed to still be correct.</em></p>
+
+  <div class="info-card" data-vid="ev3">
+    <h3>Kia EV3</h3>
+    <div class="sub2">Kia Corporation (South Korea) &middot; part of Hyundai Motor Group</div>
+    <div class="badge-row"><span class="badge est">Most established</span><span class="badge est">Factory-owned distribution</span></div>
+    <p>Kia Australia is a wholly-owned subsidiary of Kia Corporation, not an independent importer &mdash; if something goes wrong, you're dealing with the same company that built the car. Kia has been in Australia since 1997 with a dealer network exceeding 100 locations, and is currently the country's top-selling EV brand behind Tesla.</p>
+    <div class="good-flag">Same corporate structure and factory backing as Hyundai. This is about as low-risk as it gets for long-term parts and service.</div>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Lilydale Kia, right in Lilydale itself &mdash; about as close as any dealer gets in this whole comparison.</div>
+  </div>
+
+  <div class="info-card" data-vid="b10">
+    <h3>Leapmotor B10</h3>
+    <div class="sub2">Leapmotor (China) &middot; Stellantis holds a controlling 51% stake in Leapmotor International (the export arm) and ~21% of Leapmotor directly</div>
+    <div class="badge-row"><span class="badge grow">Growing fast</span><span class="badge new">Newer to Australia</span></div>
+    <p>This is a genuinely unusual and reassuring structure for a Chinese EV brand: Stellantis (Jeep, Peugeot, Fiat, Ram) invested &euro;1.5 billion for a controlling stake in Leapmotor's overseas business specifically so it could sell Leapmotor cars through its own existing global dealer network. In Australia, Leapmotor is sold through a mix of Stellantis-linked dealers (including some Jeep outlets) and new partners &mdash; currently around 12 locations, with plans to expand to 20&ndash;30. Leapmotor posted its first-ever profit in 2025 and is targeting strong growth in 2026.</p>
+    <div class="good-flag">Stellantis backing is a real asset here &mdash; it's not just a startup hoping to survive; a major global manufacturer has skin in the game.</div>
+    <div class="flag">The dealer network is still small and young in Australia. Check there's a service centre reasonably close to home before buying.</div>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Nunawading Leapmotor &mdash; one of the closer outlets in this comparison, given how new and thin the network still is.</div>
+  </div>
+
+  <div class="info-card" data-vid="mg">
+    <h3>MG S5 EV</h3>
+    <div class="sub2">MG Motor &middot; wholly owned by SAIC Motor (China), a state-linked automaker</div>
+    <div class="badge-row"><span class="badge est">Well established in Australia</span></div>
+    <p>MG has been Chinese-owned since SAIC bought the brand in 2007, and MG Motor Australia has operated here since 2016. It's now a top-10 selling brand in Australia with a dealer network approaching 100 outlets &mdash; comparable in size to Kia's. SAIC is one of the world's largest automakers and has invested heavily in its own EV and battery supply chain.</p>
+    <div class="good-flag">Large, well-established local network for a Chinese-owned brand &mdash; parts and servicing shouldn't be hard to find.</div>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Ringwood MG, on the Maroondah Highway &mdash; part of the local Yarra Valley Motor Group.</div>
+  </div>
+
+  <div class="info-card" data-vid="kona">
+    <h3>Hyundai Kona Electric</h3>
+    <div class="sub2">Hyundai Motor Company (South Korea)</div>
+    <div class="badge-row"><span class="badge est">Most established</span><span class="badge est">Factory-owned distribution</span></div>
+    <p>Same story as Kia (they're sister companies under Hyundai Motor Group): factory-owned distribution, one of the largest dealer networks in Australia, and decades of local history. There is essentially no distribution risk with this car.</p>
+    <div class="good-flag">As safe a bet as exists in this comparison for long-term backing.</div>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Lilydale Hyundai, right in Lilydale itself &mdash; as close as any dealer gets in this comparison.</div>
+  </div>
+
+  <div class="info-card" data-vid="ex30">
+    <h3>Volvo EX30</h3>
+    <div class="sub2">Volvo Cars (Sweden) &middot; majority owned (78.7%) by Zhejiang Geely Holding (China) since 2010, but operates independently with its own engineering, HQ and brand</div>
+    <div class="badge-row"><span class="badge est">Well established in Australia</span></div>
+    <p>Volvo Cars has been Geely-owned for over a decade, but it still designs and engineers its own cars in Sweden and runs its own global operations &mdash; it isn't a rebadged Chinese product. Volvo has a long-standing, well-regarded premium dealer network in Australia that predates the Geely ownership by decades. Some administrative integration with Geely's China/Asia-Pacific operations was announced in 2025, but Volvo says there's no change to its corporate structure or ownership.</p>
+    <div class="good-flag">Long local history and an established premium service network &mdash; one of the more reassuring options here despite the Chinese ownership stake.</div>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Volvo Cars Doncaster, on the Eastern Freeway corridor &mdash; a family-owned, factory-trained dealership. It's noticeably closer than Volvo's other Melbourne outlets (South Yarra, Port Melbourne, Essendon, Berwick), which all sit on the opposite side of the city or serve the south-east instead.</div>
+  </div>
+
+  <div class="info-card" data-vid="ex40">
+    <h3>Volvo EX40</h3>
+    <div class="sub2">Volvo Cars (Sweden) &middot; same ownership and distribution as the EX30 above</div>
+    <div class="badge-row"><span class="badge est">Well established in Australia</span></div>
+    <p>Everything said about Volvo's backing for the EX30 applies equally here &mdash; same company, same dealer network, same local history. The EX40 is simply Volvo's next size up (the renamed, updated XC40 Recharge), so there's no difference in corporate risk between the two Volvos in this comparison.</p>
+    <div class="good-flag"><strong>Same nearest dealer:</strong> Volvo Cars Doncaster, on the Eastern Freeway corridor &mdash; the closest option for the outer-eastern suburbs / Yarra Valley area, ahead of Volvo's other Melbourne locations.</div>
+  </div>
+
+  <div class="info-card" data-vid="atto3">
+    <h3>BYD Atto 3</h3>
+    <div class="sub2">BYD Company (China) &middot; the world's largest EV maker by volume</div>
+    <div class="badge-row"><span class="badge grow">Distribution recently changed</span><span class="badge est">Strong retail partner</span></div>
+    <p>BYD took direct control of its Australian operations in July 2025, replacing its original distributor EVDirect. Retail and servicing now runs through EV Dealer Group, which is 80% owned by Eagers Automotive &mdash; Australia's largest listed car dealer group, with a five-year agreement (extendable to ten). This is a genuinely solid retail backer, even though the distribution arrangement itself is relatively new.</p>
+    <div class="good-flag">Eagers Automotive's involvement is a meaningful stability signal &mdash; it's a large, established, financially sound Australian company, not a small independent importer.</div>
+    <div class="flag">The switch from EVDirect to direct BYD control happened only recently (mid-2025). Worth asking your dealer how the transition has gone for existing owners.</div>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> BYD Ringwood, on the Maroondah Highway &mdash; a dedicated BYD showroom and service centre.</div>
+  </div>
+
+  <div class="info-card" data-vid="zeekr">
+    <h3>Zeekr X</h3>
+    <div class="sub2">Zeekr &middot; wholly owned by Geely Auto (China) since December 2025; sister brand to Volvo and Polestar under the wider Geely Group</div>
+    <div class="badge-row"><span class="badge grow">Network expanding</span><span class="badge new">Newest brand in Australia</span></div>
+    <p>Zeekr only entered Australia in late 2024/2025, positioning itself as a premium alternative to Tesla. The network is still young and small compared to every other car in this comparison, but it has genuinely grown: Zeekr Doncaster has opened as a permanent showroom and service centre (run by Autosports Group, the same group behind Volvo's Doncaster and South Yarra dealerships), alongside a South Yarra location. That's a meaningful step up from the temporary/pop-up-only presence Zeekr had in Melbourne previously.</p>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Zeekr Doncaster, on the same site as Volvo Cars Doncaster &mdash; a genuine permanent showroom, not a pop-up.</div>
+    <div class="flag">Still a young network overall. Worth confirming current opening hours and service booking availability directly, since a newly-opened outlet can take time to reach full capacity.</div>
+  </div>
+
+  <div class="info-card" data-vid="megane">
+    <h3>Renault Megane E-Tech</h3>
+    <div class="sub2">Renault Group (France) &middot; distributed in Australia by Ateco, an independent local distributor (not Renault's own factory operation)</div>
+    <div class="badge-row"><span class="badge caution">Independent distributor</span><span class="badge caution">Declining sales</span></div>
+    <p>Renault handed Australian distribution to Ateco (which also handles RAM, LDV and Maserati) back in 2021, after deciding it was no longer worth running its own local operation. This is worth noting: Ateco previously distributed Kia, Audi, Volkswagen and Citroen in Australia before those brands eventually moved to (or were replaced by) factory-direct operations or exited entirely &mdash; distributor arrangements for smaller-volume brands here can and do change. Renault's Australian sales have declined for years (from over 11,000/year in 2015 to under 7,000 more recently), and the Megane E-Tech is a low-volume model in that mix.</p>
+    <div class="flag">Lower sales volumes and a third-party distribution arrangement mean a smaller pool of specialist EV technicians and a brand whose long-term local commitment is less certain than the mainstream players here.</div>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Eastern Renault, Croydon &mdash; part of the local Yarra Valley Motor Group.</div>
+  </div>
+
+  <div class="info-card" data-vid="evitara">
+    <h3>Suzuki e-Vitara</h3>
+    <div class="sub2">Suzuki Motor Corporation (Japan)</div>
+    <div class="badge-row"><span class="badge est">Well established brand</span><span class="badge new">First EV</span></div>
+    <p>Suzuki is a long-standing, trusted mainstream brand in Australia with a wide dealer network and a strong reputation for reliability and affordable servicing built on decades of petrol cars. The e-Vitara, launched June 2026, is Suzuki's very first EV here &mdash; so while the company itself is rock-solid, its dealers are just as new to EV-specific servicing (battery diagnostics, high-voltage safety procedures) as the car is to the market.</p>
+    <div class="good-flag">The most trusted, longest-established brand name of the newer arrivals in this comparison.</div>
+    <div class="flag">Ask the dealer directly about their EV service training and whether they've handled e-Vitaras yet &mdash; it's genuinely new territory for Suzuki technicians.</div>
+    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Eastern Suzuki has a location right in Lilydale itself, as well as one in Croydon &mdash; both part of the local Yarra Valley Motor Group.</div>
+  </div>
+
+  <div class="info-card" data-vid="e2008" style="opacity:.7">
+    <h3>Peugeot e-2008 <span style="font-weight:600;color:var(--red);font-size:.85rem">&mdash; withdrawn</span></h3>
+    <div class="sub2">Stellantis (France/Netherlands) &middot; distributed by Inchcape Australia, who dropped the brand in 2026</div>
+    <div class="badge-row"><span class="badge caution">Distributor exited</span></div>
+    <p>This is the real-world example of a distribution problem playing out: Inchcape Australia (which also handled Subaru) ended its Peugeot distribution agreement in 2026. Stellantis says it's committed to keeping Peugeot in Australia and is arranging a new distributor, but during the transition Peugeot's EV passenger cars were pulled from sale. Existing owners are told they'll keep warranty and parts support through the transition, but this is exactly the scenario worth avoiding when buying new.</p>
+  </div>
+
+  <div class="info-card" data-vid="attoevo">
+    <h3>BYD Atto 3 Evo</h3>
+    <div class="sub2">Same backing as the current Atto 3 &mdash; BYD Australia direct, retailed via EV Dealer Group (Eagers Automotive)</div>
+    <p>No change expected here from the current Atto 3's corporate backing (see above) once the Evo arrives.</p>
+  </div>
+</section>
+
+<!-- ============ PANEL 7: WARRANTY DETAILS ============ -->
+<section class="panel" id="p-warranty">
+  <h2>Warranty, side-by-side</h2>
+  <p class="lede">Warranty length alone doesn't tell the whole story &mdash; conditions attached to that length matter just as much. Below is a quick comparison, then the specific things to watch for on each car.</p>
+
+  <div class="table-scroll">
+  <table class="wtable" style="min-width:760px">
+    <thead><tr><th>Car</th><th>Vehicle warranty</th><th>Conditions</th><th>Battery warranty</th></tr></thead>
+    <tbody>
+      <tr><td>Kia EV3</td><td class="good">7 years, unlimited km</td><td>None found &mdash; confirm at purchase</td><td>7 yr / 150,000 km</td></tr>
+      <tr><td>Leapmotor B10</td><td>6 years / 150,000 km</td><td>None</td><td>8 yr / 160,000 km</td></tr>
+      <tr><td>MG S5 EV</td><td class="good">7 yrs, extends to 10 yr/250,000km</td><td class="bad">Extension requires servicing exclusively with MG</td><td>7 years</td></tr>
+      <tr><td>Hyundai Kona Electric</td><td>5 yrs, extends to 7 yrs</td><td class="bad">Extension requires on-time servicing at Hyundai; miss one and you're back to 5</td><td>8 yr / 160,000 km</td></tr>
+      <tr><td>Volvo EX30</td><td>5 years, unlimited km</td><td>None found</td><td>8 yr / 160,000 km</td></tr>
+      <tr><td>Volvo EX40</td><td>5 years, unlimited km</td><td class="good">Free 5-yr/150,000km servicing included (see note below)</td><td>8 yr / 160,000 km</td></tr>
+      <tr><td>BYD Atto 3</td><td>6 years / 150,000 km</td><td class="good">Simplified &amp; improved April 2025 (see note below)</td><td>8 yr / 160,000 km</td></tr>
+      <tr><td>Zeekr X</td><td>5 years, unlimited km</td><td>None found</td><td>8 yr / 160,000 km</td></tr>
+      <tr><td>Renault Megane E-Tech</td><td class="bad">5 years / 100,000 km</td><td class="bad">Km cap &mdash; the only capped-km vehicle warranty here</td><td>8 yr / 160,000 km</td></tr>
+      <tr><td>Suzuki e-Vitara</td><td>5 years, unlimited km</td><td>None found</td><td>8 yr / 160,000 km</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="widthnote" style="margin-top:20px">
+    <strong>What to watch for, in plain English:</strong>
+  </div>
+
+  <div class="info-card" data-vid="mg" style="margin-top:14px">
+    <h3>MG's 10-year warranty has a catch</h3>
+    <p>MG advertises up to 10 years/250,000km, but you only get past the standard 7 years if <em>every</em> service is done at an MG dealer, on schedule. Skip one, or use an independent mechanic even once, and you drop back to 7 years for the rest of ownership. If your Mum wants the longer warranty, she needs to commit to MG's own service centres the whole time.</p>
+  </div>
+
+  <div class="info-card" data-vid="kona">
+    <h3>Hyundai's 7-year warranty has the same catch</h3>
+    <p>As of September 2025, new Hyundais (including Kona Electric) get a 7-year unlimited-km warranty &mdash; <em>but</em> only if every scheduled service happens at a Hyundai dealer, on time. Otherwise it's the older 5-year standard. This is a very similar condition to MG's, just starting from a shorter base.</p>
+  </div>
+
+  <div class="info-card" data-vid="megane">
+    <h3>Renault is the only capped-kilometre warranty here</h3>
+    <p>Every other car in this comparison has an unlimited-kilometre warranty (or close to it). The Megane E-Tech's is capped at 100,000&nbsp;km over 5 years &mdash; for a low-mileage driver like your Mum (around 7,500&nbsp;km/year) that's not a practical concern, since she'd take over 13 years to reach it, but it's worth knowing this is the one warranty here with a genuine mileage ceiling.</p>
+  </div>
+
+  <div class="info-card" data-vid="atto3">
+    <h3>BYD's warranty recently got simpler and better</h3>
+    <p>Under BYD's original distributor (EVDirect), the Atto 3's warranty had a confusing patchwork of shorter periods on individual components &mdash; lights and suspension covered for only 4 years, infotainment and the charging port for 3 years, the 12V battery for just 1 year. In April 2025, BYD announced a simplified warranty structure that removed these shorter carve-outs, and backdated the improvement to cover every Atto 3 sold since the model launched in 2022. This is a genuine improvement worth knowing about if anyone mentions the old, more complicated terms.</p>
+  </div>
+
+  <div class="info-card" data-vid="b10">
+    <h3>Leapmotor &amp; Zeekr: straightforward on paper, but young brands</h3>
+    <p>Both list clean, unconditional warranty terms (6yr/150,000km and 5yr unlimited respectively) with no unusual catches found in research. The caveat isn't the paperwork &mdash; it's that both are new enough to the Australian market that there's no long track record yet of how smoothly warranty claims actually get handled here in practice.</p>
+  </div>
+
+  <div class="info-card" data-vid="ex40">
+    <h3>Volvo EX40's servicing is genuinely free, not just capped</h3>
+    <p>Every other car in this comparison offers <em>capped-price</em> servicing &mdash; you still pay for each visit, just at a pre-agreed amount. The EX40 is the only one here where Volvo includes 5 years/150,000km of servicing <strong>at no cost at all</strong>, plus 5 years of roadside assistance, bundled into the purchase price. Its warranty itself is a standard 5-year unlimited-km term with no unusual conditions &mdash; the free servicing is the real standout, and it's a genuine point in the EX40's favour against its otherwise steep price.</p>
+  </div>
+
+  <div class="widthnote">
+    <strong>General warranty tips:</strong>
+    <br>&bull; <strong>"Whichever comes first"</strong> means both the years AND the kilometre limit apply &mdash; hitting either one ends that part of the warranty, even if the other hasn't been reached.
+    <br>&bull; <strong>Battery warranties</strong> typically guarantee the battery won't degrade below 70&ndash;75% of its original capacity within the warranty period &mdash; not that it won't degrade at all. Normal, gradual capacity loss is expected and isn't itself a claimable fault.
+    <br>&bull; <strong>Commercial/rideshare use</strong> usually shortens warranties across the board (often to 5 years/150,000km) &mdash; not relevant for personal use, but worth knowing if the car is ever used commercially.
+    <br>&bull; <strong>Warranties are almost always transferable</strong> to a subsequent owner if resold within the period, which helps resale value.
+    <br>&bull; Always ask the dealer to confirm current terms in writing at the time of purchase &mdash; warranty terms do change (as BYD's did in 2025), and dealer paperwork is what actually governs a claim, not a webpage.
+  </div>
+</section>
+
+<!-- ============ PANEL 8: PHOTO GALLERY ============ -->
+<section class="panel" id="p-gallery">
+  <h2>Photo gallery</h2>
+  <p class="lede">Pulled from each manufacturer's brochure, organised by angle so it's easy to compare like-for-like. Coverage is uneven &mdash; some brochures included full photo shoots, others (Kona, e-Vitara) had almost none. Gaps are marked rather than filled with stock photos, so you know what's genuinely missing.</p>
+
+  <div class="gallery-group">
+    <h3>Front view</h3>
+    <div class="gallery-grid">
+      <div class="gcard" data-vid="ev3"><div class="imgbox"><img src="img/ev3-front.jpg" alt="Kia EV3 front view" loading="lazy"></div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-front.jpg" alt="Leapmotor B10 front view" loading="lazy"></div><div class="cap">Leapmotor B10</div></div>
+      <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-front.jpg" alt="MG S5 EV front view" loading="lazy"></div><div class="cap">MG S5 EV</div></div>
+      <div class="gcard" data-vid="kona"><div class="imgbox"><img src="img/kona-front.jpg" alt="Hyundai Kona Electric front view" loading="lazy"></div><div class="cap">Hyundai Kona Electric<small>Wide banner crop from brochure</small></div></div>
+      <div class="gcard missing" data-vid="ex40"><div class="imgbox">No clear photography in source document &mdash; see Volvo's website</div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard" data-vid="ex30"><div class="imgbox"><img src="img/ex30-front.jpg" alt="Volvo EX30 front view" loading="lazy"></div><div class="cap">Volvo EX30</div></div>
+      <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-front.jpg" alt="BYD Atto 3 front view" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
+      <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-front.jpg" alt="Zeekr X front view" loading="lazy"></div><div class="cap">Zeekr X<small>Singapore-spec brochure photo</small></div></div>
+      <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-front.jpg" alt="Renault Megane E-Tech front view" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
+      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure &mdash; see Suzuki's website</div><div class="cap">Suzuki e-Vitara</div></div>
+    </div>
+  </div>
+
+  <div class="gallery-group">
+    <h3>Side profile</h3>
+    <div class="gallery-grid">
+      <div class="gcard missing" data-vid="ev3"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-side.jpg" alt="Leapmotor B10 side/exterior colour shot" loading="lazy"></div><div class="cap">Leapmotor B10<small>Exterior colour-option photo</small></div></div>
+      <div class="gcard missing" data-vid="mg"><div class="imgbox">Not available &mdash; overhead angle only in brochure</div><div class="cap">MG S5 EV</div></div>
+      <div class="gcard missing" data-vid="kona"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Hyundai Kona Electric</div></div>
+      <div class="gcard missing" data-vid="ex40"><div class="imgbox">Not available</div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard missing" data-vid="ex30"><div class="imgbox">Overhead angle available instead &mdash; see below</div><div class="cap">Volvo EX30</div></div>
+      <div class="gcard missing" data-vid="atto3"><div class="imgbox">Not available as a clean side shot</div><div class="cap">BYD Atto 3</div></div>
+      <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-side.jpg" alt="Zeekr X side profile" loading="lazy"></div><div class="cap">Zeekr X<small>Singapore-spec brochure photo</small></div></div>
+      <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-side.jpg" alt="Renault Megane E-Tech side/front-3/4 view" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
+      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure</div><div class="cap">Suzuki e-Vitara</div></div>
+    </div>
+  </div>
+
+  <div class="gallery-group">
+    <h3>Rear view</h3>
+    <div class="gallery-grid">
+      <div class="gcard missing" data-vid="ev3"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-rear.jpg" alt="Leapmotor B10 rear view" loading="lazy"></div><div class="cap">Leapmotor B10</div></div>
+      <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-rear.jpg" alt="MG S5 EV rear detail" loading="lazy"></div><div class="cap">MG S5 EV<small>Rear detail, not full view</small></div></div>
+      <div class="gcard missing" data-vid="kona"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Hyundai Kona Electric</div></div>
+      <div class="gcard missing" data-vid="ex40"><div class="imgbox">Not available</div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard missing" data-vid="ex30"><div class="imgbox">Not available in this brochure</div><div class="cap">Volvo EX30</div></div>
+      <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-rear.jpg" alt="BYD Atto 3 rear 3/4 view" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
+      <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-rear.jpg" alt="Zeekr X rear lifestyle shot" loading="lazy"></div><div class="cap">Zeekr X<small>Lifestyle driving shot, not studio angle</small></div></div>
+      <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-rear.jpg" alt="Renault Megane E-Tech rear view" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
+      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure</div><div class="cap">Suzuki e-Vitara</div></div>
+    </div>
+  </div>
+
+  <div class="gallery-group">
+    <h3>Interior (front)</h3>
+    <div class="gallery-grid">
+      <div class="gcard missing" data-vid="ev3"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-interior.jpg" alt="Leapmotor B10 interior dashboard" loading="lazy"></div><div class="cap">Leapmotor B10</div></div>
+      <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-interior.jpg" alt="MG S5 EV interior dashboard" loading="lazy"></div><div class="cap">MG S5 EV</div></div>
+      <div class="gcard missing" data-vid="kona"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Hyundai Kona Electric</div></div>
+      <div class="gcard missing" data-vid="ex40"><div class="imgbox">Not available &mdash; source document had no clear interior photo</div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard" data-vid="ex30"><div class="imgbox"><img src="img/ex30-interior.jpg" alt="Volvo EX30 interior screen detail" loading="lazy"></div><div class="cap">Volvo EX30<small>Screen close-up, not full cabin</small></div></div>
+      <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-interior.jpg" alt="BYD Atto 3 interior dashboard" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
+      <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-interior.jpg" alt="Zeekr X interior cockpit" loading="lazy"></div><div class="cap">Zeekr X<small>Singapore-spec brochure photo</small></div></div>
+      <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-interior.jpg" alt="Renault Megane E-Tech interior dashboard" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
+      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure</div><div class="cap">Suzuki e-Vitara</div></div>
+    </div>
+  </div>
+
+  <div class="gallery-group">
+    <h3>Boot / cargo</h3>
+    <div class="gallery-grid">
+      <div class="gcard missing" data-vid="ev3"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Kia EV3</div></div>
+      <div class="gcard missing" data-vid="b10"><div class="imgbox">Not available as a photo &mdash; see spec table for volume</div><div class="cap">Leapmotor B10</div></div>
+      <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-boot.jpg" alt="MG S5 EV boot open with luggage" loading="lazy"></div><div class="cap">MG S5 EV</div></div>
+      <div class="gcard missing" data-vid="kona"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Hyundai Kona Electric</div></div>
+      <div class="gcard missing" data-vid="ex40"><div class="imgbox">Not available</div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard missing" data-vid="ex30"><div class="imgbox">Not available in this brochure</div><div class="cap">Volvo EX30</div></div>
+      <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-boot.jpg" alt="BYD Atto 3 boot open with luggage" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
+      <div class="gcard missing" data-vid="zeekr"><div class="imgbox">Not available as a photo &mdash; see spec table for volume</div><div class="cap">Zeekr X</div></div>
+      <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-boot.jpg" alt="Renault Megane E-Tech boot open with luggage" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
+      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure</div><div class="cap">Suzuki e-Vitara</div></div>
+    </div>
+  </div>
+
+  <div class="widthnote">
+    <strong>A note on the Volvo EX30:</strong> the brochure you provided is US-spec, so the only clean full-vehicle angle available was an overhead/top-down shot rather than a front, side or rear studio photo &mdash; included below for reference even though it doesn't match the other categories.
+    <div class="gallery-grid" style="margin-top:12px;max-width:300px">
+      <div class="gcard" data-vid="ex30"><div class="imgbox"><img src="img/ex30-topdown.jpg" alt="Volvo EX30 overhead view" loading="lazy"></div><div class="cap">Volvo EX30<small>Overhead angle</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PANEL 9: TEST DRIVE CHECKLIST ============ -->
+<section class="panel" id="p-checklist">
+  <h2>Test drive checklist</h2>
+  <p class="lede">Tick items off during or after each test drive. Your ticks and notes are saved automatically on this device (see the note at the bottom about how that works).</p>
+
+  <div class="checklist-section">
+    <h3>Before you drive</h3>
+    <div class="cl-item"><input type="checkbox" data-cl="garage"><label><b>Reverse the actual car into a space the same size as your garage</b><span>Or measure the car against your garage's real usable depth and width &mdash; don't rely on the spec sheet alone.</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="seatheight"><label><b>Check the seat height and how easy it is to get in and out</b><span>Sit in the driver's seat without adjusting anything first &mdash; does it feel like a step down from the CX-5, or similar?</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="visibility"><label><b>Check visibility out of all windows, especially reversing</b><span>Look over your shoulder for reversing, and check the rear window size.</span></label></div>
+  </div>
+
+  <div class="checklist-section">
+    <h3>Parking &amp; tight spaces</h3>
+    <div class="cl-item"><input type="checkbox" data-cl="camera"><label><b>Actually use the 360&deg; camera (or reversing camera) while parking</b><span>Check the screen is clear in daylight and check for any lag.</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="turning"><label><b>Do a U-turn or tight three-point turn</b><span>Gives you a feel for the turning circle in a real car park or driveway.</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="mirrors"><label><b>Fold the mirrors and check the width feel in a narrow gap</b><span>Especially relevant for the wider cars (Leapmotor B10, BYD Atto 3).</span></label></div>
+  </div>
+
+  <div class="checklist-section">
+    <h3>Noise &amp; nagging alerts</h3>
+    <div class="cl-item"><input type="checkbox" data-cl="chimes"><label><b>Try to silence the speed-limit and driver-attention chimes</b><span>See how many taps it takes, and whether it resets next time you start the car.</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="quiet"><label><b>Drive in silence for a few minutes &mdash; radio and phone off</b><span>Listen for road noise, wind noise, and how the cabin feels at 60&ndash;80km/h.</span></label></div>
+  </div>
+
+  <div class="checklist-section">
+    <h3>Everyday practicality</h3>
+    <div class="cl-item"><input type="checkbox" data-cl="boot"><label><b>Bring an actual bag or two and load the boot</b><span>Spec sheets don't tell you if your shopping trolley or golf clubs actually fit.</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="charge-port"><label><b>Check where the charge port is and whether your home cable will reach</b><span>Port position varies (front, side, rear quarter) and matters for where you'd park at home.</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="phone"><label><b>Connect your phone to Apple CarPlay from scratch</b><span>Time how long pairing takes and whether it's wireless in practice, not just on paper.</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="screen-glare"><label><b>Check the main screen for glare in direct sunlight</b><span>Big screens can be hard to read outdoors &mdash; test it, don't just look in the showroom.</span></label></div>
+  </div>
+
+  <div class="checklist-section">
+    <h3>Ride &amp; comfort</h3>
+    <div class="cl-item"><input type="checkbox" data-cl="bumps"><label><b>Drive over some rough or uneven road, not just smooth showroom streets</b><span>Ask the salesperson for a route that includes a speed bump or rougher surface.</span></label></div>
+    <div class="cl-item"><input type="checkbox" data-cl="onepedal"><label><b>Try the one-pedal / regenerative braking mode</b><span>Some people love it, some find it unsettling at first &mdash; better to know before buying.</span></label></div>
+  </div>
+
+  <h2 style="margin-top:28px">Notes per car</h2>
+  <p class="lede">Jot down your impressions right after each drive, while it's fresh.</p>
+  <div id="notesContainer"><!-- filled by JS --></div>
+
+  <div class="widthnote">
+    <strong>How saving works on this page.</strong> Once this is hosted on GitHub Pages, your ticks and notes are stored in Safari against that web address, so they'll reliably still be here every time you reopen the app — including after future updates, since updating the page content doesn't clear saved data tied to the same address. Two things that would still reset it: using Private Browsing mode (which never saves anything), or manually clearing Safari's website data for this site. It's stored only on this iPad, not synced anywhere else.
+  </div>
+</section>
+
+<p style="text-align:center;color:var(--ink-soft);font-size:.78rem;padding:20px 0 4px">
+  Page version: <span class="page-version">loading…</span> &middot; if this looks out of date, pull down to refresh or fully close and reopen the app
+</p>
+
 </div>
 
 <script>
+  // Bump this string whenever you push an update to GitHub — it shows in the footer
+  // and in the browser console, so it's easy to confirm the installed app has refreshed.
+  const PAGE_VERSION = 'v1.0 — 8 July 2026';
+  document.querySelectorAll('.page-version').forEach(el => el.textContent = PAGE_VERSION);
+  console.log('EV Comparison page version:', PAGE_VERSION);
+
   const tabs = document.querySelectorAll('.tab');
   const panels = document.querySelectorAll('section.panel');
   tabs.forEach(t => t.addEventListener('click', () => {
@@ -977,6 +1146,154 @@
     document.getElementById(t.dataset.panel).classList.add('active');
     window.scrollTo({top:0, behavior:'smooth'});
   }));
+
+  // ============================================================
+  // MAINTENANCE: every time this app is updated, re-verify the nearest-dealer
+  // claims in the Company & Support tab (currently: Volvo Cars Doncaster for
+  // the Volvo cards). Check whether a closer outlet has opened, or whether
+  // the ones named have closed/relocated, before shipping the update. Do NOT
+  // write the person's actual postcode anywhere in this file — reason about
+  // location internally only, and describe dealers by suburb/freeway only.
+  // ============================================================
+
+  // ============================================================
+  // VEHICLE REGISTRY — the single list every new tab is built from.
+  // TO ADD A NEW CAR IN FUTURE: add one entry here (id/name/status),
+  // then add matching content blocks in the Company, Warranty, Gallery
+  // and Checklist sections using the same data-vid value, plus a
+  // rank-card and detail accordion tagged with data-vid="newid".
+  // The side-by-side and deep-spec tables are hand-authored and are
+  // NOT auto-generated from this list — add a column there manually.
+  // ============================================================
+  const VEHICLES = [
+    {id:'ev3',     name:'Kia EV3',                 status:'active'},
+    {id:'b10',     name:'Leapmotor B10',            status:'active'},
+    {id:'mg',      name:'MG S5 EV',                 status:'active'},
+    {id:'kona',    name:'Hyundai Kona Electric',     status:'active'},
+    {id:'ex30',    name:'Volvo EX30',                status:'active'},
+    {id:'ex40',    name:'Volvo EX40',                status:'active'},
+    {id:'atto3',   name:'BYD Atto 3',                status:'active'},
+    {id:'zeekr',   name:'Zeekr X',                   status:'active'},
+    {id:'megane',  name:'Renault Megane E-Tech',     status:'active'},
+    {id:'evitara', name:'Suzuki e-Vitara',           status:'active'},
+    {id:'e2008',   name:'Peugeot e-2008',            status:'withdrawn'},
+    {id:'attoevo', name:'BYD Atto 3 Evo',            status:'upcoming'},
+  ];
+
+  // ---------- persistence helpers ----------
+  function loadJSON(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(!raw) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ return fallback; }
+  }
+  function saveJSON(key, val){
+    try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){ /* storage unavailable, e.g. private browsing */ }
+  }
+
+  // default: everything selected/interested until she says otherwise
+  let shortlist = loadJSON('evShortlist', Object.fromEntries(VEHICLES.map(v => [v.id, true])));
+  let hideMode = loadJSON('evHideMode', false);
+
+  // ---------- build the shortlist checkbox grid ----------
+  const grid = document.getElementById('shortlistGrid');
+  VEHICLES.forEach(v => {
+    const wrap = document.createElement('label');
+    wrap.className = 'vchip' + (v.status === 'withdrawn' ? ' is-withdrawn' : '');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!shortlist[v.id];
+    cb.addEventListener('change', () => {
+      shortlist[v.id] = cb.checked;
+      saveJSON('evShortlist', shortlist);
+      applyFilter();
+    });
+    wrap.appendChild(cb);
+    const span = document.createElement('span');
+    span.textContent = v.name + (v.status === 'withdrawn' ? ' (withdrawn)' : v.status === 'upcoming' ? ' (upcoming)' : '');
+    wrap.appendChild(span);
+    grid.appendChild(wrap);
+  });
+
+  function applyFilter(){
+    document.body.classList.toggle('hide-mode', hideMode);
+    document.querySelectorAll('[data-vid]').forEach(el => {
+      const vid = el.getAttribute('data-vid');
+      const selected = !!shortlist[vid];
+      el.classList.toggle('is-unselected', !selected);
+    });
+  }
+
+  document.getElementById('hideModeToggle').checked = hideMode;
+  document.getElementById('hideModeToggle').addEventListener('change', e => {
+    hideMode = e.target.checked;
+    saveJSON('evHideMode', hideMode);
+    applyFilter();
+  });
+
+  document.getElementById('selectAllBtn').addEventListener('click', () => {
+    VEHICLES.forEach(v => shortlist[v.id] = true);
+    saveJSON('evShortlist', shortlist);
+    grid.querySelectorAll('input').forEach(cb => cb.checked = true);
+    applyFilter();
+  });
+  document.getElementById('selectNoneBtn').addEventListener('click', () => {
+    VEHICLES.forEach(v => shortlist[v.id] = false);
+    saveJSON('evShortlist', shortlist);
+    grid.querySelectorAll('input').forEach(cb => cb.checked = false);
+    applyFilter();
+  });
+
+  const shortlistBtn = document.getElementById('shortlistBtn');
+  const shortlistPanel = document.getElementById('shortlistPanel');
+  shortlistBtn.addEventListener('click', () => {
+    shortlistBtn.classList.toggle('open');
+    shortlistPanel.classList.toggle('open');
+  });
+
+  applyFilter();
+
+  // ---------- test-drive checklist persistence ----------
+  const clState = loadJSON('evChecklist', {});
+  document.querySelectorAll('.cl-item input[type="checkbox"]').forEach(cb => {
+    const key = cb.getAttribute('data-cl');
+    cb.checked = !!clState[key];
+    cb.addEventListener('change', () => {
+      clState[key] = cb.checked;
+      saveJSON('evChecklist', clState);
+    });
+  });
+
+  // ---------- per-car notes, built from the same VEHICLES list ----------
+  const notesContainer = document.getElementById('notesContainer');
+  const notesState = loadJSON('evNotes', {});
+  VEHICLES.filter(v => v.status !== 'withdrawn').forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'notes-card';
+    card.setAttribute('data-vid', v.id);
+    const h4 = document.createElement('h4');
+    h4.textContent = v.name;
+    const ta = document.createElement('textarea');
+    ta.placeholder = 'Impressions, questions for the dealer, things to check next time…';
+    ta.value = notesState[v.id] || '';
+    const ind = document.createElement('div');
+    ind.className = 'save-indicator';
+    ind.textContent = 'Saved';
+    let saveTimer;
+    ta.addEventListener('input', () => {
+      notesState[v.id] = ta.value;
+      saveJSON('evNotes', notesState);
+      ind.classList.add('show');
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => ind.classList.remove('show'), 1200);
+    });
+    card.appendChild(h4);
+    card.appendChild(ta);
+    card.appendChild(ind);
+    notesContainer.appendChild(card);
+  });
+  applyFilter(); // re-apply now that notes cards (with data-vid) exist too
 </script>
 </body>
 </html>
