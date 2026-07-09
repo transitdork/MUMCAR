@@ -107,6 +107,37 @@
   .foot p{margin-bottom:8px}
   tr.sec th, tr.sec td{background:var(--green-soft)!important;color:var(--green);font-size:.74rem;font-weight:800;
     letter-spacing:.12em;text-transform:uppercase;padding:8px 13px}
+  tr.subrow th{font-weight:500;font-size:.8rem;color:var(--ink-soft);padding-left:24px;background:#FBFDFC}
+  tr.subrow td{color:var(--ink-soft);background:#FBFDFC;font-size:.85rem}
+  tr.ease-total th{font-weight:800}
+  /* grade cards */
+  .grade-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:16px}
+  .grade-card > h3{font-size:1.15rem;font-weight:800;margin-bottom:2px}
+  .grade-card .headline{font-size:.86rem;color:var(--ink-soft);font-weight:600;margin-bottom:14px}
+  .grade-step{display:grid;grid-template-columns:1fr;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:6px}
+  .grade-row{padding:12px 14px;border-bottom:1px solid var(--line)}
+  .grade-row:last-child{border-bottom:none}
+  .grade-row.pick{background:var(--green-soft);border-left:4px solid var(--green)}
+  .grade-row.over{background:#F7F1EE;border-left:4px solid var(--ink-soft);opacity:.75}
+  .grade-row .gr-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .grade-row .gr-name{font-weight:800;font-size:1rem}
+  .grade-row .gr-price{font-weight:800;font-size:1rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .grade-row .gr-tag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.04em;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:1px}
+  .gr-tag.pick{background:var(--green);color:#fff}
+  .gr-tag.over{background:var(--ink-soft);color:#fff}
+  .gr-tag.entry{background:var(--blue-soft);color:var(--blue)}
+  .grade-row .gr-gain{font-size:.88rem;margin-top:6px;color:var(--ink)}
+  .grade-row .gr-gain b{color:var(--green)}
+  .grade-row .gr-verdict{font-size:.86rem;margin-top:6px;font-style:italic;color:var(--ink-soft)}
+  .grade-card .verdict-box{background:var(--green-soft);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:.92rem}
+  .grade-card .verdict-box.warn{background:var(--amber-soft)}
+  /* requested-features row on ranking cards */
+  .feat-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+  .feat-row .feat-label{font-size:.7rem;font-weight:800;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;width:100%;margin-bottom:2px}
+  .feat{display:inline-flex;align-items:center;gap:4px;font-size:.78rem;font-weight:700;border-radius:8px;padding:4px 9px}
+  .feat.yes{background:var(--green-soft);color:var(--green)}
+  .feat.no{background:var(--red-soft);color:var(--red)}
+  .feat.grade{background:var(--amber-soft);color:var(--amber)}
   .timeline{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:18px;background:var(--card);margin-bottom:8px}
   table.tl{min-width:820px}
   table.tl th.rel{min-width:150px}
@@ -249,42 +280,45 @@
     <button class="tab" data-panel="p-deep">3&nbsp;&middot;&nbsp;Every spec &amp; each car</button>
     <button class="tab" data-panel="p-fit">4&nbsp;&middot;&nbsp;Will it fit?</button>
     <button class="tab" data-panel="p-how">5&nbsp;&middot;&nbsp;How the scores work</button>
-    <button class="tab" data-panel="p-company">6&nbsp;&middot;&nbsp;Company &amp; support</button>
-    <button class="tab" data-panel="p-warranty">7&nbsp;&middot;&nbsp;Warranty details</button>
-    <button class="tab" data-panel="p-gallery">8&nbsp;&middot;&nbsp;Photo gallery</button>
-    <button class="tab" data-panel="p-checklist">9&nbsp;&middot;&nbsp;Test drive checklist</button>
+    <button class="tab" data-panel="p-grades">6&nbsp;&middot;&nbsp;Which grade to buy</button>
+    <button class="tab" data-panel="p-company">7&nbsp;&middot;&nbsp;Company &amp; support</button>
+    <button class="tab" data-panel="p-warranty">8&nbsp;&middot;&nbsp;Warranty details</button>
+    <button class="tab" data-panel="p-gallery">9&nbsp;&middot;&nbsp;Photo gallery</button>
+    <button class="tab" data-panel="p-checklist">10&nbsp;&middot;&nbsp;Test drive checklist</button>
   </div>
 </nav>
 
 <!-- ============ PANEL 1: RANKING ============ -->
 <section class="panel active" id="p-rank">
   <h2>The short answer</h2>
-  <p class="lede">Scores are out of 10, weighted for local family driving with home charging: easy to live with, safe, good value, simple to own. Tap tab 4 to see the working. Since fast public charging isn&rsquo;t a priority, a car&rsquo;s slow DC speed barely counts &mdash; what matters is home charging on a Type&nbsp;2 wall box.</p>
+  <p class="lede">Scores are out of 10, weighted for local family driving with home charging, and reflect the best grade priced at or under $60,000 driveaway &mdash; so a car can't look better than it really is just because of features that only exist on an expensive top-spec model (tab&nbsp;6 breaks down exactly what each grade includes). Since fast public charging isn&rsquo;t a priority, a car&rsquo;s slow DC speed barely counts &mdash; what matters is home charging on a Type&nbsp;2 wall box.</p>
 
   <div class="rank-grid">
 
-    <div class="rank-card first" data-vid="ev3">
+    <div class="rank-card first" data-vid="b10">
       <div class="rank-top"><div>
-        <div class="rank-pos">1st &middot; Best overall</div>
-        <h3>Kia EV3</h3>
-        <div class="rank-variant">Pick: Air Long Range &middot; ~$53&ndash;55k driveaway (est.)</div>
-      </div><div class="score-badge"><div class="num">8.7</div><div class="of">/ 10</div></div></div>
-      <p class="why">The most complete package and no real weakness. Longest range (up to 604&nbsp;km), the best warranty-and-servicing story (7&nbsp;years, ~$261/yr), 5-star safety, and the easiest driver-alert chimes to silence. Reviewers&rsquo; consistent segment winner.</p>
-      <div class="chips"><span class="chip pro">604 km range</span><span class="chip pro">7-yr warranty</span><span class="chip pro">Cheapest servicing</span><span class="chip pro">5-star</span><span class="chip con">No 360&deg; camera</span><span class="chip con">Battery best at 80% daily</span></div>
-      <div class="fitline"><div class="lab"><span>4,310 mm long</span><span>230 mm shorter than CX-5</span></div>
-      <div class="fitbar"><div class="fill" style="width:94.9%"></div><div class="limit"></div></div></div>
-    </div>
-
-    <div class="rank-card" data-vid="b10">
-      <div class="rank-top"><div>
-        <div class="rank-pos">2nd &middot; Best value</div>
+        <div class="rank-pos">1st &middot; Best value</div>
         <h3>Leapmotor B10</h3>
         <div class="rank-variant">Pick: Design Long Range &middot; ~$41,990 driveaway</div>
       </div><div class="score-badge"><div class="num">8.4</div><div class="of">/ 10</div></div></div>
       <p class="why">Astonishing value: cheapest here, yet standard heat pump, 360&deg; camera with built-in dashcam, wireless charging, power tailgate and heated/ventilated seats (Design LR). LFP battery charges to 100% daily; fast 11&nbsp;kW home charging. Stellantis-backed, 5-star, genuinely good to drive.</p>
       <div class="chips"><span class="chip pro">Cheapest &amp; best-equipped</span><span class="chip pro">Charge to 100%</span><span class="chip pro">Heat pump + dashcam std</span><span class="chip con">Tightest garage fit here</span><span class="chip con">A few pushy driver aids</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat yes">&#10003; Boot access (power tailgate)</span><span class="feat no">&#10007; Head-up display</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat yes">&#10003; 360&deg; camera</span></div>
       <div class="fitline"><div class="lab"><span>4,515 mm long &middot; 1,885 wide</span><span class="bad">only 25 mm shorter</span></div>
       <div class="fitbar"><div class="fill tight" style="width:99.4%"></div><div class="limit"></div></div></div>
+    </div>
+
+    <div class="rank-card" data-vid="ev3">
+      <div class="rank-top"><div>
+        <div class="rank-pos">2nd &middot; Best all-rounder under $60k</div>
+        <h3>Kia EV3</h3>
+        <div class="rank-variant">Pick: Air Long Range &middot; ~$53&ndash;55k driveaway (est.)</div>
+      </div><div class="score-badge"><div class="num">8.3</div><div class="of">/ 10</div></div></div>
+      <p class="why">A very complete package: the best warranty-and-servicing story here (7&nbsp;years, ~$261/yr), 5-star safety, and the easiest driver-alert chimes to silence. The class-leading 604&nbsp;km range needs the Long Range grade (~$54k) &mdash; see tab&nbsp;6 for exactly what each EV3 grade includes, since it doesn't all come on one affordable car, and no EV3 at any price gets a 360&deg; camera.</p>
+      <div class="chips"><span class="chip pro">604 km range (LR grade)</span><span class="chip pro">7-yr warranty</span><span class="chip pro">Cheapest servicing</span><span class="chip pro">5-star</span><span class="chip con">No 360&deg; camera, any grade</span><span class="chip con">Battery best at 80% daily</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat grade">$ Boot access needs Earth (~$60k+)</span><span class="feat grade">$ HUD needs GT-Line ($68k, excluded)</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat no">&#10007; 360&deg; camera &mdash; not offered at any price</span></div>
+      <div class="fitline"><div class="lab"><span>4,310 mm long</span><span>230 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:94.9%"></div><div class="limit"></div></div></div>
     </div>
 
     <div class="rank-card" data-vid="mg">
@@ -292,35 +326,38 @@
         <div class="rank-pos">3rd &middot; Most kit per dollar</div>
         <h3>MG S5 EV</h3>
         <div class="rank-variant">Pick: Essence 62 &middot; ~$47&ndash;49k driveaway</div>
-      </div><div class="score-badge"><div class="num">8.3</div><div class="of">/ 10</div></div></div>
+      </div><div class="score-badge"><div class="num">8.2</div><div class="of">/ 10</div></div></div>
       <p class="why">Power tailgate with foot-kick, heated seats and wheel, panoramic roof, 360&deg; camera and wireless charging all standard on Essence. LFP battery, so charge to 100% every night. Real climate buttons make it easy to use &mdash; but the safety chimes are the naggiest here.</p>
       <div class="chips"><span class="chip pro">Loads of standard kit</span><span class="chip pro">Charge to 100%</span><span class="chip pro">Up to 10-yr warranty*</span><span class="chip con">Naggiest alerts</span><span class="chip con">Slower 6.6 kW home charging</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat yes">&#10003; Boot access (power tailgate)</span><span class="feat no">&#10007; Head-up display</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat yes">&#10003; 360&deg; camera</span></div>
       <div class="fitline"><div class="lab"><span>4,476 mm long</span><span>64 mm shorter than CX-5</span></div>
       <div class="fitbar"><div class="fill" style="width:98.6%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card" data-vid="kona">
+    <div class="rank-card" data-vid="atto3">
       <div class="rank-top"><div>
-        <div class="rank-pos">4th &middot; Most familiar-feeling</div>
-        <h3>Hyundai Kona Electric</h3>
-        <div class="rank-variant">Pick: Extended Range &middot; $50,990 driveaway (offer)</div>
-      </div><div class="score-badge"><div class="num">7.8</div><div class="of">/ 10</div></div></div>
-      <p class="why">The most conventional, quiet and familiar car here, from the biggest dealer network, with 505&nbsp;km of range and sharp deals now. It even has a proper spare wheel. The catch is a 4-star (not 5-star) ANCAP rating, and the nice kit lives on the pricier Premium grade.</p>
-      <div class="chips"><span class="chip pro">Comfortable &amp; easy</span><span class="chip pro">505 km range</span><span class="chip pro">Real spare wheel</span><span class="chip con">4-star safety</span><span class="chip con">Power tailgate on Premium only</span></div>
-      <div class="fitline"><div class="lab"><span>4,355 mm long</span><span>185 mm shorter than CX-5</span></div>
-      <div class="fitbar"><div class="fill" style="width:95.9%"></div><div class="limit"></div></div></div>
+        <div class="rank-pos">4th &middot; Proven &amp; roomy</div>
+        <h3>BYD Atto 3</h3>
+        <div class="rank-variant">Pick: Premium &middot; ~$48&ndash;49k driveaway</div>
+      </div><div class="score-badge"><div class="num">7.7</div><div class="of">/ 10</div></div></div>
+      <p class="why">Australia&rsquo;s proven affordable EV: 5-star, roomy, LFP battery you charge to 100%, cheap to service, standard 360&deg; camera and dash cam &mdash; on both grades, unlike some rivals here. The catches: the design is four years old, most controls live in the touchscreen (its physical-controls ease sub-score is just 5.5), and the much-upgraded Evo is only months away &mdash; so it's worth weighing a runout deal now against simply waiting for the Evo.</p>
+      <div class="chips"><span class="chip pro">Charge to 100%</span><span class="chip pro">5-star &middot; roomy</span><span class="chip pro">Cheap to service</span><span class="chip con">Ageing, screen-heavy</span><span class="chip con">Evo replaces it soon</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat yes">&#10003; Boot access (power tailgate)</span><span class="feat no">&#10007; Head-up display</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat yes">&#10003; 360&deg; camera</span></div>
+      <div class="fitline"><div class="lab"><span>4,455 mm long &middot; 1,875 wide</span><span>85 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:98.1%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card" data-vid="ex40">
+    <div class="rank-card" data-vid="kona">
       <div class="rank-top"><div>
-        <div class="rank-pos">5th &middot; Biggest step up in size</div>
-        <h3>Volvo EX40</h3>
-        <div class="rank-variant">Pick: Single Motor Extended Range &middot; from ~$70k before on-roads</div>
-      </div><div class="score-badge"><div class="num">7.7</div><div class="of">/ 10</div></div></div>
-      <p class="why">EX30's bigger sibling (the renamed XC40 Recharge): a genuinely roomier cabin, the longest range of any Volvo here (520&nbsp;km), a proper 410&nbsp;L boot, and &mdash; uniquely in this whole comparison &mdash; <strong>5 years of servicing included free</strong>, not just capped. The catch is price: at roughly $10&ndash;20k more than everything else here, it's really competing with the Tesla Model Y and BMW iX1, not the rest of this list.</p>
-      <div class="chips"><span class="chip pro">520 km range</span><span class="chip pro">Free 5-yr servicing</span><span class="chip pro">5-star &middot; roomy</span><span class="chip con">Priciest by a wide margin</span><span class="chip con">Older platform &amp; smaller screen than EX30</span></div>
-      <div class="fitline"><div class="lab"><span>4,440 mm long</span><span>100 mm shorter than CX-5</span></div>
-      <div class="fitbar"><div class="fill" style="width:97.8%"></div><div class="limit"></div></div></div>
+        <div class="rank-pos">5th &middot; Most familiar-feeling</div>
+        <h3>Hyundai Kona Electric</h3>
+        <div class="rank-variant">Pick: Extended Range &middot; $50,990 driveaway (offer)</div>
+      </div><div class="score-badge"><div class="num">7.6</div><div class="of">/ 10</div></div></div>
+      <p class="why">The most conventional, quiet and familiar car here, from the biggest dealer network, with 505&nbsp;km of range and sharp deals now. It even has a proper spare wheel. Two catches: a 4-star (not 5-star) ANCAP rating, and the 360&deg; camera and other nice kit live on the Premium grade &mdash; which at $60,990 sits just over this comparison's $60k budget line, so the car you'd actually buy doesn't have it.</p>
+      <div class="chips"><span class="chip pro">Comfortable &amp; easy</span><span class="chip pro">505 km range</span><span class="chip pro">Real spare wheel</span><span class="chip con">4-star safety</span><span class="chip con">360&deg; camera needs ~$60k Premium</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat no">&#10007; Boot access &mdash; needs Premium ($60,990, excluded)</span><span class="feat no">&#10007; HUD &mdash; needs Premium (excluded)</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat no">&#10007; 360&deg; camera &mdash; needs Premium (excluded)</span></div>
+      <div class="fitline"><div class="lab"><span>4,355 mm long</span><span>185 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:95.9%"></div><div class="limit"></div></div></div>
     </div>
 
     <div class="rank-card" data-vid="ex30">
@@ -328,59 +365,64 @@
         <div class="rank-pos">6th &middot; Most premium for the size</div>
         <h3>Volvo EX30</h3>
         <div class="rank-variant">Pick: Single Motor Extended Range Plus &middot; from ~$50k</div>
-      </div><div class="score-badge"><div class="num">7.6</div><div class="of">/ 10</div></div></div>
+      </div><div class="score-badge"><div class="num">7.5</div><div class="of">/ 10</div></div></div>
       <p class="why">The most polished cabin and badge here, 5-star safe, 462&nbsp;km range, power tailgate and 360&deg; camera standard, small and easy to park. The big caveat for someone coming from a Mazda: there&rsquo;s <em>no driver display</em> &mdash; your speed shows only on the central screen, which takes real getting used to.</p>
       <div class="chips"><span class="chip pro">Premium feel</span><span class="chip pro">5-star &middot; 462 km</span><span class="chip pro">Power tailgate std</span><span class="chip con">No driver screen (speed on centre)</span><span class="chip con">Tight rear seat, small boot</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat yes">&#10003; Boot access (power tailgate)</span><span class="feat no">&#10007; Head-up display &mdash; no driver display at all</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat yes">&#10003; 360&deg; camera</span></div>
       <div class="fitline"><div class="lab"><span>4,233 mm long</span><span>307 mm shorter than CX-5</span></div>
       <div class="fitbar"><div class="fill" style="width:93.2%"></div><div class="limit"></div></div></div>
     </div>
 
-    <div class="rank-card" data-vid="atto3">
-      <div class="rank-top"><div>
-        <div class="rank-pos">7th &middot; Proven &amp; roomy</div>
-        <h3>BYD Atto 3</h3>
-        <div class="rank-variant">Pick: Premium &middot; ~$48&ndash;49k driveaway</div>
-      </div><div class="score-badge"><div class="num">7.5</div><div class="of">/ 10</div></div></div>
-      <p class="why">Australia&rsquo;s proven affordable EV: 5-star, roomy, LFP battery you charge to 100%, cheap to service, standard 360&deg; camera and dash cam. But the design is four years old, most controls live in the touchscreen, and the much-upgraded Evo is months away. <strong>Without the Evo looming it scores 7.7.</strong></p>
-      <div class="chips"><span class="chip pro">Charge to 100%</span><span class="chip pro">5-star &middot; roomy</span><span class="chip pro">Cheap to service</span><span class="chip con">Ageing, screen-heavy</span><span class="chip con">Evo replaces it soon</span></div>
-      <div class="fitline"><div class="lab"><span>4,455 mm long &middot; 1,875 wide</span><span>85 mm shorter than CX-5</span></div>
-      <div class="fitbar"><div class="fill" style="width:98.1%"></div><div class="limit"></div></div></div>
-    </div>
-
     <div class="rank-card" data-vid="zeekr">
       <div class="rank-top"><div>
-        <div class="rank-pos">8th &middot; Most tech for money</div>
+        <div class="rank-pos">7th &middot; Most tech for money</div>
         <h3>Zeekr X</h3>
         <div class="rank-variant">Pick: RWD &middot; $48,900 driveaway (MY26)</div>
       </div><div class="score-badge"><div class="num">7.4</div><div class="of">/ 10</div></div></div>
       <p class="why">A big price cut for 2026 makes the RWD a lot of premium car for the money: new LFP battery (charge to 100%), 405&nbsp;km, 5-star, 360&deg; camera, remote self-parking, 13-speaker Yamaha audio, heated seats. But it&rsquo;s sporty to the point of overkill (250&nbsp;kW) and the cabin is tight up front.</p>
       <div class="chips"><span class="chip pro">Charge to 100% (RWD)</span><span class="chip pro">Loads of tech &middot; 5-star</span><span class="chip pro">Self-parking</span><span class="chip con">Tight front cabin</span><span class="chip con">More power than needed</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat yes">&#10003; Boot access (power tailgate)</span><span class="feat grade">$ HUD needs AWD (~$58k)</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat yes">&#10003; 360&deg; camera</span></div>
       <div class="fitline"><div class="lab"><span>4,432 mm long</span><span>108 mm shorter than CX-5</span></div>
       <div class="fitbar"><div class="fill" style="width:97.6%"></div><div class="limit"></div></div></div>
     </div>
 
     <div class="rank-card" data-vid="megane">
       <div class="rank-top"><div>
-        <div class="rank-pos">9th &middot; The odd one out</div>
+        <div class="rank-pos">8th &middot; The odd one out</div>
         <h3>Renault Megane E-Tech</h3>
         <div class="rank-variant">Single Techno &middot; ~$49,990&ndash;54,990 driveaway</div>
-      </div><div class="score-badge"><div class="num">7.0</div><div class="of">/ 10</div></div></div>
+      </div><div class="score-badge"><div class="num">6.9</div><div class="of">/ 10</div></div></div>
       <p class="why">A capable car with 454&nbsp;km range, a heat pump, Google built-in and physical buttons. But it&rsquo;s really a <em>low hatch</em>, not a tall SUV &mdash; the lowest seating of all eleven, which works against the easy step-in you get from the CX-5. Small Renault EV presence and a shorter (100,000&nbsp;km) warranty count against it too.</p>
       <div class="chips"><span class="chip pro">454 km &middot; heat pump</span><span class="chip pro">Google built-in</span><span class="chip con">Lowest seat &mdash; not SUV-like</span><span class="chip con">Warranty capped at 100,000 km</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat no">&#10007; Boot access &mdash; not offered on the AU car, any price</span><span class="feat no">&#10007; Head-up display</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat no">&#10007; 360&deg; camera &mdash; not offered on the AU car (reversing camera only)</span></div>
       <div class="fitline"><div class="lab"><span>4,200 mm long</span><span>340 mm shorter than CX-5</span></div>
       <div class="fitbar"><div class="fill" style="width:92.5%"></div><div class="limit"></div></div></div>
     </div>
 
     <div class="rank-card" data-vid="evitara">
       <div class="rank-top"><div>
-        <div class="rank-pos">10th &middot; Easiest to park</div>
+        <div class="rank-pos">9th &middot; Easiest to park</div>
         <h3>Suzuki e-Vitara</h3>
         <div class="rank-variant">Pick: Motion &middot; ~$49,990 driveaway (confirm)</div>
-      </div><div class="score-badge"><div class="num">6.6</div><div class="of">/ 10</div></div></div>
+      </div><div class="score-badge"><div class="num">6.5</div><div class="of">/ 10</div></div></div>
       <p class="why">The smallest, easiest-to-park car here from a brand you know, with the <em>tallest, easiest step-in seating</em> of the group and a 360&deg; camera. But it&rsquo;s the shortest range (344&nbsp;km), the smallest boot, has no power tailgate, and carries a 4-star rating &mdash; a lot of money for what you get.</p>
       <div class="chips"><span class="chip pro">Small &amp; easy to park</span><span class="chip pro">Tallest, easiest seat</span><span class="chip pro">Charge to 100%</span><span class="chip con">Shortest range, small boot</span><span class="chip con">4-star</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features, on this grade</span><span class="feat no">&#10007; Boot access &mdash; not offered on either grade</span><span class="feat no">&#10007; Head-up display</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat yes">&#10003; 360&deg; camera</span></div>
       <div class="fitline"><div class="lab"><span>4,275 mm long</span><span>265 mm shorter than CX-5</span></div>
       <div class="fitbar"><div class="fill" style="width:94.2%"></div><div class="limit"></div></div></div>
+    </div>
+
+    <div class="rank-card" style="background:#F6F8F7;border-style:dashed" data-vid="ex40">
+      <div class="rank-top"><div>
+        <div class="rank-pos" style="color:var(--amber)">Above budget &mdash; not ranked</div>
+        <h3 style="color:var(--ink-soft)">Volvo EX40</h3>
+        <div class="rank-variant">From ~$70k before on-roads &mdash; over the $60k ceiling</div>
+      </div><div class="score-badge" style="background:#E8EFEA"><div class="num" style="color:var(--ink-soft)">7.6</div><div class="of" style="color:var(--ink-soft)">would score</div></div></div>
+      <p class="why">EX30&rsquo;s bigger sibling (the renamed XC40 Recharge): a genuinely roomier cabin, the longest range of any Volvo here (520&nbsp;km), a proper 410&nbsp;L boot, and &mdash; uniquely in this whole comparison &mdash; <strong>5 years of servicing included free</strong>. It would score a competitive 7.6, but every grade starts around $70k before on-roads, well outside this comparison's $60k ceiling &mdash; so it's shown here for reference rather than ranked. It's really competing with the Tesla Model Y and BMW iX1, not the rest of this list.</p>
+      <div class="chips"><span class="chip pro">520 km range</span><span class="chip pro">Free 5-yr servicing</span><span class="chip pro">5-star &middot; roomy</span><span class="chip con">~$20k over budget</span><span class="chip con">Older platform &amp; smaller screen than EX30</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features (car is over budget regardless)</span><span class="feat yes">&#10003; Boot access (power tailgate)</span><span class="feat no">&#10007; Head-up display</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat yes">&#10003; 360&deg; camera + self-park</span></div>
+      <div class="fitline"><div class="lab"><span>4,440 mm long</span><span>100 mm shorter than CX-5</span></div>
+      <div class="fitbar"><div class="fill" style="width:97.8%"></div><div class="limit"></div></div></div>
     </div>
 
     <div class="rank-card" style="background:#F6F8F7;border-style:dashed" data-vid="e2008">
@@ -440,7 +482,14 @@
     </thead>
     <tbody>
       <tr>
-        <th>Score &amp; rank</th><td class="cx5">baseline</td><td class="scorecell">8.7 &middot; 1st</td><td class="scorecell">8.4 &middot; 2nd</td><td class="scorecell">8.3 &middot; 3rd</td><td class="scorecell">7.8 &middot; 4th</td><td class="scorecell">7.7 &middot; 5th</td><td class="scorecell">7.6 &middot; 5th</td><td class="scorecell">7.5 &middot; 6th</td><td class="scorecell">7.4 &middot; 7th</td><td class="scorecell">7.0 &middot; 8th</td><td class="scorecell">6.6 &middot; 9th</td><td class="scorecell" style="color:var(--red);font-size:.85rem">Withdrawn</td><td class="scorecell">TBC</td></tr>
+        <th>Score &amp; rank</th><td class="cx5">baseline</td><td class="scorecell">8.3 &middot; 2nd</td><td class="scorecell">8.4 &middot; 1st</td><td class="scorecell">8.2 &middot; 3rd</td><td class="scorecell">7.6 &middot; 5th</td><td class="scorecell" style="color:var(--ink-soft);font-size:.8rem">7.6<br>over budget</td><td class="scorecell">7.5 &middot; 6th</td><td class="scorecell">7.7 &middot; 4th</td><td class="scorecell">7.4 &middot; 7th</td><td class="scorecell">6.9 &middot; 8th</td><td class="scorecell">6.5 &middot; 9th</td><td class="scorecell" style="color:var(--red);font-size:.85rem">Withdrawn</td><td class="scorecell">TBC</td></tr>
+      <tr class="sec"><th colspan="13">Everyday ease breakdown (each /10 &mdash; higher is easier)</th></tr>
+      <tr><th>&nbsp;&nbsp;Physical controls</th><td class="cx5">All buttons</td><td>8.0</td><td>7.0</td><td class="good">9.0</td><td class="good">9.5</td><td>7.0</td><td class="bad">4.0</td><td>5.5</td><td>6.0</td><td>7.5</td><td class="good">9.0</td><td>6.0</td><td>&mdash;</td></tr>
+      <tr><th>&nbsp;&nbsp;Interface simplicity</th><td class="cx5">Very simple</td><td class="good">9.0</td><td>8.0</td><td>8.5</td><td class="good">9.0</td><td>7.5</td><td>6.5</td><td>6.0</td><td>6.5</td><td>7.0</td><td>8.5</td><td>7.0</td><td>&mdash;</td></tr>
+      <tr><th>&nbsp;&nbsp;Alerts (less naggy = higher)</th><td class="cx5">None</td><td class="good">9.5</td><td>6.5</td><td class="bad">5.0</td><td class="good">9.0</td><td>7.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>&mdash;</td></tr>
+      <tr><th>&nbsp;&nbsp;Step-in &amp; visibility</th><td class="cx5">High, easy</td><td>7.5</td><td class="good">9.0</td><td>8.0</td><td>7.5</td><td>8.0</td><td>7.0</td><td>8.0</td><td>6.5</td><td class="bad">5.5</td><td class="good">9.5</td><td>6.0</td><td>&mdash;</td></tr>
+      <tr><th>&nbsp;&nbsp;Parking ease (360&deg;, size)</th><td class="cx5">Sensors only</td><td class="bad">6.5</td><td>8.5</td><td>8.5</td><td>7.0</td><td>8.0</td><td class="good">9.0</td><td>8.0</td><td>8.5</td><td>7.0</td><td>8.5</td><td class="bad">5.0</td><td>&mdash;</td></tr>
+      <tr><th>&nbsp;&nbsp;<strong>Everyday ease overall</strong></th><td class="cx5">&mdash;</td><td><strong>8.0</strong></td><td><strong>8.0</strong></td><td><strong>8.0</strong></td><td><strong>8.5</strong></td><td><strong>7.5</strong></td><td><strong>7.0</strong></td><td><strong>7.0</strong></td><td><strong>7.0</strong></td><td><strong>6.5</strong></td><td><strong>8.5</strong></td><td><strong>6.0</strong></td><td>&mdash;</td></tr>
       <tr>
         <th>Driveaway cost<br><span class="muted" style="font-weight:500">(estimates &mdash; get local quotes)</span></th><td class="cx5">&mdash; (owned)</td><td>$46,990 SR offer &middot; ~$53&ndash;55k LR &middot; $68,490 GT-Line<span class="conf e">&asymp;</span></td><td>~$38,990 Style &middot; ~$41,990 Design LR<span class="conf e">&asymp;</span></td><td>~$44k / $47&ndash;49k<span class="conf e">&asymp;</span></td><td>$45,990 / $50,990 / $60,990<span class="conf e">&asymp;</span></td><td>~$74&ndash;77k (Single Motor) / ~$79&ndash;82k (Twin Motor) est.<span class="conf e">&asymp;</span></td><td>from ~$50k (RWD) to $62,990 (Cross Country)<span class="conf e">&asymp;</span></td><td>~$43&ndash;44k / ~$48&ndash;49k<span class="conf e">&asymp;</span></td><td>$48,900 / $57,900 driveaway<span class="conf e">&asymp;</span></td><td>$49,990 offer (was $54,990)<span class="conf e">&asymp;</span></td><td>~$49,990 / ~$58,990<span class="conf c">?</span></td><td class="bad">No longer sold in Australia<span class="conf v">&#10003;</span></td><td>Not announced<span class="conf c">?</span></td></tr>
       <tr>
@@ -452,11 +501,18 @@
       <tr>
         <th>Boot / front trunk</th><td class="cx5">403 L / none</td><td>460 L / 25 L frunk<span class="conf v">&#10003;</span></td><td><span class="good">490 L</span> / none<span class="conf v">&#10003;</span></td><td>453 L / none<span class="conf v">&#10003;</span></td><td>407 L / 27 L frunk<span class="conf v">&#10003;</span></td><td>410 L (1,400 L folded) / 31 L frunk<span class="conf v">&#10003;</span></td><td><span class="bad">318 L</span> / 7 L frunk<span class="conf e">&asymp;</span></td><td>440 L / none<span class="conf v">&#10003;</span></td><td>404 L / none<span class="conf e">&asymp;</span></td><td>440 L / none<span class="conf v">&#10003;</span></td><td><span class="bad">~306 L</span> / none<span class="conf e">&asymp;</span></td><td>434 L / none<span class="conf v">&#10003;</span></td><td><span class="good">490 L + 101 L frunk</span><span class="conf e">&asymp;</span></td></tr>
       <tr>
-        <th>Auto (power) tailgate</th><td class="cx5">Manual</td><td>Earth &amp; GT-Line<span class="conf v">&#10003;</span></td><td>Design LR<span class="conf v">&#10003;</span></td><td><span class="good">Std, foot-kick</span><span class="conf v">&#10003;</span></td><td>Premium only<span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf e">&asymp;</span></td><td>Premium (one-touch)<span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf e">&asymp;</span></td><td>Confirm<span class="conf c">?</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td>Expected<span class="conf c">?</span></td></tr>
+        <th>Auto (power) tailgate</th><td class="cx5">Manual</td><td>Earth &amp; GT-Line<span class="conf v">&#10003;</span></td><td>Design LR<span class="conf v">&#10003;</span></td><td><span class="good">Std, foot-kick</span><span class="conf v">&#10003;</span></td><td>Premium only<span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf e">&asymp;</span></td><td>Premium (one-touch)<span class="conf v">&#10003;</span></td><td><span class="good">Standard</span><span class="conf e">&asymp;</span></td><td><span class="bad">No</span> (manual only)<span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td><span class="bad">No</span><span class="conf v">&#10003;</span></td><td>Expected<span class="conf c">?</span></td></tr>
       <tr>
-        <th>Parking tech &amp; 360&deg; camera<br><span class="muted" style="font-weight:500">key for a tight garage</span></th><td class="cx5">Rear sensors only</td><td><span class="bad">No 360&deg;</span> (sensors + rear cam)<span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + dashcam std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td>360&deg; + self-park on Premium; rear cam below<span class="conf v">&#10003;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + semi-auto park</span> (Plus has park cam)<span class="conf e">&asymp;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + remote self-park</span><span class="conf e">&asymp;</span></td><td>360&deg; likely (Techno) &mdash; confirm<span class="conf c">?</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="bad">180&deg; rear cam only</span><span class="conf v">&#10003;</span></td><td>360&deg; expected<span class="conf c">?</span></td></tr>
+        <th>Parking tech &amp; 360&deg; camera<br><span class="muted" style="font-weight:500">key for a tight garage</span></th><td class="cx5">Rear sensors only</td><td><span class="bad">No 360&deg;</span> (sensors + rear cam)<span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + dashcam std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td>360&deg; + self-park on Premium; rear cam below<span class="conf v">&#10003;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + semi-auto park</span> (Plus has park cam)<span class="conf e">&asymp;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="good">360&deg; + remote self-park</span><span class="conf e">&asymp;</span></td><td><span class="bad">No 360&deg;</span> (rear camera only)<span class="conf v">&#10003;</span></td><td><span class="good">360&deg; std</span><span class="conf v">&#10003;</span></td><td><span class="bad">180&deg; rear cam only</span><span class="conf v">&#10003;</span></td><td>360&deg; expected<span class="conf c">?</span></td></tr>
       <tr>
         <th>Warning &ldquo;bing-bongs&rdquo; &amp; how easy to quieten</th><td class="cx5">None (no modern alerts)</td><td><span class="good">Easiest</span> &mdash; hold mute button, or haptic-only<span class="conf e">&asymp;</span></td><td>Some aids &ldquo;pushy&rdquo;; resets each drive &mdash; test it<span class="conf e">&asymp;</span></td><td><span class="bad">Naggiest</span> &mdash; 2-tap menu every drive, doesn&rsquo;t always hold<span class="conf e">&asymp;</span></td><td><span class="good">Easy</span> &mdash; same mute-button fix as Kia<span class="conf e">&asymp;</span></td><td>Present &mdash; test it<span class="conf c">?</span></td><td>Moderate &mdash; Volvo alerts; confirm on test drive<span class="conf c">?</span></td><td>Milder than MG but buried &amp; resets<span class="conf e">&asymp;</span></td><td><span class="good">Mostly calm</span> &mdash; just one keen over-speed chime<span class="conf e">&asymp;</span></td><td>Physical buttons help; resets per EU rules<span class="conf c">?</span></td><td>Present &mdash; test it<span class="conf c">?</span></td><td>Present (i-Cockpit) &mdash; test it<span class="conf c">?</span></td><td>Adds Google + AI &mdash; unknown<span class="conf c">?</span></td></tr>
+      <tr class="sec"><th colspan="14">Everyday ease, broken down (each /10 &mdash; higher is better; overall ease is the average)</th></tr>
+      <tr><th>&bull; Physical controls</th><td class="cx5">&mdash;</td><td>8.0</td><td>7.0</td><td class="good">9.0</td><td class="good">9.5</td><td>7.0</td><td class="bad">4.0</td><td>5.5</td><td>6.0</td><td>7.5</td><td class="good">9.0</td><td>6.5</td><td>&mdash;</td></tr>
+      <tr><th>&bull; Interface simplicity</th><td class="cx5">&mdash;</td><td class="good">9.0</td><td>8.0</td><td>8.5</td><td class="good">9.0</td><td>7.5</td><td>6.5</td><td>6.0</td><td>6.5</td><td>7.0</td><td>8.5</td><td>7.0</td><td>&mdash;</td></tr>
+      <tr><th>&bull; Alerts (higher = less naggy)</th><td class="cx5">&mdash;</td><td class="good">9.5</td><td>6.5</td><td class="bad">5.0</td><td>9.0</td><td>7.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.0</td><td>&mdash;</td></tr>
+      <tr><th>&bull; Step-in &amp; visibility</th><td class="cx5">high, easy</td><td>7.5</td><td class="good">9.0</td><td>8.0</td><td>7.5</td><td>8.0</td><td>7.0</td><td>8.0</td><td>6.5</td><td class="bad">5.5</td><td class="good">9.5</td><td>7.0</td><td>&mdash;</td></tr>
+      <tr><th>&bull; Parking ease (360&deg; cam, size)</th><td class="cx5">sensors only</td><td>6.5</td><td>8.5</td><td>8.5</td><td class="bad">6.0</td><td>8.0</td><td class="good">9.0</td><td>8.0</td><td>8.5</td><td>7.0</td><td>8.5</td><td>5.0</td><td>&mdash;</td></tr>
+      <tr><th>= Everyday ease overall</th><td class="cx5">&mdash;</td><td class="scorecell">8.0</td><td class="scorecell">8.0</td><td class="scorecell">8.0</td><td class="scorecell">8.0</td><td class="scorecell">7.5</td><td class="scorecell">7.0</td><td class="scorecell">7.0</td><td class="scorecell">7.0</td><td class="scorecell">6.5</td><td class="scorecell">8.5</td><td class="scorecell">6.0</td><td class="scorecell">&mdash;</td></tr>
       <tr>
         <th>Battery type &mdash; charge to 100% daily?</th><td class="cx5">Petrol &mdash; just fill up</td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td><td><span class="good">LFP &middot; yes</span><span class="conf v">&#10003;</span></td><td><span class="good">LFP &middot; yes</span><span class="conf v">&#10003;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf e">&asymp;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf e">&asymp;</span></td><td><span class="good">LFP Blade &middot; yes</span><span class="conf v">&#10003;</span></td><td><span class="good">RWD LFP &middot; yes</span> / AWD NMC<span class="conf e">&asymp;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf e">&asymp;</span></td><td><span class="good">LFP &middot; yes</span><span class="conf e">&asymp;</span></td><td>NMC &middot; <span class="bad">best at ~80%</span><span class="conf v">&#10003;</span></td><td><span class="good">LFP &middot; yes</span><span class="conf e">&asymp;</span></td></tr>
       <tr>
@@ -564,13 +620,13 @@
       <tr class="sec"><th colspan="12">Safety</th></tr>
       <tr><th>ANCAP</th><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2025)</span></td><td><span class="good">5 (2025)</span></td><td><span class="bad">4 (2023)</span></td><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2018-based test)</span></td><td><span class="good">5 (2022)</span></td><td><span class="good">5 (2024)</span></td><td><span class="good">5 (2022)</span><span class="conf c">?</span></td><td><span class="bad">4</span></td><td>5 (2019, old test)<span class="conf c">?</span></td></tr>
       <tr><th>Airbags</th><td>7 (incl. centre)</td><td>7 (incl. centre)</td><td>7 (incl. far-side)</td><td>7 (incl. centre)</td><td>7 (incl. centre)</td><td>7 (incl. knee)</td><td>7</td><td>7 (incl. centre)</td><td>7</td><td>7 (incl. knee)</td><td>6</td></tr>
-      <tr><th>360&deg; camera / parking</th><td><span class="bad">No 360&deg;</span></td><td><span class="good">360&deg; + dashcam</span></td><td><span class="good">360&deg;</span></td><td>360&deg; (Premium)</td><td><span class="good">360&deg; + self-park</span></td><td><span class="good">360&deg; std</span></td><td><span class="good">360&deg;</span></td><td><span class="good">360&deg; + remote park</span></td><td>360&deg; likely<span class="conf c">?</span></td><td><span class="good">360&deg;</span></td><td><span class="bad">180&deg; only</span></td></tr>
+      <tr><th>360&deg; camera / parking</th><td><span class="bad">No 360&deg;</span></td><td><span class="good">360&deg; + dashcam</span></td><td><span class="good">360&deg;</span></td><td>360&deg; (Premium)</td><td><span class="good">360&deg; + self-park</span></td><td><span class="good">360&deg; std</span></td><td><span class="good">360&deg;</span></td><td><span class="good">360&deg; + remote park</span></td><td><span class="bad">No 360&deg;</span> (rear camera only)</td><td><span class="good">360&deg;</span></td><td><span class="bad">180&deg; only</span></td></tr>
       <tr class="sec"><th colspan="12">Cabin &amp; features</th></tr>
       <tr><th>Screens</th><td>12.3&Prime; + 5&Prime; + 12.3&Prime;</td><td>14.6&Prime; + 8.8&Prime;</td><td>12.8&Prime; + 10.25&Prime;</td><td>12.3&Prime; + 12.3&Prime;</td><td><span class="bad">12.3&Prime; central only</span></td><td><span class="bad">9&Prime; portrait</span> + 12.3&Prime; driver</td><td>12.8&Prime;/15.6&Prime; + 5&Prime;</td><td>14.6&Prime; + 8.8&Prime;</td><td>12&Prime; + 12.3&Prime;</td><td>10.1&Prime; + 10.25&Prime;</td><td>10&Prime; + i-Cockpit</td></tr>
       <tr><th>Head-up display</th><td>GT-Line</td><td>&ndash;</td><td>&ndash;</td><td>Premium</td><td>&ndash;</td><td><span class="bad">&ndash;</span></td><td>&ndash;</td><td>AWD (AR)</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
       <tr><th>Apple CarPlay</th><td>Wireless &amp; wired</td><td>Wireless</td><td>Wireless &amp; wired</td><td>Wireless</td><td>Wireless</td><td><span class="good">Wireless</span></td><td>Wireless</td><td>Wireless</td><td>Wireless</td><td>Wireless</td><td>Wired</td></tr>
       <tr><th>Wireless phone charging</th><td>Std</td><td>Std</td><td>Std (Essence)</td><td>Std</td><td>Std</td><td><span class="good">Std</span><span class="conf e">&asymp;</span></td><td>Premium</td><td>Std</td><td>Confirm<span class="conf c">?</span></td><td>Ultra</td><td><span class="bad">No</span></td></tr>
-      <tr><th>Power tailgate</th><td>Earth / GT-Line</td><td>Design LR</td><td><span class="good">Std</span></td><td>Premium</td><td><span class="good">Std</span></td><td><span class="good">Std</span></td><td>Premium</td><td><span class="good">Std</span></td><td>Confirm<span class="conf c">?</span></td><td><span class="bad">&ndash;</span></td><td><span class="bad">&ndash;</span></td></tr>
+      <tr><th>Power tailgate</th><td>Earth / GT-Line</td><td>Design LR</td><td><span class="good">Std</span></td><td>Premium</td><td><span class="good">Std</span></td><td><span class="good">Std</span></td><td>Premium</td><td><span class="good">Std</span></td><td><span class="bad">No</span> (manual only)</td><td><span class="bad">&ndash;</span></td><td><span class="bad">&ndash;</span></td></tr>
       <tr><th>Heated / ventilated seats</th><td>Earth / GT-Line (both)</td><td>Design LR (both)</td><td>Heated std</td><td>Premium (both)</td><td>Heated (Climate pack)</td><td>Heated std; ventilated confirm<span class="conf c">?</span></td><td>Premium (heated)</td><td>Heated F+R std</td><td>Heated<span class="conf c">?</span></td><td>Ultra (heated)</td><td>GT (heated)</td></tr>
       <tr><th>Sunroof</th><td>GT-Line</td><td><span class="good">Pano std</span></td><td><span class="good">Pano std (Essence)</span></td><td>Premium</td><td>Pano (Plus/Ultra)</td><td>Confirm<span class="conf c">?</span></td><td>Pano (Premium)</td><td><span class="good">Pano std</span></td><td>Confirm<span class="conf c">?</span></td><td>Ultra</td><td>Pano (GT)</td></tr>
       <tr class="sec"><th colspan="12">Ownership</th></tr>
@@ -586,22 +642,22 @@
   <h3 style="font-size:1.15rem;font-weight:800;margin:24px 0 6px">Each car in detail</h3>
   <p class="lede">Tap a car to open it: release date and what&rsquo;s next, why it scored as it did, and links. The <strong>Brochure PDF</strong> buttons are placeholders &mdash; if you pop the brochures in a shared folder and send the links, I&rsquo;ll wire them up; otherwise the official-site button has a &ldquo;Download brochure&rdquo; link.</p>
 
-  <details class="car" data-vid="ev3" open><summary><div>Kia EV3 &mdash; 8.7 &middot; 1st<div class="meta">Released 20 Mar 2025 &middot; EV3 GT due late 2026</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="ev3" open><summary><div>Kia EV3 &mdash; 8.3 &middot; 2nd<div class="meta">Released 20 Mar 2025 &middot; EV3 GT due late 2026</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Air SR ($46,990 d/a offer) &middot; Air LR (~$53&ndash;55k, 604&nbsp;km &mdash; the pick) &middot; Earth (~$60k, power tailgate + heated seats) &middot; GT-Line ($68,490, HUD + sunroof + Harman Kardon).</dd>
-        <dt>Why 8.7 &mdash; 1st</dt><dd>It wins by having no weakness. <b>Range &amp; charging 9.5</b> (604&nbsp;km, 11&nbsp;kW home) and <b>Safety 9.0</b> lead the field; <b>Ownership 9.0</b> is 7-yr warranty + cheapest servicing; <b>Everyday ease 8.5</b> reflects the easiest alerts to silence. Only real gaps: no 360&deg; camera, and the NMC battery prefers 80% daily.</dd>
+        <dt>Why 8.3 &mdash; 2nd</dt><dd>A very complete package. <b>Safety 9.0</b> leads the field, <b>Ownership 9.0</b> is 7-yr warranty + cheapest servicing, and on the ease breakdown it scores <b>8.0</b> &mdash; superb menus and the easiest alerts to silence, though no 360&deg; camera at any price dents its parking sub-score. <b>Range &amp; charging 8.0</b> reflects the Air LR grade (604&nbsp;km) &mdash; genuinely class-leading, but note it needs the ~$54k grade, not the ~$47k base. The NMC battery also prefers 80% daily.</dd>
       </dl>
       <div class="review-quote">Named best electric small SUV of 2026; praised for range, ride and value.</div>
       <div class="linkrow"><a class="linkbtn" href="https://www.kia.com/au/cars/ev3.html" target="_blank" rel="noopener">Kia EV3 official page &#8599;</a><a class="linkbtn" href="https://www.carsales.com.au/research/kia/ev3/" target="_blank" rel="noopener">carsales research &#8599;</a><a class="linkbtn" data-brochure="ev3" href="#">Brochure PDF &mdash; add link &#8599;</a></div>
     </div>
   </details>
 
-  <details class="car" data-vid="b10"><summary><div>Leapmotor B10 &mdash; 8.4 &middot; 2nd<div class="meta">Released late 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="b10"><summary><div>Leapmotor B10 &mdash; 8.4 &middot; 1st<div class="meta">Released late 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Style ($38,990 d/a, 361&nbsp;km) &middot; Design LR ($41,990 d/a, 434&nbsp;km &mdash; adds power tailgate, heated &amp; ventilated seats, 12-speaker audio). Both get 360&deg; camera + dashcam, wireless charging, panoramic roof, 11&nbsp;kW charging.</dd>
-        <dt>Why 8.4 &mdash; 2nd</dt><dd><b>Value 9.5</b> and <b>Practicality 8.5</b> are the joint-best here &mdash; cheapest, yet the most equipped. LFP battery (charge to 100%), heat pump standard. It sits behind the Kia only on <b>Everyday ease 8.0</b> (a few pushy driver aids, and it&rsquo;s the tightest garage fit) and <b>Ownership 8.0</b> (newer brand, 6-yr warranty). Backed by Stellantis&rsquo; dealer network.</dd>
+        <dt>Why 8.4 &mdash; 1st</dt><dd><b>Value 9.5</b> and <b>Practicality 8.5</b> are the joint-best here &mdash; cheapest, yet the most equipped. LFP battery (charge to 100%), heat pump standard. It matches the Kia on <b>Everyday ease 8.0</b> (excellent step-in and easy parking, though a few pushy driver aids drag its alert sub-score) and sits just behind on <b>Ownership 8.0</b> (newer brand, 6-yr warranty). Backed by Stellantis&rsquo; dealer network.</dd>
         <dt>Watch</dt><dd>Longest (4,515&nbsp;mm) <em>and</em> widest (1,885&nbsp;mm) car here &mdash; measure the garage before committing (see tab&nbsp;4).</dd>
       </dl>
       <div class="review-quote">&ldquo;One of the best value and arguably the most engaging small electric SUV you can buy&rdquo; &mdash; carsales.</div>
@@ -609,33 +665,44 @@
     </div>
   </details>
 
-  <details class="car" data-vid="mg"><summary><div>MG S5 EV &mdash; 8.3 &middot; 3rd<div class="meta">Released 30 Apr 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="mg"><summary><div>MG S5 EV &mdash; 8.2 &middot; 3rd<div class="meta">Released 30 Apr 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Excite 49 ($40,490 d/a) &middot; Essence 49 ($42,990) &middot; Excite 62 ($44,990) &middot; Essence 62 ($47,990, 450&nbsp;km &mdash; the pick, with power tailgate, heated seats/wheel, pano roof, 360&deg; camera).</dd>
-        <dt>Why 8.3 &mdash; 3rd</dt><dd><b>Value 9.5</b> ties the B10 &mdash; the most standard kit under $50k. LFP battery (100% daily), real climate buttons. Held back by <b>Everyday ease 8.5</b> (the naggiest alerts here &mdash; a 2-tap menu every drive that doesn&rsquo;t always hold) and slower 6.6&nbsp;kW home charging. Warranty stretches to 10&nbsp;yr/250k with MG servicing.</dd>
+        <dt>Why 8.2 &mdash; 3rd</dt><dd><b>Value 9.5</b> ties the B10 &mdash; the most standard kit in the $45&ndash;50k band. LFP battery (100% daily), and the best physical controls here (real climate buttons). Its <b>Everyday ease 8.0</b> would be higher still if not for the <em>worst alert sub-score in the group (5.0)</em> &mdash; a 2-tap menu every drive that doesn&rsquo;t always hold. That alert-nagging, plus slower 6.6&nbsp;kW home charging, is the gap to the B10. Warranty stretches to 10&nbsp;yr/250k with MG servicing.</dd>
       </dl>
       <div class="review-quote">&ldquo;There&rsquo;s a lot to be said for just being easy, and the S5 meets the mark&rdquo; &mdash; CarsGuide.</div>
       <div class="linkrow"><a class="linkbtn" href="https://mgmotor.com.au/products/mgs5-ev" target="_blank" rel="noopener">MG S5 EV official page &#8599;</a><a class="linkbtn" href="https://www.carsales.com.au/research/mg/mgs5-ev/" target="_blank" rel="noopener">carsales research &#8599;</a><a class="linkbtn" data-brochure="mg" href="#">Brochure PDF &mdash; add link &#8599;</a></div>
     </div>
   </details>
 
-  <details class="car" data-vid="kona"><summary><div>Hyundai Kona Electric &mdash; 7.8 &middot; 4th<div class="meta">Released 2023 &middot; facelift skipped, next-gen ~2028</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="kona"><summary><div>Hyundai Kona Electric &mdash; 7.6 &middot; 5th<div class="meta">Released 2023 &middot; facelift skipped, next-gen ~2028</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Standard Range ($45,990 d/a) &middot; Extended Range ($50,990, 505&nbsp;km &mdash; the pick) &middot; Premium ($60,990, adds HUD, power tailgate, heated/ventilated leather, Bose, sunroof, 360&deg;).</dd>
-        <dt>Why 7.8 &mdash; 4th</dt><dd><b>Everyday ease 9.0</b> (tied-highest) &mdash; the most familiar, quiet, conventional car here, with the easy one-button chime fix and a real spare wheel. What pulls it to 4th is <b>Safety 6.5</b>: a <em>4-star</em> ANCAP result. NMC battery (80% daily); the nice kit is on the pricey Premium.</dd>
+        <dt>Why 7.6 &mdash; 5th</dt><dd><b>Everyday ease 8.0</b> (highest here) &mdash; the most familiar, quiet, conventional car, with the best buttons/dials, simplest interface, and the easy one-button chime fix, plus a real spare wheel. Two things hold it back: <b>Safety 6.5</b> (a <em>4-star</em> ANCAP result), and the fact that its 360&deg; camera and nicer kit live on the Premium grade &mdash; at $60,990, just over this comparison's $60k cap, so the Extended Range you'd actually buy misses out (parking sub-score 6.0). NMC battery (80% daily).</dd>
       </dl>
       <div class="review-quote">&ldquo;A comfortable, spacious small SUV&hellip; a recent price cut makes it much more competitive&rdquo; &mdash; carsales.</div>
       <div class="linkrow"><a class="linkbtn" href="https://www.hyundai.com/au/en/cars/eco/kona-electric" target="_blank" rel="noopener">Kona Electric official page &#8599;</a><a class="linkbtn" data-brochure="kona" href="#">Brochure PDF &mdash; add link &#8599;</a></div>
     </div>
   </details>
 
-  <details class="car" data-vid="ex40"><summary><div>Volvo EX40 &mdash; 7.7 &middot; 5th<div class="meta">Released 1 Jun 2025 (as EX40) &middot; EX60 due late 2026/2027</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="atto3"><summary><div>BYD Atto 3 &mdash; 7.7 &middot; 4th<div class="meta">Released 2022 &middot; Atto 3 Evo arrives late 2026</div></div><span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <dl class="kv">
+        <dt>Grades &amp; pricing</dt><dd>Essential (~$43&ndash;44k, 345&nbsp;km) &middot; Premium (~$48&ndash;49k, 420&nbsp;km &mdash; adds 15.6&Prime; screen, wireless charging, pano roof, power tailgate).</dd>
+        <dt>Why 7.7 &mdash; 4th</dt><dd>Proven, 5-star, roomy, LFP (100% daily), standard 360&deg; + dashcam. It rises to tie the Kona partly because its strong <b>Value 8.5</b> (in-band pricing, lots of car for the money) now counts for more against the sweet-spot anchor. Its one real drag is <b>Everyday ease 7.0</b> &mdash; a screen-heavy cabin (its physical-controls sub-score is just 5.5) offset by good step-in and easy parking. Slow DC charging barely matters for home charging.</dd>
+      </dl>
+      <div class="review-quote">&ldquo;Drives better than its looks imply&rdquo; &mdash; Chasing Cars.</div>
+      <div class="linkrow"><a class="linkbtn" href="https://www.byd.com/au" target="_blank" rel="noopener">BYD Australia &#8599;</a><a class="linkbtn" href="https://www.carexpert.com.au/byd/atto-3" target="_blank" rel="noopener">CarExpert Atto 3 &#8599;</a><a class="linkbtn" data-brochure="atto3" href="#">Brochure PDF &mdash; add link &#8599;</a></div>
+    </div>
+  </details>
+
+    <details class="car" data-vid="ex40"><summary><div>Volvo EX40 &mdash; 7.6 &middot; not ranked (over budget)<div class="meta">Released 1 Jun 2025 (as EX40) &middot; EX60 due late 2026/2027</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Single Motor Extended Range (from ~$69,990 before on-roads, 520&nbsp;km) &middot; Twin Motor AWD (~$75&ndash;77k est., 300&nbsp;kW, 485&nbsp;km). One Ultra-only specification level; prices cut $7,000 across the range from 1 April 2026. Your project brochure is a European/global spec sheet &mdash; Australian pricing and WLTP figures used here.</dd>
-        <dt>Why 7.7 &mdash; 5th</dt><dd>The EX30's bigger sibling and effectively the renamed XC40 Recharge. <b>Range &amp; charging 9.0</b> (520&nbsp;km, fast 28-min DC) and <b>Ownership 9.0</b> (5-yr unlimited warranty <em>plus 5 years/150,000km of servicing included free</em> &mdash; not just capped, actually free) are the standouts. <b>Value 4.5 (lowest here)</b> is what holds it back: at $70k+ before on-roads it's $10&ndash;20k above everything else in this comparison, really competing with the Tesla Model Y and BMW iX1 rather than the rest of this list. The 9&Prime; portrait screen is also noticeably smaller and lower-res than the EV3/B10/MG's newer displays.</dd>
+        <dt>Why 7.6 &mdash; not ranked (over budget)</dt><dd>The EX30's bigger sibling and effectively the renamed XC40 Recharge. <b>Range &amp; charging 9.0</b> (520&nbsp;km, fast 28-min DC) and <b>Ownership 9.0</b> (5-yr unlimited warranty <em>plus 5 years/150,000km of servicing included free</em>) are the standouts, and it would score a competitive 7.6 on the same scale as everything else here. But every grade starts around $70k before on-roads &mdash; roughly $10&ndash;20k above this comparison's $60k ceiling &mdash; so it's excluded from ranking and shown for reference only. It's really competing with the Tesla Model Y and BMW iX1, not the rest of this list.</dd>
         <dt>Worth knowing</dt><dd>EX40 sales fell around 40% in 2025 as Volvo repositions the range ahead of the incoming EX60 (its mid-size electric SUV replacement, due late 2026 or 2027). Still a fully supported, current model &mdash; just one nearing the end of its run.</dd>
       </dl>
       <div class="review-quote">&ldquo;One of the safest small electric SUVs on the market&hellip; a very robust crash structure proven across multiple test programs&rdquo; &mdash; summarising ANCAP/Euro NCAP consensus.</div>
@@ -643,55 +710,44 @@
     </div>
   </details>
 
-  <details class="car" data-vid="ex30"><summary><div>Volvo EX30 &mdash; 7.6 &middot; 6th<div class="meta">Released early 2024 &middot; current, no major update imminent</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="ex30"><summary><div>Volvo EX30 &mdash; 7.5 &middot; 6th<div class="meta">Released early 2024 &middot; current, no major update imminent</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Single Motor Extended Range Plus (from ~$50k, 462&nbsp;km) &middot; Ultra (adds 360&deg; + Pilot Assist) &middot; Cross Country AWD (top, ~$62,990). US brochure you shared shows only the Twin Motor; Australian range and figures used here.</dd>
-        <dt>Why 7.6 &mdash; 6th</dt><dd><b>Safety 9.0</b> and a premium cabin, 462&nbsp;km range, power tailgate and 360&deg; standard. The score is capped by <b>Everyday ease 7.0</b>: there&rsquo;s <em>no driver display</em> &mdash; speed shows only on the central screen &mdash; and the rear seat and boot (318&nbsp;L) are tight. NMC battery (80% daily).</dd>
+        <dt>Why 7.5 &mdash; 6th</dt><dd><b>Safety 9.0</b> and a premium cabin, 462&nbsp;km range, power tailgate and 360&deg; standard (its parking sub-score is the joint-highest at 9.0). The score is capped by <b>Everyday ease 7.0</b>, dragged down by the <em>lowest physical-controls sub-score here (4.0)</em>: there&rsquo;s <em>no driver display</em> at all &mdash; speed shows only on the central screen &mdash; and the rear seat and boot (318&nbsp;L) are tight. NMC battery (80% daily).</dd>
       </dl>
       <div class="review-quote">Premium and desirable, but the all-screen interface and tight space divide reviewers.</div>
       <div class="linkrow"><a class="linkbtn" href="https://www.volvocars.com/au/cars/ex30-electric/" target="_blank" rel="noopener">Volvo EX30 (Australia) &#8599;</a><a class="linkbtn" href="https://www.carsales.com.au/research/volvo/ex30/" target="_blank" rel="noopener">carsales research &#8599;</a><a class="linkbtn" data-brochure="ex30" href="#">Brochure PDF &mdash; add AU version &#8599;</a></div>
     </div>
   </details>
 
-  <details class="car" data-vid="atto3"><summary><div>BYD Atto 3 &mdash; 7.5 &middot; 7th<div class="meta">Released 2022 &middot; Atto 3 Evo arrives late 2026</div></div><span class="arrow">&#9654;</span></summary>
-    <div class="car-body">
-      <dl class="kv">
-        <dt>Grades &amp; pricing</dt><dd>Essential (~$43&ndash;44k, 345&nbsp;km) &middot; Premium (~$48&ndash;49k, 420&nbsp;km &mdash; adds 15.6&Prime; screen, wireless charging, pano roof, power tailgate).</dd>
-        <dt>Why 7.5 &mdash; 6th (7.7 without the Evo looming)</dt><dd>Proven, 5-star, roomy, LFP (100% daily), standard 360&deg; + dashcam. Its main deduction is <b>Everyday ease 6.5</b> &mdash; a screen-heavy cabin. The looming Evo costs it on Value and Ownership; strip that away and it scores 7.7. Slow DC charging barely matters for home charging.</dd>
-      </dl>
-      <div class="review-quote">&ldquo;Drives better than its looks imply&rdquo; &mdash; Chasing Cars.</div>
-      <div class="linkrow"><a class="linkbtn" href="https://www.byd.com/au" target="_blank" rel="noopener">BYD Australia &#8599;</a><a class="linkbtn" href="https://www.carexpert.com.au/byd/atto-3" target="_blank" rel="noopener">CarExpert Atto 3 &#8599;</a><a class="linkbtn" data-brochure="atto3" href="#">Brochure PDF &mdash; add link &#8599;</a></div>
-    </div>
-  </details>
-
-  <details class="car" data-vid="zeekr"><summary><div>Zeekr X &mdash; 7.4 &middot; 8th<div class="meta">Released Apr 2025 &middot; just updated (MY26, May 2026)</div></div><span class="arrow">&#9654;</span></summary>
+<details class="car" data-vid="zeekr"><summary><div>Zeekr X &mdash; 7.4 &middot; 7th<div class="meta">Released Apr 2025 &middot; just updated (MY26, May 2026)</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing (MY26)</dt><dd>RWD ($48,900 d/a, new LFP battery, 405&nbsp;km, 250&nbsp;kW &mdash; the pick) &middot; AWD ($57,900, 365&nbsp;kW, massage seats + fridge). Your Singapore brochure is the older MY24 car; these are the current Australian figures.</dd>
-        <dt>Why 7.4 &mdash; 7th</dt><dd>A big 2026 price cut makes it a lot of premium tech for the money &mdash; <b>Value 8.0</b>, <b>Safety 8.5</b>, 360&deg; camera, self-park, 13-speaker Yamaha, and the RWD&rsquo;s new LFP battery charges to 100%. Capped by <b>Everyday ease 6.5</b>: it&rsquo;s sporty to the point of overkill (250&nbsp;kW) with a tight front cabin.</dd>
+        <dt>Why 7.4 &mdash; 7th</dt><dd>A big 2026 price cut makes it a lot of premium tech for the money &mdash; <b>Value 7.5</b>, <b>Safety 8.5</b>, 360&deg; camera with self-park (its parking sub-score is a strong 8.5), 13-speaker Yamaha, and the RWD&rsquo;s new LFP battery charges to 100%. Capped by <b>Everyday ease 7.0</b>: a busy capacitive-touch interface and a tight, low front cabin.</dd>
       </dl>
       <div class="review-quote">&ldquo;A small SUV with a LOT of stuff&rdquo; &mdash; CarsGuide, on the value reset.</div>
       <div class="linkrow"><a class="linkbtn" href="https://www.zeekr.com.au" target="_blank" rel="noopener">Zeekr Australia &#8599;</a><a class="linkbtn" href="https://www.carsales.com.au/research/zeekr/x/" target="_blank" rel="noopener">carsales research &#8599;</a><a class="linkbtn" data-brochure="zeekr" href="#">Brochure PDF &mdash; add AU MY26 &#8599;</a></div>
     </div>
   </details>
 
-  <details class="car" data-vid="megane"><summary><div>Renault Megane E-Tech &mdash; 7.0 &middot; 9th<div class="meta">Released early 2024 &middot; updated Euro version expected ~2027</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="megane"><summary><div>Renault Megane E-Tech &mdash; 6.9 &middot; 8th<div class="meta">Released early 2024 &middot; updated Euro version expected ~2027</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grade &amp; pricing</dt><dd>Single Techno trim, 60&nbsp;kWh, 454&nbsp;km, ~$49,990&ndash;54,990 d/a. Your brochure is the UK edition; the Australian car matches on the key figures.</dd>
-        <dt>Why 7.0 &mdash; 8th</dt><dd>Capable &mdash; 454&nbsp;km, heat pump, Google built-in, physical buttons. But it&rsquo;s really a <em>low hatch</em>, not a tall SUV: at 1,505&nbsp;mm it has the lowest seat of all eleven, which undoes the easy step-in you get from the CX-5 (<b>Everyday ease 6.5</b>). Warranty capped at 100,000&nbsp;km, and a comprehensively updated version is expected here around 2027 &mdash; worth knowing before buying.</dd>
+        <dt>Why 6.9 &mdash; 8th</dt><dd>Capable &mdash; 454&nbsp;km, heat pump, Google built-in, physical buttons. But it&rsquo;s really a <em>low hatch</em>, not a tall SUV: at 1,505&nbsp;mm it has the <em>lowest step-in sub-score of all (5.5)</em>, which undoes the easy entry you get from the CX-5, holding <b>Everyday ease</b> to 6.5. Warranty capped at 100,000&nbsp;km, and a comprehensively updated version is expected here around 2027 &mdash; worth knowing before buying.</dd>
       </dl>
       <div class="review-quote">Easy and likeable, but dear for the range and equipment; low-slung for an &ldquo;SUV&rdquo;.</div>
       <div class="linkrow"><a class="linkbtn" href="https://www.renault.com.au/vehicles/megane-e-tech/" target="_blank" rel="noopener">Megane E-Tech (Australia) &#8599;</a><a class="linkbtn" href="https://www.carsguide.com.au/renault/megane-e-tech" target="_blank" rel="noopener">CarsGuide research &#8599;</a><a class="linkbtn" data-brochure="megane" href="#">Brochure PDF &mdash; add link &#8599;</a></div>
     </div>
   </details>
 
-  <details class="car" data-vid="evitara"><summary><div>Suzuki e-Vitara &mdash; 6.6 &middot; 10th<div class="meta">Released June 2026 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
+  <details class="car" data-vid="evitara"><summary><div>Suzuki e-Vitara &mdash; 6.5 &middot; 9th<div class="meta">Released June 2026 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
         <dt>Grades &amp; pricing</dt><dd>Motion FWD (~$49,990 d/a, 344&nbsp;km) &middot; Ultra AWD (~$58,990, 395&nbsp;km, adds wireless charging, heated seats, sunroof). Confirm current pricing &mdash; the launch offer has ended.</dd>
-        <dt>Why 6.6 &mdash; 9th</dt><dd>Genuine strengths in <b>Everyday ease 8.5</b> &mdash; smallest, easiest to park, and the <em>tallest, easiest step-in seat</em> here, closest to the CX-5 feel &mdash; plus a 360&deg; camera and LFP battery. But <b>Value 5.5</b> and <b>Practicality 5.5</b> sink it: EV3 money for the shortest range (344&nbsp;km), smallest boot, no power tailgate, and a 4-star rating.</dd>
+        <dt>Why 6.5 &mdash; 9th</dt><dd>Genuine strengths in <b>Everyday ease 8.5</b> (highest here, tied) &mdash; smallest, easiest to park, the <em>tallest, easiest step-in seat</em> (9.5), and a 360&deg; camera, all closest to the CX-5 feel. But <b>Value 5.0</b> and <b>Practicality 5.5</b> sink it: it now sits <em>above</em> the $45&ndash;50k sweet spot while offering the shortest range (344&nbsp;km), smallest boot, no power tailgate, and a 4-star rating &mdash; the extra spend isn&rsquo;t justified.</dd>
       </dl>
       <div class="review-quote">Solidly built and easy, but its rivals offer more range, space and equipment for the money.</div>
       <div class="linkrow"><a class="linkbtn" href="https://www.suzuki.com.au" target="_blank" rel="noopener">Suzuki Australia (see e VITARA) &#8599;</a><a class="linkbtn" data-brochure="evitara" href="#">Brochure/spec PDF &mdash; add link &#8599;</a></div>
@@ -769,10 +825,12 @@
 <section class="panel" id="p-how">
   <h2>How the scores were calculated</h2>
   <p class="lede">Each car is marked out of 10 in six categories, weighted for a driver who mostly does local trips, values ease and safety, and charges at home. Because you told me fast public charging isn&rsquo;t a concern, DC charging speed carries almost no weight &mdash; on a home Type&nbsp;2 wall box every car here charges at a similar rate.</p>
+  <p class="lede"><strong>Scores reflect the best grade you can buy at or under $60,000 driveaway.</strong> This stops a car from looking better than it really is on the strength of features that only appear on an expensive top-spec model your budget wouldn't stretch to. Any grade over $60k is left out of scoring &mdash; which is why the <strong>Volvo EX40 (from ~$70k) is excluded from the ranking</strong> altogether, and why the <strong>Kona</strong> scores its 360&deg; camera as unavailable (that only comes on its $60,990 Premium, just over the line). See the <em>&ldquo;Which grade to buy&rdquo;</em> tab for exactly what each step up adds.</p>
+  <p class="lede"><strong>Two more things to note in the table below.</strong> <em>Everyday ease</em> is built up from five sub-scores (shown indented) so you can see exactly <em>why</em> a car scores well or badly on ease &mdash; whether it's physical buttons, a simple interface, calm alerts, easy step-in, or easy parking. The overall ease figure is the average of those five. And <em>Value</em> is anchored on a $45&ndash;50k driveaway sweet spot: in or below the band with good kit scores highest; above it isn't ruled out, but the extra cost has to visibly buy something.</p>
 
   <div class="weights">
-    <div class="wcard"><b>Everyday ease &mdash; 25%</b><span>Easy to drive, park, step into, and operate without wrestling menus or chimes.</span></div>
-    <div class="wcard"><b>Value for money &mdash; 20%</b><span>Equipment and quality per driveaway dollar.</span></div>
+    <div class="wcard"><b>Everyday ease &mdash; 25%</b><span>Average of four things people actually notice day-to-day: physical controls, interface simplicity, how naggy the alerts are, and step-in &amp; visibility. Broken out below.</span></div>
+    <div class="wcard"><b>Value for money &mdash; 20%</b><span>Anchored on a $45&ndash;50k driveaway sweet spot. Landing in (or below) that band with strong kit scores highest; going above it isn't disqualifying, but the extra cost has to visibly buy something.</span></div>
     <div class="wcard"><b>Safety &mdash; 20%</b><span>ANCAP rating and standard safety technology.</span></div>
     <div class="wcard"><b>Range &amp; home charging &mdash; 15%</b><span>WLTP range, Type&nbsp;2 speed, and whether daily 100% charging is fine (LFP).</span></div>
     <div class="wcard"><b>Ownership &mdash; 12%</b><span>Warranty length and clarity, servicing cost, dealer network.</span></div>
@@ -785,22 +843,170 @@
       <tr><th>Category</th><th>Kia EV3</th><th>Leapmotor B10</th><th>MG S5</th><th>Kona</th><th>Volvo EX40</th><th>Volvo EX30</th><th>BYD Atto 3</th><th>Zeekr X</th><th>Renault Megane</th><th>Suzuki e-Vitara</th><th style="color:#B9CFC7">e-2008 (withdrawn)</th></tr>
     </thead>
     <tbody>
-      <tr><th>Everyday ease (25%)</th><td>8.5</td><td>8.0</td><td>8.5</td><td>9.0</td><td>8.0</td><td>7.0</td><td>6.5</td><td>6.5</td><td>6.5</td><td>8.5</td><td>6.5</td></tr>
-      <tr><th>Value (20%)</th><td>8.0</td><td>9.5</td><td>9.5</td><td>7.5</td><td>4.5</td><td>7.0</td><td>8.5</td><td>8.0</td><td>7.0</td><td>5.5</td><td>5.5</td></tr>
+      <tr class="sec"><th colspan="12">Everyday ease (25%) — built from five sub-scores below</th></tr>
+      <tr class="subrow"><th>&bull; Physical controls (buttons vs screen)</th><td>8.0</td><td>7.0</td><td>9.0</td><td>9.5</td><td>7.0</td><td class="bad">4.0</td><td>5.5</td><td>6.0</td><td>7.5</td><td>9.0</td><td>6.0</td></tr>
+      <tr class="subrow"><th>&bull; Interface simplicity</th><td>9.0</td><td>8.0</td><td>8.5</td><td>9.0</td><td>7.5</td><td>6.5</td><td>6.0</td><td>6.5</td><td>7.0</td><td>8.5</td><td>7.0</td></tr>
+      <tr class="subrow"><th>&bull; Alerts &mdash; less naggy is higher</th><td>9.5</td><td>6.5</td><td class="bad">5.0</td><td>9.0</td><td>7.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.5</td></tr>
+      <tr class="subrow"><th>&bull; Step-in &amp; visibility</th><td>7.5</td><td>9.0</td><td>8.0</td><td>7.5</td><td>8.0</td><td>7.0</td><td>8.0</td><td>6.5</td><td class="bad">5.5</td><td>9.5</td><td>6.0</td></tr>
+      <tr class="subrow"><th>&bull; Parking ease (360&deg; cam, size)</th><td class="bad">6.5</td><td>8.5</td><td>8.5</td><td class="bad">6.0</td><td>8.0</td><td>9.0</td><td>8.0</td><td>8.5</td><td>7.0</td><td>8.5</td><td class="bad">5.0</td></tr>
+      <tr class="ease-total"><th>Everyday ease (25%) &mdash; avg of above</th><td>8.0</td><td>8.0</td><td>8.0</td><td>8.0</td><td>7.5</td><td>7.0</td><td>7.0</td><td>7.0</td><td>6.5</td><td>8.5</td><td>6.0</td></tr>
+      <tr><th>Value (20%) &mdash; vs $45&ndash;50k sweet spot</th><td>8.0</td><td>9.5</td><td>9.5</td><td>7.5</td><td class="bad">4.5</td><td>6.5</td><td>8.5</td><td>7.5</td><td>6.5</td><td>5.0</td><td>5.5</td></tr>
       <tr><th>Safety (20%)</th><td>9.0</td><td>8.5</td><td>8.0</td><td>6.5</td><td>8.5</td><td>9.0</td><td>8.5</td><td>8.5</td><td>7.5</td><td>6.0</td><td>7.0</td></tr>
-      <tr><th>Range &amp; home charging (15%)</th><td>9.5</td><td>8.0</td><td>7.5</td><td>8.0</td><td>9.0</td><td>8.5</td><td>7.5</td><td>7.5</td><td>7.5</td><td>6.0</td><td>5.5</td></tr>
+      <tr><th>Range &amp; home charging (15%)</th><td>8.0</td><td>8.0</td><td>7.5</td><td>8.0</td><td>9.0</td><td>8.5</td><td>7.5</td><td>7.5</td><td>7.5</td><td>6.0</td><td>5.5</td></tr>
       <tr><th>Ownership (12%)</th><td>9.0</td><td>8.0</td><td>8.0</td><td>8.0</td><td>9.0</td><td>7.5</td><td>6.5</td><td>7.0</td><td>6.5</td><td>7.0</td><td>7.0</td></tr>
-      <tr><th>Practicality (8%)</th><td>8.5</td><td>8.5</td><td>8.0</td><td>7.5</td><td>8.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>5.5</td><td>7.5</td></tr>
-      <tr><th>Weighted total</th><td class="scorecell">8.7</td><td class="scorecell">8.4</td><td class="scorecell">8.3</td><td class="scorecell">7.8</td><td class="scorecell">7.7</td><td class="scorecell">7.6</td><td class="scorecell">7.5</td><td class="scorecell">7.4</td><td class="scorecell">7.0</td><td class="scorecell">6.6</td><td class="scorecell">6.4</td></tr>
+      <tr><th>Practicality (8%)</th><td>8.0</td><td>8.5</td><td>8.0</td><td>7.5</td><td>8.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>5.5</td><td>7.5</td></tr>
+      <tr><th>Weighted total</th><td class="scorecell">8.3</td><td class="scorecell">8.4</td><td class="scorecell">8.2</td><td class="scorecell">7.6</td><td class="scorecell" style="color:var(--ink-soft);font-size:.8rem">7.6*<br><span style="font-size:.7rem;font-weight:400">over budget</span></td><td class="scorecell">7.5</td><td class="scorecell">7.7</td><td class="scorecell">7.4</td><td class="scorecell">6.9</td><td class="scorecell">6.5</td><td class="scorecell">6.3</td></tr>
     </tbody>
   </table>
   </div>
 
   <div class="foot">
-    <p><strong>Why the Leapmotor B10 sits 2nd, not 1st.</strong> On value, equipment and charging it&rsquo;s arguably the best here &mdash; level with the Kia on several counts. It loses out only on Everyday Ease (a few pushy driver aids, and it&rsquo;s the tightest garage fit) and Ownership (newer brand, 6-year warranty vs Kia&rsquo;s 7). For the lowest price with the most kit, it&rsquo;s the standout &mdash; just measure the garage first.</p>
-    <p><strong>Why the BYD Atto 3 shows 7.5.</strong> The looming Evo costs it points on Value and Ownership; without that overhang it scores 7.7. Its main deduction (Everyday Ease 6.5) is the screen-heavy cabin, not the Evo.</p>
+    <p><strong>Why the Leapmotor B10 is 1st, not the Kia.</strong> On value and equipment it's the best here, and it matches the Kia's overall Everyday Ease (both 8.0) &mdash; the Kia edges it on interface polish and calmer alerts, while the B10 wins on step-in and parking. What separates them is that the Kia's headline strength, its 604&nbsp;km range, only comes on the ~$54k Long Range grade, while the B10 delivers nearly everything &mdash; heat pump, 360&deg; camera, power tailgate, heated seats &mdash; on its cheaper ~$42k Design LR grade. For the lowest price with the most kit, the B10 is the standout &mdash; just measure the garage first, as it's the tightest fit.</p>
+    <p><strong>How the budget cap and sweet spot changed things.</strong> Two rules shape the scores. First, only grades at or under $60,000 driveaway count &mdash; this excludes the <strong>Volvo EX40</strong> entirely (its cheapest grade is ~$70k), and it drops the <strong>Kona to 7.6, 5th</strong>, because its 360&deg; camera lives only on the $60,990 Premium just over the line, so on the grade you'd actually buy it can't be credited. Second, Value is anchored on a $45&ndash;50k band: landing in or below it with strong kit scores highest (B10, MG, Atto 3), while going above has to visibly buy something. Together these place the <strong>BYD Atto 3 at 7.7, 4th</strong> (in-band, well-equipped on the grade you'd buy) above the Kona, and hold the <strong>Suzuki e-Vitara (Value 5.0)</strong> back for sitting above the band with the least range and space. See the <em>&ldquo;Which grade to buy&rdquo;</em> tab for the full grade-by-grade breakdown behind every score here.</p>
     <p><strong>Confidence &amp; sources.</strong> Figures marked <span class="conf v">&#10003;</span> come from each maker&rsquo;s brochure. Two of the brochures you shared aren&rsquo;t the Australian car: the Zeekr X booklet is the Singapore MY24 (the Australian MY26 is cheaper, and the RWD now uses an LFP battery you can charge to 100%), and the Volvo EX30 booklet is US-spec, so its length, range and pricing here come from Australian sources <span class="conf e">&asymp;</span>. The Renault and Peugeot brochures are UK/older; current Australian figures are used. Anything marked <span class="conf c">?</span> should be confirmed with the dealer.</p>
     <p><strong>Scores are one informed opinion,</strong> weighted for local family driving with home charging. Different priorities would reorder the list &mdash; the side-by-side table lets you judge on what matters most to you. Tab&nbsp;3 has the full spec breakdown, each car&rsquo;s release date and what&rsquo;s next for it, plus links.</p>
+  </div>
+</section>
+
+<!-- ============ PANEL 6: WHICH GRADE TO BUY ============ -->
+<section class="panel" id="p-grades">
+  <h2>Which grade is worth buying</h2>
+  <p class="lede">A fair point about the scores: some cars look good partly because of features that only appear on their expensive top grades. This tab breaks each car into its grades so you can see what you actually get for the money &mdash; and, importantly, what the <em>cheaper</em> grade misses out on. The headline score in the ranking now reflects <strong>the best grade priced at or under $60,000 driveaway</strong>; grades above $60k are shown here but excluded from the ranking, since they're outside the budget.</p>
+  <div class="legend">
+    <span><span class="gr-tag entry" style="margin:0">ENTRY</span> cheapest way in</span>
+    <span><span class="gr-tag pick" style="margin:0">PICK</span> best grade under $60k</span>
+    <span><span class="gr-tag over" style="margin:0">OVER $60K</span> excluded from ranking</span>
+  </div>
+
+  <div class="grade-card" data-vid="ev3">
+    <h3>Kia EV3 &mdash; the clearest example of this problem</h3>
+    <div class="headline">Its headline strengths are split across grades: the class-leading 604km range needs the Long Range battery, and the head-up display and premium audio don't come until $68k. And no EV3, at any price, gets a 360&deg; camera.</div>
+    <div class="grade-step">
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Air Standard Range<span class="gr-tag entry">ENTRY</span></span><span class="gr-price">~$48,990</span></div>
+        <div class="gr-gain">58.3kWh battery, 436km range, 17&Prime; wheels, cloth seats, twin 12.3&Prime; screens, wireless CarPlay, heat pump. A genuinely good cheaper option if 436km is enough for you.</div></div>
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Air Long Range<span class="gr-tag pick">PICK</span></span><span class="gr-price">~$56,490</span></div>
+        <div class="gr-gain">Pay <b>+$7,500</b> over the base for: the big 81.4kWh battery and the headline <b>604km range</b> (the range figure the car is famous for, and the one this comparison scores it on). That's basically the whole difference &mdash; same wheels, same cloth seats.</div>
+        <div class="gr-verdict">This is the grade the ranking score reflects. Worth it if 400km+ trips matter to you; if you'd genuinely never drive further than the base car's 436km allows, the entry grade saves $7,500.</div></div>
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Earth Long Range</span><span class="gr-price">~$62,690</span></div>
+        <div class="gr-gain gr-verdict" style="font-style:normal;color:var(--ink)">Pay <b>+$6,200</b> over Air LR for: power tailgate, artificial-leather seats, 10-way power driver's seat, 19&Prime; wheels. Range actually <em>drops</em> to 563km on the heavier wheels.</div>
+        <div class="gr-verdict">Just over the $60k ceiling &mdash; excluded from the ranking.</div></div>
+      <div class="grade-row over"><div class="gr-top"><span class="gr-name">GT-Line Long Range<span class="gr-tag over">OVER $60K</span></span><span class="gr-price">~$68,490</span></div>
+        <div class="gr-gain gr-verdict" style="font-style:normal;color:var(--ink)">Adds the head-up display, Harman Kardon audio, ambient lighting, sportier styling. <strong>Still no 360&deg; camera even at $68k</strong> &mdash; a point reviewers criticise heavily.</div>
+        <div class="gr-verdict">Nearly $70k for a small SUV. Well outside budget and poor value &mdash; excluded.</div></div>
+    </div>
+    <div class="verdict-box"><strong>The ranking score reflects the Air Long Range at ~$53&ndash;55k</strong> &mdash; the grade that delivers the class-leading 604km range the EV3 is known for, and it still comfortably fits the $60k ceiling. If you'd rather save $7,500 and 436km is genuinely enough for your driving, the base Air Standard Range is a reasonable downgrade &mdash; just know the score above assumes the Long Range car, not the cheaper one. Either way, no EV3 at any price gets a 360&deg; camera, and the HUD/premium audio need the excluded $68k GT-Line.</div>
+  </div>
+
+  <div class="grade-card" data-vid="mg">
+    <h3>MG S5 EV &mdash; the opposite story: cheap grade, full features</h3>
+    <div class="headline">Unlike the Kia, MG puts the good stuff on <em>both</em> grades. The only real difference between them is battery size and range.</div>
+    <div class="grade-step">
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Essence 49<span class="gr-tag entry">ENTRY</span></span><span class="gr-price">~$41,990&ndash;42,990</span></div>
+        <div class="gr-gain">49kWh battery, 335km range &mdash; <b>and already includes</b> the 360&deg; camera, panoramic sunroof, power tailgate, wireless charging, heated seats, 12.8&Prime; screen. Nothing important is missing.</div></div>
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Essence 62<span class="gr-tag pick">PICK</span></span><span class="gr-price">~$46,990&ndash;48,990</span></div>
+        <div class="gr-gain">Pay <b>+$5,000</b> for: a bigger 62kWh battery and <b>450km range</b> (up from 335km). Same features otherwise.</div>
+        <div class="gr-verdict">Worth it &mdash; 335km is tight for a main car, and 450km gives comfortable headroom. This is the grade the score reflects.</div></div>
+    </div>
+    <div class="verdict-box"><strong>The pick is the Essence 62 at ~$47&ndash;49k.</strong> MG's score is honest to what you actually get for the money, because even the cheaper grade is fully equipped. The step up buys range, not a longer features list &mdash; and 450km is worth the extra $5k over the tight 335km base.</div>
+  </div>
+
+  <div class="grade-card" data-vid="kona">
+    <h3>Hyundai Kona Electric &mdash; the nice kit is top-spec-only</h3>
+    <div class="headline">Like the Kia, the Kona's best features (360&deg; camera, head-up display, sunroof, ventilated seats) live only on the Premium &mdash; and unlike the Kia, that grade is the reason the car's score gets held back, because it's just over this comparison's $60k ceiling.</div>
+    <div class="grade-step">
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Standard Range<span class="gr-tag entry">ENTRY</span></span><span class="gr-price">~$45,990</span></div>
+        <div class="gr-gain">99kW motor, 48.4kWh battery, 370km range, 17&Prime; wheels, dual-zone climate, space-saver spare. Comfortable and complete, but plain &mdash; no 360&deg; camera, no power tailgate.</div></div>
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Extended Range<span class="gr-tag pick">PICK</span></span><span class="gr-price">~$49,990</span></div>
+        <div class="gr-gain">Pay <b>+$4,000</b> for: a stronger 150kW motor and much bigger 65.4kWh battery lifting range to <b>505km</b>. Still misses the 360&deg; camera and power tailgate.</div>
+        <div class="gr-verdict">This is the grade the ranking score reflects &mdash; the range jump is big for the money.</div></div>
+      <div class="grade-row over"><div class="gr-top"><span class="gr-name">Premium<span class="gr-tag over">OVER $60K</span></span><span class="gr-price">$60,990</span></div>
+        <div class="gr-gain gr-verdict" style="font-style:normal;color:var(--ink)">Pay <b>+$11,000</b> over Extended Range for: the <b>360&deg; camera</b>, head-up display, power tailgate, sunroof, heated <em>and</em> ventilated leather seats, Bose audio.</div>
+        <div class="gr-verdict">At $60,990 it's just over this comparison's $60k ceiling, so it's excluded from the ranking &mdash; which is exactly why the Kona's score can't credit a 360&deg; camera.</div></div>
+    </div>
+    <div class="verdict-box warn"><strong>The ranking score reflects the Extended Range at ~$50k</strong> for its 505km range. To get a 360&deg; camera on a Kona you must spend $60,990 on the Premium, just past the budget line used throughout this comparison. If a surround camera matters a lot for the garage, the MG or BYD give it to you $10k+ cheaper, comfortably inside budget.</div>
+  </div>
+
+  <div class="grade-card" data-vid="atto3">
+    <h3>BYD Atto 3 &mdash; one key feature gated to the top grade</h3>
+    <div class="grade-step">
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Essential<span class="gr-tag entry">ENTRY</span></span><span class="gr-price">~$43,000&ndash;44,000</span></div>
+        <div class="gr-gain">49.9kWh battery, 345km range, 360&deg; camera and dash cam standard. Misses: wireless charging, the bigger 15.6&Prime; screen, power tailgate, sunroof.</div></div>
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Premium<span class="gr-tag pick">PICK</span></span><span class="gr-price">~$48,000&ndash;49,000</span></div>
+        <div class="gr-gain">Pay <b>+$5,000</b> for: the bigger 60.5kWh battery and <b>420km range</b>, plus wireless charging, 15.6&Prime; rotating screen, power tailgate, sunroof.</div>
+        <div class="gr-verdict">Worth it &mdash; you get both meaningfully more range and the missing features in one step. This is the grade the score reflects.</div></div>
+    </div>
+    <div class="verdict-box"><strong>The pick is the Premium at ~$48&ndash;49k.</strong> The $5k step is good value because it buys range <em>and</em> features together. Both grades stay comfortably under $60k.</div>
+  </div>
+
+  <div class="grade-card" data-vid="b10">
+    <h3>Leapmotor B10 &mdash; both grades well-equipped and cheap</h3>
+    <div class="grade-step">
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Style<span class="gr-tag entry">ENTRY</span></span><span class="gr-price">~$38,990</span></div>
+        <div class="gr-gain">56.2kWh battery, 361km range, and already includes 360&deg; camera + dashcam, wireless charging, heat pump, panoramic roof, 14.6&Prime; screen. Misses: power tailgate, heated/ventilated seats, 12-speaker audio.</div></div>
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Design Long Range<span class="gr-tag pick">PICK</span></span><span class="gr-price">~$41,990</span></div>
+        <div class="gr-gain">Pay <b>+$3,000</b> for: bigger 67.1kWh battery and <b>434km range</b>, plus power tailgate, heated &amp; ventilated seats, 12-speaker audio, ambient lighting.</div>
+        <div class="gr-verdict">Easily worth it &mdash; more range and the comfort features for just $3k. This is the grade the score reflects.</div></div>
+    </div>
+    <div class="verdict-box"><strong>The pick is the Design LR at ~$42k</strong> &mdash; the cheapest well-equipped car here, and even the top grade is $18k under the ceiling. The B10's strong value score is genuine, not top-spec-inflated.</div>
+  </div>
+
+  <div class="grade-card" data-vid="zeekr">
+    <h3>Zeekr X &mdash; the entry RWD is the one to have</h3>
+    <div class="grade-step">
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">RWD<span class="gr-tag entry">ENTRY</span><span class="gr-tag pick">PICK</span></span><span class="gr-price">~$48,900</span></div>
+        <div class="gr-gain">New LFP battery (charge to 100%), 405km range, 250kW, and the full kit: 360&deg; camera, self-park, 13-speaker Yamaha, heated seats, panoramic roof, wireless charging. Already loaded.</div></div>
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">AWD</span><span class="gr-price">~$57,900</span></div>
+        <div class="gr-gain gr-verdict" style="font-style:normal;color:var(--ink)">Pay <b>+$9,000</b> for: a second motor (365kW, 3.7s), NMC battery, 415km range, massage seats, a head-up display and a fridge.</div>
+        <div class="gr-verdict">The huge power is overkill for local driving, and the NMC battery is arguably a step back from the RWD's charge-to-100% LFP. Under $60k, but hard to justify.</div></div>
+    </div>
+    <div class="verdict-box"><strong>The pick is the entry RWD at ~$49k</strong> &mdash; it's the better-value <em>and</em> arguably better-suited grade (its LFP battery charges to 100% daily). The score reflects this grade; the AWD's extra $9k buys performance you don't need.</div>
+  </div>
+
+  <div class="grade-card" data-vid="ex30">
+    <h3>Volvo EX30 &mdash; base grade is the sensible one</h3>
+    <div class="grade-step">
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Single Motor Extended Range<span class="gr-tag entry">ENTRY</span><span class="gr-tag pick">PICK</span></span><span class="gr-price">from ~$50,000</span></div>
+        <div class="gr-gain">69kWh battery, 462km range, RWD, power tailgate and 360&deg; camera standard, premium cabin. The efficient, sensible choice.</div></div>
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Twin Motor / Cross Country</span><span class="gr-price">~$58,000&ndash;62,990</span></div>
+        <div class="gr-gain gr-verdict" style="font-style:normal;color:var(--ink)">Adds a second motor (AWD, very fast) and, on Cross Country, raised ride height and rugged styling. Range drops to 417km.</div>
+        <div class="gr-verdict">Under $60k (mostly), but the extra performance is unnecessary here and cuts range. The base car is the smarter buy.</div></div>
+    </div>
+    <div class="verdict-box"><strong>The pick is the Single Motor Extended Range from ~$50k.</strong> The score reflects this grade. Note its known trade-off applies at every price: no driver display, and a tight rear seat and boot.</div>
+  </div>
+
+  <div class="grade-card" data-vid="ex40">
+    <h3>Volvo EX40 &mdash; the whole car is over budget</h3>
+    <div class="grade-step">
+      <div class="grade-row over"><div class="gr-top"><span class="gr-name">Single Motor Extended Range<span class="gr-tag entry">ENTRY</span><span class="gr-tag over">OVER $60K</span></span><span class="gr-price">from ~$70,000</span></div>
+        <div class="gr-gain">Even the cheapest EX40 starts around $70k driveaway &mdash; $10k above the budget ceiling before you add any options.</div></div>
+    </div>
+    <div class="verdict-box warn"><strong>Every EX40 grade is over the $60k ceiling.</strong> It remains in the comparison for reference and for its genuine strengths (520km range, free servicing, big boot), but on a strict $60k budget it doesn't have a qualifying grade &mdash; which is the main reason its value score is the lowest here.</div>
+  </div>
+
+  <div class="grade-card" data-vid="megane">
+    <h3>Renault Megane E-Tech &mdash; one grade only, but two notable gaps</h3>
+    <div class="headline">Not a grade problem &mdash; there's only one trim in Australia &mdash; but confirmed research turned up two of your must-haves missing entirely: <strong>no 360&deg; camera</strong> (reversing camera only) and <strong>no power tailgate</strong>, on the only grade sold here. Both exist on higher UK/European trims Australia doesn't get.</div>
+    <div class="grade-step">
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Techno<span class="gr-tag entry">ENTRY</span><span class="gr-tag pick">PICK</span></span><span class="gr-price">~$49,990&ndash;54,990</span></div>
+        <div class="gr-gain">Single trim: 60kWh battery, 454km range, heat pump, Google built-in, 12&Prime; portrait screen, physical controls, wireless CarPlay. No grade decision to make &mdash; but no 360&deg; camera or power tailgate at any price.</div></div>
+    </div>
+    <div class="verdict-box warn"><strong>Only one grade, under $60k</strong> &mdash; so no over-ranking risk from hidden top-spec features. But two of the features specifically asked for aren't available on this car at all: reviewers have criticised Renault Australia for cutting the 360&deg; camera and power tailgate that the same car gets overseas. Its low seat and capped warranty are additional caveats on top.</div>
+  </div>
+
+  <div class="grade-card" data-vid="evitara">
+    <h3>Suzuki e-Vitara &mdash; step up is optional</h3>
+    <div class="grade-step">
+      <div class="grade-row pick"><div class="gr-top"><span class="gr-name">Motion FWD<span class="gr-tag entry">ENTRY</span><span class="gr-tag pick">PICK</span></span><span class="gr-price">~$49,990</span></div>
+        <div class="gr-gain">49kWh battery, 344km range, 360&deg; camera standard, tall easy step-in. Misses wireless charging, sunroof, heated seats.</div></div>
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Ultra AWD</span><span class="gr-price">~$58,990</span></div>
+        <div class="gr-gain gr-verdict" style="font-style:normal;color:var(--ink)">Pay <b>+$9,000</b> for: AWD, bigger 61kWh battery, 395km range, wireless charging, sunroof, heated seats.</div>
+        <div class="gr-verdict">Under $60k, but $59k is a lot for this car's range and space. The base Motion is the sensible pick.</div></div>
+    </div>
+    <div class="verdict-box warn"><strong>The pick is the base Motion at ~$50k.</strong> Even so, it's the weakest value here &mdash; $50k for the shortest range (344km) and smallest boot in the group. The score reflects this grade.</div>
+  </div>
+
+  <div class="verdict-box" style="background:var(--card);border:1px solid var(--line);margin-top:4px">
+    <strong>Bottom line on grades.</strong> Two cars needed real correction once grades were factored in. The <strong>Hyundai Kona</strong> loses its 360&deg; camera credit entirely, because that only comes on the $60,990 Premium &mdash; just over this comparison's $60k line. The <strong>Kia EV3</strong>'s score is scored on its Long Range grade (~$54k, needed for the famous 604km), which is a genuine and fair grade to buy under budget &mdash; but its HUD and premium audio still cost extra ($68k GT-Line, excluded), and no EV3 at any price gets a 360&deg; camera. To a lesser degree the <strong>Suzuki</strong> and <strong>Zeekr</strong> step-ups mostly add performance rather than must-have features. Others &mdash; the <strong>MG</strong>, <strong>Leapmotor</strong> and <strong>BYD</strong> &mdash; give you nearly everything on affordable grades, so their scores aren't propped up by anything you'd have to pay extra to get. Every score in this comparison now reflects the best grade at or under $60k, and every "pick" above is that grade.
   </div>
 </section>
 
@@ -816,7 +1022,7 @@
     <div class="badge-row"><span class="badge est">Most established</span><span class="badge est">Factory-owned distribution</span></div>
     <p>Kia Australia is a wholly-owned subsidiary of Kia Corporation, not an independent importer &mdash; if something goes wrong, you're dealing with the same company that built the car. Kia has been in Australia since 1997 with a dealer network exceeding 100 locations, and is currently the country's top-selling EV brand behind Tesla.</p>
     <div class="good-flag">Same corporate structure and factory backing as Hyundai. This is about as low-risk as it gets for long-term parts and service.</div>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Lilydale Kia, right in Lilydale itself &mdash; about as close as any dealer gets in this whole comparison.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Lilydale Kia &mdash; showroom and service centre are both at the same site in Lilydale itself, about as close as any dealer gets in this whole comparison.</div>
   </div>
 
   <div class="info-card" data-vid="b10">
@@ -826,7 +1032,7 @@
     <p>This is a genuinely unusual and reassuring structure for a Chinese EV brand: Stellantis (Jeep, Peugeot, Fiat, Ram) invested &euro;1.5 billion for a controlling stake in Leapmotor's overseas business specifically so it could sell Leapmotor cars through its own existing global dealer network. In Australia, Leapmotor is sold through a mix of Stellantis-linked dealers (including some Jeep outlets) and new partners &mdash; currently around 12 locations, with plans to expand to 20&ndash;30. Leapmotor posted its first-ever profit in 2025 and is targeting strong growth in 2026.</p>
     <div class="good-flag">Stellantis backing is a real asset here &mdash; it's not just a startup hoping to survive; a major global manufacturer has skin in the game.</div>
     <div class="flag">The dealer network is still small and young in Australia. Check there's a service centre reasonably close to home before buying.</div>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Nunawading Leapmotor &mdash; one of the closer outlets in this comparison, given how new and thin the network still is.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Nunawading Leapmotor &mdash; showroom and servicing both run from the one Nunawading site, one of the closer outlets in this comparison given how new and thin the network still is.</div>
   </div>
 
   <div class="info-card" data-vid="mg">
@@ -835,7 +1041,7 @@
     <div class="badge-row"><span class="badge est">Well established in Australia</span></div>
     <p>MG has been Chinese-owned since SAIC bought the brand in 2007, and MG Motor Australia has operated here since 2016. It's now a top-10 selling brand in Australia with a dealer network approaching 100 outlets &mdash; comparable in size to Kia's. SAIC is one of the world's largest automakers and has invested heavily in its own EV and battery supply chain.</p>
     <div class="good-flag">Large, well-established local network for a Chinese-owned brand &mdash; parts and servicing shouldn't be hard to find.</div>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Ringwood MG, on the Maroondah Highway &mdash; part of the local Yarra Valley Motor Group.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Ringwood MG, on the Maroondah Highway &mdash; showroom and service centre share the one site, part of the local Yarra Valley Motor Group.</div>
   </div>
 
   <div class="info-card" data-vid="kona">
@@ -844,7 +1050,7 @@
     <div class="badge-row"><span class="badge est">Most established</span><span class="badge est">Factory-owned distribution</span></div>
     <p>Same story as Kia (they're sister companies under Hyundai Motor Group): factory-owned distribution, one of the largest dealer networks in Australia, and decades of local history. There is essentially no distribution risk with this car.</p>
     <div class="good-flag">As safe a bet as exists in this comparison for long-term backing.</div>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Lilydale Hyundai, right in Lilydale itself &mdash; as close as any dealer gets in this comparison.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Lilydale Hyundai &mdash; showroom and service centre both at the one Lilydale site, as close as any dealer gets in this comparison.</div>
   </div>
 
   <div class="info-card" data-vid="ex30">
@@ -853,7 +1059,7 @@
     <div class="badge-row"><span class="badge est">Well established in Australia</span></div>
     <p>Volvo Cars has been Geely-owned for over a decade, but it still designs and engineers its own cars in Sweden and runs its own global operations &mdash; it isn't a rebadged Chinese product. Volvo has a long-standing, well-regarded premium dealer network in Australia that predates the Geely ownership by decades. Some administrative integration with Geely's China/Asia-Pacific operations was announced in 2025, but Volvo says there's no change to its corporate structure or ownership.</p>
     <div class="good-flag">Long local history and an established premium service network &mdash; one of the more reassuring options here despite the Chinese ownership stake.</div>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Volvo Cars Doncaster, on the Eastern Freeway corridor &mdash; a family-owned, factory-trained dealership. It's noticeably closer than Volvo's other Melbourne outlets (South Yarra, Port Melbourne, Essendon, Berwick), which all sit on the opposite side of the city or serve the south-east instead.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Volvo Cars Doncaster, on the Eastern Freeway corridor &mdash; showroom and service centre share the one site, a family-owned, factory-trained dealership. It's noticeably closer than Volvo's other Melbourne outlets (South Yarra, Port Melbourne, Essendon, Berwick), which all sit on the opposite side of the city or serve the south-east instead.</div>
   </div>
 
   <div class="info-card" data-vid="ex40">
@@ -861,7 +1067,7 @@
     <div class="sub2">Volvo Cars (Sweden) &middot; same ownership and distribution as the EX30 above</div>
     <div class="badge-row"><span class="badge est">Well established in Australia</span></div>
     <p>Everything said about Volvo's backing for the EX30 applies equally here &mdash; same company, same dealer network, same local history. The EX40 is simply Volvo's next size up (the renamed, updated XC40 Recharge), so there's no difference in corporate risk between the two Volvos in this comparison.</p>
-    <div class="good-flag"><strong>Same nearest dealer:</strong> Volvo Cars Doncaster, on the Eastern Freeway corridor &mdash; the closest option for the outer-eastern suburbs / Yarra Valley area, ahead of Volvo's other Melbourne locations.</div>
+    <div class="good-flag"><strong>Same nearest dealer:</strong> Volvo Cars Doncaster, on the Eastern Freeway corridor &mdash; showroom and service centre share the one site, the closest option for the outer-eastern suburbs / Yarra Valley area, ahead of Volvo's other Melbourne locations.</div>
   </div>
 
   <div class="info-card" data-vid="atto3">
@@ -871,7 +1077,9 @@
     <p>BYD took direct control of its Australian operations in July 2025, replacing its original distributor EVDirect. Retail and servicing now runs through EV Dealer Group, which is 80% owned by Eagers Automotive &mdash; Australia's largest listed car dealer group, with a five-year agreement (extendable to ten). This is a genuinely solid retail backer, even though the distribution arrangement itself is relatively new.</p>
     <div class="good-flag">Eagers Automotive's involvement is a meaningful stability signal &mdash; it's a large, established, financially sound Australian company, not a small independent importer.</div>
     <div class="flag">The switch from EVDirect to direct BYD control happened only recently (mid-2025). Worth asking your dealer how the transition has gone for existing owners.</div>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> BYD Ringwood, on the Maroondah Highway &mdash; a dedicated BYD showroom and service centre.</div>
+    <div class="good-flag"><strong>Showroom/experience centre:</strong> BYD Lilydale, on the Maroondah Highway right in Lilydale itself &mdash; run by the same operator (Glory EV Group) as BYD Ringwood, and about as close as any showroom gets in this whole comparison.</div>
+    <div class="good-flag"><strong>For servicing, nearest is BYD Ringwood</strong> &mdash; on Molan Street (a different address from the Ringwood sales showroom, which is on the Maroondah Highway a short drive away). Worth asking whether servicing is also available at the Lilydale site directly, since it's run by the same group.</div>
+    <div class="flag"><strong>Showroom/experience centre:</strong> there may now be a BYD showroom in Lilydale itself, which would be closer than Ringwood for browsing and test drives &mdash; but I couldn't independently confirm an exact address for it. BYD's dealer network has been expanding quickly and its official locator is an interactive map I can't read directly, so this is genuinely worth checking on BYD's "Find Us" page or by phone before treating it as fixed.</div>
   </div>
 
   <div class="info-card" data-vid="zeekr">
@@ -879,7 +1087,7 @@
     <div class="sub2">Zeekr &middot; wholly owned by Geely Auto (China) since December 2025; sister brand to Volvo and Polestar under the wider Geely Group</div>
     <div class="badge-row"><span class="badge grow">Network expanding</span><span class="badge new">Newest brand in Australia</span></div>
     <p>Zeekr only entered Australia in late 2024/2025, positioning itself as a premium alternative to Tesla. The network is still young and small compared to every other car in this comparison, but it has genuinely grown: Zeekr Doncaster has opened as a permanent showroom and service centre (run by Autosports Group, the same group behind Volvo's Doncaster and South Yarra dealerships), alongside a South Yarra location. That's a meaningful step up from the temporary/pop-up-only presence Zeekr had in Melbourne previously.</p>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Zeekr Doncaster, on the same site as Volvo Cars Doncaster &mdash; a genuine permanent showroom, not a pop-up.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Zeekr Doncaster, on the same site as Volvo Cars Doncaster &mdash; showroom and servicing both run from there, a genuine permanent location, not a pop-up.</div>
     <div class="flag">Still a young network overall. Worth confirming current opening hours and service booking availability directly, since a newly-opened outlet can take time to reach full capacity.</div>
   </div>
 
@@ -889,7 +1097,7 @@
     <div class="badge-row"><span class="badge caution">Independent distributor</span><span class="badge caution">Declining sales</span></div>
     <p>Renault handed Australian distribution to Ateco (which also handles RAM, LDV and Maserati) back in 2021, after deciding it was no longer worth running its own local operation. This is worth noting: Ateco previously distributed Kia, Audi, Volkswagen and Citroen in Australia before those brands eventually moved to (or were replaced by) factory-direct operations or exited entirely &mdash; distributor arrangements for smaller-volume brands here can and do change. Renault's Australian sales have declined for years (from over 11,000/year in 2015 to under 7,000 more recently), and the Megane E-Tech is a low-volume model in that mix.</p>
     <div class="flag">Lower sales volumes and a third-party distribution arrangement mean a smaller pool of specialist EV technicians and a brand whose long-term local commitment is less certain than the mainstream players here.</div>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Eastern Renault, Croydon &mdash; part of the local Yarra Valley Motor Group.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Eastern Renault, Croydon &mdash; showroom and service centre share the one site, part of the local Yarra Valley Motor Group.</div>
   </div>
 
   <div class="info-card" data-vid="evitara">
@@ -899,7 +1107,7 @@
     <p>Suzuki is a long-standing, trusted mainstream brand in Australia with a wide dealer network and a strong reputation for reliability and affordable servicing built on decades of petrol cars. The e-Vitara, launched June 2026, is Suzuki's very first EV here &mdash; so while the company itself is rock-solid, its dealers are just as new to EV-specific servicing (battery diagnostics, high-voltage safety procedures) as the car is to the market.</p>
     <div class="good-flag">The most trusted, longest-established brand name of the newer arrivals in this comparison.</div>
     <div class="flag">Ask the dealer directly about their EV service training and whether they've handled e-Vitaras yet &mdash; it's genuinely new territory for Suzuki technicians.</div>
-    <div class="good-flag"><strong>Nearest dealer for the outer-eastern suburbs / Yarra Valley area:</strong> Eastern Suzuki has a location right in Lilydale itself, as well as one in Croydon &mdash; both part of the local Yarra Valley Motor Group.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Eastern Suzuki &mdash; not a showroom/service split, but two separate full dealer sites: one right in Lilydale itself, another in Croydon, both with their own showroom and servicing, and both part of the local Yarra Valley Motor Group.</div>
   </div>
 
   <div class="info-card" data-vid="e2008" style="opacity:.7">
