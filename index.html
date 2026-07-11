@@ -72,6 +72,7 @@
   .fitbar{position:relative;height:12px;background:#E8EFEA;border-radius:6px}
   .fitbar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--green);border-radius:6px;opacity:.85}
   .fitbar .fill.tight{background:var(--amber)}
+  .fitbar .fill.over{background:var(--red)}
   .fitbar .limit{position:absolute;top:-4px;bottom:-4px;border-left:3px dashed var(--red);left:100%}
   .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:18px;background:var(--card)}
   table{border-collapse:separate;border-spacing:0;width:100%;min-width:1760px;font-size:.88rem}
@@ -94,6 +95,10 @@
   .bigbar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:var(--green)}
   .bigbar .fill.cxfill{background:var(--ink-soft)}
   .bigbar .fill.tight{background:var(--amber)}
+  .bigbar .fill.over{background:var(--red)}
+  .bigbar{overflow:visible}
+  .bigbar .fill.over::after{content:"";position:absolute;right:-6px;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:6px solid var(--red)}
   .chart-frame{position:relative;padding-top:34px;margin-top:8px}
   .limitline{position:absolute;top:20px;bottom:-6px;border-left:3px dashed var(--red);z-index:2}
   .limitlab{position:absolute;top:0;transform:translateX(-50%);background:var(--red);color:#fff;font-size:.72rem;font-weight:800;padding:3px 9px;border-radius:8px;white-space:nowrap}
@@ -425,6 +430,19 @@
       <div class="fitbar"><div class="fill" style="width:97.8%"></div><div class="limit"></div></div></div>
     </div>
 
+    <div class="rank-card" style="background:#F6F8F7;border-style:dashed" data-vid="ex5">
+      <div class="rank-top"><div>
+        <div class="rank-pos" style="color:var(--red)">Too long for the garage &mdash; not ranked</div>
+        <h3 style="color:var(--ink-soft)">Geely EX5</h3>
+        <div class="rank-variant">Pick: Complete Extended Range &middot; ~$41k before on-roads</div>
+      </div><div class="score-badge" style="background:#E8EFEA"><div class="num" style="color:var(--ink-soft)">8.2</div><div class="of" style="color:var(--ink-soft)">would score</div></div></div>
+      <p class="why">Geely's own-brand medium SUV, launched in Australia February 2026, and genuinely excellent value: 7-year unlimited-km warranty, 8-year battery warranty, 5-star ANCAP, 360&deg; camera standard on both grades, and servicing around $293/year. On the numbers alone it would score 8.2 &mdash; enough for 3rd place, ahead of the Atto&nbsp;3 and Kona. The problem is purely physical: at <strong>4,615&nbsp;mm it's 75&nbsp;mm too long for the garage</strong>, and is actually longer than the CX-5 it would replace. It's shown here for reference only, not ranked.</p>
+      <div class="chips"><span class="chip pro">7-yr unlimited-km warranty</span><span class="chip pro">Cheap servicing (~$293/yr)</span><span class="chip pro">5-star &middot; loaded with kit</span><span class="chip con">75 mm too long for the garage</span><span class="chip con">Brand new to Australia (Feb 2026)</span></div>
+      <div class="feat-row"><span class="feat-label">Your requested features (doesn't fit the garage regardless)</span><span class="feat grade">$ Boot access needs Inspire (~$46k)</span><span class="feat grade">$ HUD needs Inspire (~$46k)</span><span class="feat yes">&#10003; Wireless CarPlay</span><span class="feat yes">&#10003; 360&deg; camera, both grades</span></div>
+      <div class="fitline"><div class="lab"><span class="bad">4,615 mm long</span><span class="bad">75 mm LONGER than CX-5</span></div>
+      <div class="fitbar"><div class="fill over" style="width:100%"></div><div class="limit"></div></div></div>
+    </div>
+
     <div class="rank-card" style="background:#F6F8F7;border-style:dashed" data-vid="e2008">
       <div class="rank-top"><div>
         <div class="rank-pos" style="color:var(--red)">No longer available</div>
@@ -483,13 +501,7 @@
     <tbody>
       <tr>
         <th>Score &amp; rank</th><td class="cx5">baseline</td><td class="scorecell">8.3 &middot; 2nd</td><td class="scorecell">8.4 &middot; 1st</td><td class="scorecell">8.2 &middot; 3rd</td><td class="scorecell">7.6 &middot; 5th</td><td class="scorecell" style="color:var(--ink-soft);font-size:.8rem">7.6<br>over budget</td><td class="scorecell">7.5 &middot; 6th</td><td class="scorecell">7.7 &middot; 4th</td><td class="scorecell">7.4 &middot; 7th</td><td class="scorecell">6.9 &middot; 8th</td><td class="scorecell">6.5 &middot; 9th</td><td class="scorecell" style="color:var(--red);font-size:.85rem">Withdrawn</td><td class="scorecell">TBC</td></tr>
-      <tr class="sec"><th colspan="13">Everyday ease breakdown (each /10 &mdash; higher is easier)</th></tr>
-      <tr><th>&nbsp;&nbsp;Physical controls</th><td class="cx5">All buttons</td><td>8.0</td><td>7.0</td><td class="good">9.0</td><td class="good">9.5</td><td>7.0</td><td class="bad">4.0</td><td>5.5</td><td>6.0</td><td>7.5</td><td class="good">9.0</td><td>6.0</td><td>&mdash;</td></tr>
-      <tr><th>&nbsp;&nbsp;Interface simplicity</th><td class="cx5">Very simple</td><td class="good">9.0</td><td>8.0</td><td>8.5</td><td class="good">9.0</td><td>7.5</td><td>6.5</td><td>6.0</td><td>6.5</td><td>7.0</td><td>8.5</td><td>7.0</td><td>&mdash;</td></tr>
-      <tr><th>&nbsp;&nbsp;Alerts (less naggy = higher)</th><td class="cx5">None</td><td class="good">9.5</td><td>6.5</td><td class="bad">5.0</td><td class="good">9.0</td><td>7.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>7.5</td><td>6.5</td><td>&mdash;</td></tr>
-      <tr><th>&nbsp;&nbsp;Step-in &amp; visibility</th><td class="cx5">High, easy</td><td>7.5</td><td class="good">9.0</td><td>8.0</td><td>7.5</td><td>8.0</td><td>7.0</td><td>8.0</td><td>6.5</td><td class="bad">5.5</td><td class="good">9.5</td><td>6.0</td><td>&mdash;</td></tr>
-      <tr><th>&nbsp;&nbsp;Parking ease (360&deg;, size)</th><td class="cx5">Sensors only</td><td class="bad">6.5</td><td>8.5</td><td>8.5</td><td>7.0</td><td>8.0</td><td class="good">9.0</td><td>8.0</td><td>8.5</td><td>7.0</td><td>8.5</td><td class="bad">5.0</td><td>&mdash;</td></tr>
-      <tr><th>&nbsp;&nbsp;<strong>Everyday ease overall</strong></th><td class="cx5">&mdash;</td><td><strong>8.0</strong></td><td><strong>8.0</strong></td><td><strong>8.0</strong></td><td><strong>8.5</strong></td><td><strong>7.5</strong></td><td><strong>7.0</strong></td><td><strong>7.0</strong></td><td><strong>7.0</strong></td><td><strong>6.5</strong></td><td><strong>8.5</strong></td><td><strong>6.0</strong></td><td>&mdash;</td></tr>
+      
       <tr>
         <th>Driveaway cost<br><span class="muted" style="font-weight:500">(estimates &mdash; get local quotes)</span></th><td class="cx5">&mdash; (owned)</td><td>$46,990 SR offer &middot; ~$53&ndash;55k LR &middot; $68,490 GT-Line<span class="conf e">&asymp;</span></td><td>~$38,990 Style &middot; ~$41,990 Design LR<span class="conf e">&asymp;</span></td><td>~$44k / $47&ndash;49k<span class="conf e">&asymp;</span></td><td>$45,990 / $50,990 / $60,990<span class="conf e">&asymp;</span></td><td>~$74&ndash;77k (Single Motor) / ~$79&ndash;82k (Twin Motor) est.<span class="conf e">&asymp;</span></td><td>from ~$50k (RWD) to $62,990 (Cross Country)<span class="conf e">&asymp;</span></td><td>~$43&ndash;44k / ~$48&ndash;49k<span class="conf e">&asymp;</span></td><td>$48,900 / $57,900 driveaway<span class="conf e">&asymp;</span></td><td>$49,990 offer (was $54,990)<span class="conf e">&asymp;</span></td><td>~$49,990 / ~$58,990<span class="conf c">?</span></td><td class="bad">No longer sold in Australia<span class="conf v">&#10003;</span></td><td>Not announced<span class="conf c">?</span></td></tr>
       <tr>
@@ -653,6 +665,18 @@
     </div>
   </details>
 
+  <details class="car" data-vid="ex5" style="opacity:.85"><summary><div>Geely EX5 &mdash; 8.2 (would score) &middot; not ranked, too long for garage<div class="meta">Released 4 Feb 2026 &middot; Extended Range battery added 2026</div></div><span class="arrow">&#9654;</span></summary>
+    <div class="car-body">
+      <dl class="kv">
+        <dt>Grades &amp; pricing</dt><dd>Complete Extended Range (~$41k before on-roads, 475&nbsp;km, 360&deg; camera, heated seats std) &middot; Inspire Extended Range (~$46k, adds power tailgate, panoramic sunroof, ventilated + massage seats, head-up display, 16-speaker audio &mdash; 450&nbsp;km).</dd>
+        <dt>Why 8.2, but not ranked</dt><dd>Scored on the same six categories as every other car, the EX5 would land at <b>8.2</b> &mdash; enough for 3rd place. <b>Ownership 8.5</b> (7-yr unlimited-km warranty, 8-yr unlimited-km battery warranty, ~$293/yr servicing) and <b>Value 9.0</b> (loaded for ~$41k) are genuine standouts, and it's backed by the same Geely Group already behind the Volvo and Zeekr in this comparison. The disqualifier is purely physical: at <b>4,615&nbsp;mm it's 75&nbsp;mm longer than the garage allows</b>, and 1,901&nbsp;mm wide &mdash; the longest and widest car considered anywhere in this comparison. No amount of value changes that.</dd>
+        <dt>Why it's here at all</dt><dd>Included for completeness after being asked about directly. If the garage constraint ever changes, or as a reference point for how much car $41&ndash;46k buys elsewhere, it's worth knowing this exists &mdash; just not as a live contender for this driveway.</dd>
+      </dl>
+      <div class="review-quote">&ldquo;One of the smartest buys in its class right now&rdquo; &mdash; The Beep, on value once the Extended Range battery arrived.</div>
+      <div class="linkrow"><a class="linkbtn" href="https://www.geely.com.au/models/EX5" target="_blank" rel="noopener">Geely EX5 official page &#8599;</a><a class="linkbtn" href="https://www.carsales.com.au/research/geely/ex5/" target="_blank" rel="noopener">carsales research &#8599;</a></div>
+    </div>
+  </details>
+
   <details class="car" data-vid="b10"><summary><div>Leapmotor B10 &mdash; 8.4 &middot; 1st<div class="meta">Released late 2025 &middot; brand new, no update due</div></div><span class="arrow">&#9654;</span></summary>
     <div class="car-body">
       <dl class="kv">
@@ -781,13 +805,15 @@
 <!-- ============ PANEL 3: GARAGE FIT ============ -->
 <section class="panel" id="p-fit">
   <h2>Will it fit the garage?</h2>
-  <p class="lede">Each bar is the car&rsquo;s length. The red dashed line is your CX-5 &mdash; the longest thing that fits. <strong>All eleven candidates clear it.</strong> Bars start at 4,000&nbsp;mm so the differences are easy to see. The one to watch is the Leapmotor B10 (amber) &mdash; it&rsquo;s the tightest fit.</p>
+  <p class="lede">Each bar is the car&rsquo;s length. The red dashed line is your CX-5 &mdash; the longest thing that fits. <strong>Every ranked candidate clears it &mdash; the Geely EX5 (red bar, shown for reference) is the one exception, and that's why it isn't ranked.</strong> Bars start at 4,000&nbsp;mm so the differences are easy to see. The one to watch among the ranked cars is the Leapmotor B10 (amber) &mdash; it&rsquo;s the tightest fit.</p>
 
   <div class="fit-panel chart-frame">
     <div class="limitline" style="left:90%"><span class="limitlab">CX-5 &middot; 4,540 mm</span></div>
 
     <div class="car-row"><div class="name"><span>Your CX-5 (2013)</span><span class="mm">4,540 mm</span></div>
       <div class="bigbar"><div class="fill cxfill" style="width:90%"></div></div></div>
+    <div class="car-row" data-vid="ex5"><div class="name"><span>Geely EX5 <span class="muted">(too long &mdash; not ranked)</span></span><span class="mm">4,615 mm &middot; 75 mm OVER</span></div>
+      <div class="bigbar"><div class="fill over" style="width:100%"></div></div></div>
     <div class="car-row" data-vid="b10"><div class="name"><span>Leapmotor B10</span><span class="mm">4,515 mm &middot; 25 mm spare</span></div>
       <div class="bigbar"><div class="fill tight" style="width:85.4%"></div></div></div>
     <div class="car-row" data-vid="mg"><div class="name"><span>MG S5 EV</span><span class="mm">4,476 mm &middot; 64 mm spare</span></div>
@@ -813,7 +839,7 @@
   </div>
 
   <div class="widthnote">
-    <strong>Width matters too &mdash; and it&rsquo;s where the B10 needs care.</strong> Your CX-5 is 1,840&nbsp;mm wide. The Leapmotor B10 (1,885&nbsp;mm) and BYD Atto 3 (1,875&nbsp;mm) are the widest &mdash; 35&ndash;45&nbsp;mm wider than the CX-5 &mdash; so if the garage is tight side-to-side, or you open doors against a wall, measure carefully. The Suzuki e-Vitara (1,800&nbsp;mm) and Peugeot e-2008 (1,815&nbsp;mm) are actually narrower than the CX-5.
+    <strong>Width matters too &mdash; and it&rsquo;s where the B10 needs care.</strong> Your CX-5 is 1,840&nbsp;mm wide. Among the ranked cars, the Leapmotor B10 (1,885&nbsp;mm) and BYD Atto 3 (1,875&nbsp;mm) are the widest &mdash; 35&ndash;45&nbsp;mm wider than the CX-5 &mdash; so if the garage is tight side-to-side, or you open doors against a wall, measure carefully. The Suzuki e-Vitara (1,800&nbsp;mm) and Peugeot e-2008 (1,815&nbsp;mm) are actually narrower than the CX-5. For reference, the Geely EX5 is wider still at 1,901&nbsp;mm &mdash; one more reason, on top of its length, that it doesn't fit here.
     <br><br>
     <strong>The B10 is the tightest overall fit</strong> &mdash; longest (4,515&nbsp;mm, 25&nbsp;mm to spare) <em>and</em> widest. It&rsquo;s a superb car and still fits, but it leaves the least room, so it&rsquo;s the one to physically measure against before deciding.
     <br><br>
@@ -895,6 +921,19 @@
         <div class="gr-verdict">Nearly $70k for a small SUV. Well outside budget and poor value &mdash; excluded.</div></div>
     </div>
     <div class="verdict-box"><strong>The ranking score reflects the Air Long Range at ~$53&ndash;55k</strong> &mdash; the grade that delivers the class-leading 604km range the EV3 is known for, and it still comfortably fits the $60k ceiling. If you'd rather save $7,500 and 436km is genuinely enough for your driving, the base Air Standard Range is a reasonable downgrade &mdash; just know the score above assumes the Long Range car, not the cheaper one. Either way, no EV3 at any price gets a 360&deg; camera, and the HUD/premium audio need the excluded $68k GT-Line.</div>
+  </div>
+
+  <div class="grade-card" data-vid="ex5" style="opacity:.85">
+    <h3>Geely EX5 &mdash; excellent value, wrong reason for exclusion</h3>
+    <div class="headline">Unlike every other car on this tab, price isn't the problem here &mdash; both EX5 grades are well under $60k. It's excluded from ranking because <strong>the car itself is 75mm too long for the garage</strong>, included below only so you can see what you'd be missing.</div>
+    <div class="grade-step">
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Complete Extended Range<span class="gr-tag entry">ENTRY</span></span><span class="gr-price">~$41,000</span></div>
+        <div class="gr-gain">68.39kWh battery, 475km range, 360&deg; camera, heated seats, wireless charging, 18&Prime; wheels &mdash; all standard. Genuinely well-equipped for the price.</div></div>
+      <div class="grade-row"><div class="gr-top"><span class="gr-name">Inspire Extended Range</span><span class="gr-price">~$46,000</span></div>
+        <div class="gr-gain">Pay <b>+$5,000</b> for: power tailgate, panoramic sunroof, ventilated + massage front seats, 19&Prime; wheels, head-up display, 16-speaker 1,000W audio. Range dips slightly to 450km on the bigger wheels.</div>
+        <div class="gr-verdict">Both grades sit comfortably in the $45&ndash;50k sweet spot or below &mdash; the length is the only reason this car isn't in the running.</div></div>
+    </div>
+    <div class="verdict-box warn"><strong>Neither grade fits the garage, so neither is scored for real.</strong> The hypothetical score above (8.2) uses the Complete Extended Range. It's a useful reminder that "cheap and well-equipped" and "fits the garage" are two separate filters &mdash; this car clears the first easily and fails the second by a clear margin.</div>
   </div>
 
   <div class="grade-card" data-vid="mg">
@@ -1025,6 +1064,16 @@
     <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Lilydale Kia &mdash; showroom and service centre are both at the same site in Lilydale itself, about as close as any dealer gets in this whole comparison.</div>
   </div>
 
+  <div class="info-card" data-vid="ex5" style="opacity:.85">
+    <h3>Geely EX5 <span style="font-weight:600;color:var(--red);font-size:.85rem">&mdash; doesn't fit the garage, shown for reference</span></h3>
+    <div class="sub2">Geely Auto (China) &middot; Geely's own mainstream brand, the parent company behind Volvo, Zeekr, Polestar, Lotus and Smart</div>
+    <div class="badge-row"><span class="badge grow">Rapidly expanding network</span><span class="badge new">New to Australia (launched Feb 2026)</span></div>
+    <p>This is the same Geely Group already backing the Volvo and Zeekr in this comparison &mdash; but here it's selling under its own name for the first time in Australia. Despite being brand new locally, Geely has moved fast: over 20 dealers nationally within months of launch, and it already outsells Honda and Suzuki on total volume (largely on the strength of the EX5). The EX5 undercuts most rivals on price while matching or beating them on warranty and standard equipment.</p>
+    <div class="good-flag">Backed by the same global group as Volvo and Zeekr, with a genuinely fast-growing local network &mdash; a reassuring parent company for a brand-new nameplate.</div>
+    <div class="good-flag"><strong>Nearest for the outer-eastern suburbs / Yarra Valley area:</strong> Geely Ringwood, on the Maroondah Highway, plus Geely Doncaster and Geely Ferntree Gully nearby &mdash; genuinely dense coverage for such a new brand.</div>
+    <div class="flag">None of this changes the fact that it's 75mm too long for the garage &mdash; included here only for completeness, since you asked about it directly.</div>
+  </div>
+
   <div class="info-card" data-vid="b10">
     <h3>Leapmotor B10</h3>
     <div class="sub2">Leapmotor (China) &middot; Stellantis holds a controlling 51% stake in Leapmotor International (the export arm) and ~21% of Leapmotor directly</div>
@@ -1134,6 +1183,7 @@
     <thead><tr><th>Car</th><th>Vehicle warranty</th><th>Conditions</th><th>Battery warranty</th></tr></thead>
     <tbody>
       <tr><td>Kia EV3</td><td class="good">7 years, unlimited km</td><td>None found &mdash; confirm at purchase</td><td>7 yr / 150,000 km</td></tr>
+      <tr><td>Geely EX5 <span class="muted">(doesn't fit garage)</span></td><td class="good">7 years, unlimited km</td><td class="bad">Commercial use (e.g. rideshare) capped at 150,000 km</td><td class="good">8 yr, unlimited km</td></tr>
       <tr><td>Leapmotor B10</td><td>6 years / 150,000 km</td><td>None</td><td>8 yr / 160,000 km</td></tr>
       <tr><td>MG S5 EV</td><td class="good">7 yrs, extends to 10 yr/250,000km</td><td class="bad">Extension requires servicing exclusively with MG</td><td>7 years</td></tr>
       <tr><td>Hyundai Kona Electric</td><td>5 yrs, extends to 7 yrs</td><td class="bad">Extension requires on-time servicing at Hyundai; miss one and you're back to 5</td><td>8 yr / 160,000 km</td></tr>
@@ -1200,79 +1250,84 @@
     <h3>Front view</h3>
     <div class="gallery-grid">
       <div class="gcard" data-vid="ev3"><div class="imgbox"><img src="img/ev3-front.jpg" alt="Kia EV3 front view" loading="lazy"></div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="ex5"><div class="imgbox"><img src="img/ex5-front.jpg" alt="Geely EX5 front view" loading="lazy"></div><div class="cap">Geely EX5<small>Doesn't fit garage</small></div></div>
       <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-front.jpg" alt="Leapmotor B10 front view" loading="lazy"></div><div class="cap">Leapmotor B10</div></div>
       <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-front.jpg" alt="MG S5 EV front view" loading="lazy"></div><div class="cap">MG S5 EV</div></div>
       <div class="gcard" data-vid="kona"><div class="imgbox"><img src="img/kona-front.jpg" alt="Hyundai Kona Electric front view" loading="lazy"></div><div class="cap">Hyundai Kona Electric<small>Wide banner crop from brochure</small></div></div>
-      <div class="gcard missing" data-vid="ex40"><div class="imgbox">No clear photography in source document &mdash; see Volvo's website</div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard" data-vid="ex40"><div class="imgbox"><img src="img/ex40-front.jpg" alt="Volvo EX40 front view" loading="lazy"></div><div class="cap">Volvo EX40</div></div>
       <div class="gcard" data-vid="ex30"><div class="imgbox"><img src="img/ex30-front.jpg" alt="Volvo EX30 front view" loading="lazy"></div><div class="cap">Volvo EX30</div></div>
       <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-front.jpg" alt="BYD Atto 3 front view" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
       <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-front.jpg" alt="Zeekr X front view" loading="lazy"></div><div class="cap">Zeekr X<small>Singapore-spec brochure photo</small></div></div>
       <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-front.jpg" alt="Renault Megane E-Tech front view" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
-      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure &mdash; see Suzuki's website</div><div class="cap">Suzuki e-Vitara</div></div>
+      <div class="gcard" data-vid="evitara"><div class="imgbox"><img src="img/evitara-front.jpg" alt="Suzuki e-Vitara front view" loading="lazy"></div><div class="cap">Suzuki e-Vitara</div></div>
     </div>
   </div>
 
   <div class="gallery-group">
     <h3>Side profile</h3>
     <div class="gallery-grid">
-      <div class="gcard missing" data-vid="ev3"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="ev3"><div class="imgbox"><img src="img/ev3-side.jpg" alt="Kia EV3 side profile" loading="lazy"></div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="ex5"><div class="imgbox"><img src="img/ex5-side.jpg" alt="Geely EX5 side profile" loading="lazy"></div><div class="cap">Geely EX5<small>Doesn't fit garage</small></div></div>
       <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-side.jpg" alt="Leapmotor B10 side/exterior colour shot" loading="lazy"></div><div class="cap">Leapmotor B10<small>Exterior colour-option photo</small></div></div>
-      <div class="gcard missing" data-vid="mg"><div class="imgbox">Not available &mdash; overhead angle only in brochure</div><div class="cap">MG S5 EV</div></div>
-      <div class="gcard missing" data-vid="kona"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Hyundai Kona Electric</div></div>
-      <div class="gcard missing" data-vid="ex40"><div class="imgbox">Not available</div><div class="cap">Volvo EX40</div></div>
-      <div class="gcard missing" data-vid="ex30"><div class="imgbox">Overhead angle available instead &mdash; see below</div><div class="cap">Volvo EX30</div></div>
-      <div class="gcard missing" data-vid="atto3"><div class="imgbox">Not available as a clean side shot</div><div class="cap">BYD Atto 3</div></div>
+      <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-side.jpg" alt="MG S5 EV side profile" loading="lazy"></div><div class="cap">MG S5 EV</div></div>
+      <div class="gcard" data-vid="kona"><div class="imgbox"><img src="img/kona-side.jpg" alt="Hyundai Kona Electric side profile" loading="lazy"></div><div class="cap">Hyundai Kona Electric</div></div>
+      <div class="gcard" data-vid="ex40"><div class="imgbox"><img src="img/ex40-side.jpg" alt="Volvo EX40 side profile" loading="lazy"></div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard" data-vid="ex30"><div class="imgbox"><img src="img/ex30-side.jpg" alt="Volvo EX30 side profile" loading="lazy"></div><div class="cap">Volvo EX30</div></div>
+      <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-side.jpg" alt="BYD Atto 3 side profile" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
       <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-side.jpg" alt="Zeekr X side profile" loading="lazy"></div><div class="cap">Zeekr X<small>Singapore-spec brochure photo</small></div></div>
       <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-side.jpg" alt="Renault Megane E-Tech side/front-3/4 view" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
-      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure</div><div class="cap">Suzuki e-Vitara</div></div>
+      <div class="gcard" data-vid="evitara"><div class="imgbox"><img src="img/evitara-side.jpg" alt="Suzuki e-Vitara side profile" loading="lazy"></div><div class="cap">Suzuki e-Vitara</div></div>
     </div>
   </div>
 
   <div class="gallery-group">
     <h3>Rear view</h3>
     <div class="gallery-grid">
-      <div class="gcard missing" data-vid="ev3"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="ev3"><div class="imgbox"><img src="img/ev3-rear.jpg" alt="Kia EV3 rear view" loading="lazy"></div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="ex5"><div class="imgbox"><img src="img/ex5-rear.jpg" alt="Geely EX5 rear view" loading="lazy"></div><div class="cap">Geely EX5<small>Doesn't fit garage</small></div></div>
       <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-rear.jpg" alt="Leapmotor B10 rear view" loading="lazy"></div><div class="cap">Leapmotor B10</div></div>
       <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-rear.jpg" alt="MG S5 EV rear detail" loading="lazy"></div><div class="cap">MG S5 EV<small>Rear detail, not full view</small></div></div>
-      <div class="gcard missing" data-vid="kona"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Hyundai Kona Electric</div></div>
-      <div class="gcard missing" data-vid="ex40"><div class="imgbox">Not available</div><div class="cap">Volvo EX40</div></div>
-      <div class="gcard missing" data-vid="ex30"><div class="imgbox">Not available in this brochure</div><div class="cap">Volvo EX30</div></div>
+      <div class="gcard" data-vid="kona"><div class="imgbox"><img src="img/kona-rear.jpg" alt="Hyundai Kona Electric rear view" loading="lazy"></div><div class="cap">Hyundai Kona Electric</div></div>
+      <div class="gcard" data-vid="ex40"><div class="imgbox"><img src="img/ex40-rear.jpg" alt="Volvo EX40 rear view" loading="lazy"></div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard" data-vid="ex30"><div class="imgbox"><img src="img/ex30-rear.jpg" alt="Volvo EX30 rear view" loading="lazy"></div><div class="cap">Volvo EX30</div></div>
       <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-rear.jpg" alt="BYD Atto 3 rear 3/4 view" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
       <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-rear.jpg" alt="Zeekr X rear lifestyle shot" loading="lazy"></div><div class="cap">Zeekr X<small>Lifestyle driving shot, not studio angle</small></div></div>
       <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-rear.jpg" alt="Renault Megane E-Tech rear view" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
-      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure</div><div class="cap">Suzuki e-Vitara</div></div>
+      <div class="gcard" data-vid="evitara"><div class="imgbox"><img src="img/evitara-rear.jpg" alt="Suzuki e-Vitara rear view" loading="lazy"></div><div class="cap">Suzuki e-Vitara</div></div>
     </div>
   </div>
 
   <div class="gallery-group">
     <h3>Interior (front)</h3>
     <div class="gallery-grid">
-      <div class="gcard missing" data-vid="ev3"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="ev3"><div class="imgbox"><img src="img/ev3-interior.jpg" alt="Kia EV3 interior dashboard" loading="lazy"></div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="ex5"><div class="imgbox"><img src="img/ex5-interior.jpg" alt="Geely EX5 interior dashboard" loading="lazy"></div><div class="cap">Geely EX5<small>Doesn't fit garage</small></div></div>
       <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-interior.jpg" alt="Leapmotor B10 interior dashboard" loading="lazy"></div><div class="cap">Leapmotor B10</div></div>
       <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-interior.jpg" alt="MG S5 EV interior dashboard" loading="lazy"></div><div class="cap">MG S5 EV</div></div>
-      <div class="gcard missing" data-vid="kona"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Hyundai Kona Electric</div></div>
-      <div class="gcard missing" data-vid="ex40"><div class="imgbox">Not available &mdash; source document had no clear interior photo</div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard" data-vid="kona"><div class="imgbox"><img src="img/kona-interior.jpg" alt="Hyundai Kona Electric interior dashboard" loading="lazy"></div><div class="cap">Hyundai Kona Electric</div></div>
+      <div class="gcard" data-vid="ex40"><div class="imgbox"><img src="img/ex40-interior.jpg" alt="Volvo EX40 interior dashboard" loading="lazy"></div><div class="cap">Volvo EX40</div></div>
       <div class="gcard" data-vid="ex30"><div class="imgbox"><img src="img/ex30-interior.jpg" alt="Volvo EX30 interior screen detail" loading="lazy"></div><div class="cap">Volvo EX30<small>Screen close-up, not full cabin</small></div></div>
       <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-interior.jpg" alt="BYD Atto 3 interior dashboard" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
       <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-interior.jpg" alt="Zeekr X interior cockpit" loading="lazy"></div><div class="cap">Zeekr X<small>Singapore-spec brochure photo</small></div></div>
       <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-interior.jpg" alt="Renault Megane E-Tech interior dashboard" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
-      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure</div><div class="cap">Suzuki e-Vitara</div></div>
+      <div class="gcard" data-vid="evitara"><div class="imgbox"><img src="img/evitara-interior.jpg" alt="Suzuki e-Vitara interior dashboard" loading="lazy"></div><div class="cap">Suzuki e-Vitara</div></div>
     </div>
   </div>
 
   <div class="gallery-group">
     <h3>Boot / cargo</h3>
     <div class="gallery-grid">
-      <div class="gcard missing" data-vid="ev3"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Kia EV3</div></div>
-      <div class="gcard missing" data-vid="b10"><div class="imgbox">Not available as a photo &mdash; see spec table for volume</div><div class="cap">Leapmotor B10</div></div>
+      <div class="gcard" data-vid="ev3"><div class="imgbox"><img src="img/ev3-boot.jpg" alt="Kia EV3 boot open with luggage" loading="lazy"></div><div class="cap">Kia EV3</div></div>
+      <div class="gcard" data-vid="ex5"><div class="imgbox"><img src="img/ex5-boot.jpg" alt="Geely EX5 boot open with luggage" loading="lazy"></div><div class="cap">Geely EX5<small>Doesn't fit garage</small></div></div>
+      <div class="gcard" data-vid="b10"><div class="imgbox"><img src="img/b10-boot.jpg" alt="Leapmotor B10 boot open with luggage" loading="lazy"></div><div class="cap">Leapmotor B10</div></div>
       <div class="gcard" data-vid="mg"><div class="imgbox"><img src="img/mg-boot.jpg" alt="MG S5 EV boot open with luggage" loading="lazy"></div><div class="cap">MG S5 EV</div></div>
-      <div class="gcard missing" data-vid="kona"><div class="imgbox">Not in brochure (spec-sheet only)</div><div class="cap">Hyundai Kona Electric</div></div>
-      <div class="gcard missing" data-vid="ex40"><div class="imgbox">Not available</div><div class="cap">Volvo EX40</div></div>
-      <div class="gcard missing" data-vid="ex30"><div class="imgbox">Not available in this brochure</div><div class="cap">Volvo EX30</div></div>
+      <div class="gcard" data-vid="kona"><div class="imgbox"><img src="img/kona-boot.jpg" alt="Hyundai Kona Electric boot open with luggage" loading="lazy"></div><div class="cap">Hyundai Kona Electric</div></div>
+      <div class="gcard" data-vid="ex40"><div class="imgbox"><img src="img/ex40-boot.jpg" alt="Volvo EX40 boot open with luggage" loading="lazy"></div><div class="cap">Volvo EX40</div></div>
+      <div class="gcard" data-vid="ex30"><div class="imgbox"><img src="img/ex30-boot.jpg" alt="Volvo EX30 boot open with luggage" loading="lazy"></div><div class="cap">Volvo EX30</div></div>
       <div class="gcard" data-vid="atto3"><div class="imgbox"><img src="img/atto3-boot.jpg" alt="BYD Atto 3 boot open with luggage" loading="lazy"></div><div class="cap">BYD Atto 3</div></div>
-      <div class="gcard missing" data-vid="zeekr"><div class="imgbox">Not available as a photo &mdash; see spec table for volume</div><div class="cap">Zeekr X</div></div>
+      <div class="gcard" data-vid="zeekr"><div class="imgbox"><img src="img/zeekr-boot.jpg" alt="Zeekr X boot open with luggage" loading="lazy"></div><div class="cap">Zeekr X</div></div>
       <div class="gcard" data-vid="megane"><div class="imgbox"><img src="img/megane-boot.jpg" alt="Renault Megane E-Tech boot open with luggage" loading="lazy"></div><div class="cap">Renault Megane E-Tech</div></div>
-      <div class="gcard missing" data-vid="evitara"><div class="imgbox">No photo in source brochure</div><div class="cap">Suzuki e-Vitara</div></div>
+      <div class="gcard" data-vid="evitara"><div class="imgbox"><img src="img/evitara-boot.jpg" alt="Suzuki e-Vitara boot open with luggage" loading="lazy"></div><div class="cap">Suzuki e-Vitara</div></div>
     </div>
   </div>
 
@@ -1375,6 +1430,7 @@
   // ============================================================
   const VEHICLES = [
     {id:'ev3',     name:'Kia EV3',                 status:'active'},
+    {id:'ex5',     name:'Geely EX5',                status:'oversized'},
     {id:'b10',     name:'Leapmotor B10',            status:'active'},
     {id:'mg',      name:'MG S5 EV',                 status:'active'},
     {id:'kona',    name:'Hyundai Kona Electric',     status:'active'},
@@ -1419,7 +1475,7 @@
     });
     wrap.appendChild(cb);
     const span = document.createElement('span');
-    span.textContent = v.name + (v.status === 'withdrawn' ? ' (withdrawn)' : v.status === 'upcoming' ? ' (upcoming)' : '');
+    span.textContent = v.name + (v.status === 'withdrawn' ? ' (withdrawn)' : v.status === 'upcoming' ? ' (upcoming)' : v.status === 'oversized' ? ' (too long for garage)' : '');
     wrap.appendChild(span);
     grid.appendChild(wrap);
   });
